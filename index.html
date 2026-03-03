@@ -5,110 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Shalat Masjid Darussalam</title>
     <style>
-        /* --- PENGATURAN DASAR --- */
+        /* --- CSS: PENGATURAN TAMPILAN --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         
         body {
             height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('bg-masjid.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; color: white;
-            display: flex; flex-direction: column; overflow: hidden;
-            padding: 10px 15px; 
+            display: flex; flex-direction: column; overflow: hidden; padding: 10px 15px; 
         }
 
-        /* HEADER / NAMA MASJID */
+        /* Kotak Judul Atas */
         .header-center {
-            text-align: center;
-            background: rgba(0, 80, 0, 0.7); 
-            padding: 8px; border-radius: 10px; margin-bottom: 10px; border: 2px solid #ffd700;
+            text-align: center; background: rgba(0, 80, 0, 0.8); 
+            padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 2px solid #ffd700;
         }
-        .header-center h1 { font-size: 2.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); line-height: 1; }
-        .header-center p { font-size: 0.9rem; color: #fff; text-transform: uppercase; margin-top: 3px; }
+        .header-center h1 { font-size: 2.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        /* KONTEN UTAMA */
-        .main-content {
-            flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 0;
-        }
+        .main-content { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 
-        /* SIDEBAR KIRI (KAS & IMAM) */
-        .sidebar-left { width: 42%; /* Diperlebar sedikit agar teks lebih muat */ 
-            display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: center; 
-        }
+        /* Sidebar Kiri (Kas & Imam) */
+        .sidebar-left { width: 42%; display: flex; flex-direction: column; gap: 12px; }
         
-        .card { 
-            background: rgba(0, 0, 0, 0.5); 
-            border-radius: 12px; border: 2px solid #2e7d32; overflow: hidden; 
-            height: auto; /* Biarkan tinggi menyesuaikan isi teks */
-        }
-        
-        .card-header { background: rgba(46, 125, 50, 0.8); padding: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: #ffd700; border-bottom: 1px solid #ffd700; }
+        .card { background: rgba(0, 0, 0, 0.6); border-radius: 12px; border: 2px solid #2e7d32; }
+        .card-header { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; }
         .card-body { padding: 10px 15px; }
 
-        /* PERBAIKAN BARIS TEKS IMAM */
+        /* Perbaikan Baris Nama Agar Tidak Terpotong */
         .row { 
-            display: flex; 
-            justify-content: flex-start; /* Sejajarkan ke kiri agar ruang kanan luas */
-            align-items: flex-start; 
-            font-size: 1.2rem; 
-            border-bottom: 1px solid rgba(255,255,255,0.2); 
-            padding: 8px 0;
-            gap: 10px;
+            display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); 
+            padding: 8px 0; align-items: flex-start; 
+        }
+        .row span:first-child { width: 35%; font-weight: bold; color: #ffd700; font-size: 0.9rem; }
+        
+        /* Nama Imam (Kanan) - Bisa turun baris jika panjang */
+        .row span:last-child { 
+            width: 65%; text-align: left; white-space: normal; 
+            word-wrap: break-word; line-height: 1.2; font-size: 1.2rem;
         }
 
-        /* Label (Sebelah Kiri) */
-        .row span:first-child {
-            width: 35%; /* Batasi lebar label agar tidak memakan tempat */
-            font-weight: bold;
-            color: #ffd700;
-            font-size: 0.9rem; /* Kecilkan sedikit label agar Nama lebih luas */
-            text-transform: uppercase;
-        }
-
-        /* Nama Imam (Sebelah Kanan - BAGIAN PALING PENTING) */
-        .row span:last-child {
-            width: 65%; /* Berikan porsi terbesar untuk Nama */
-            text-align: left; /* Rata kiri agar mudah dibaca jika turun baris */
-            word-wrap: break-word; 
-            overflow-wrap: break-word;
-            white-space: normal; /* WAJIB: Agar teks pindah baris jika mentok */
-            display: inline-block;
-            line-height: 1.2;
-            font-weight: normal;
-        }
-
-        /* SALDO AKHIR */
-        .total { color: #ffd700; font-weight: bold; font-size: 1.4rem; border-bottom: none; border-top: 2px solid #ffd700; padding-top: 8px; margin-top: 5px; }
-
-        /* JAM TENGAH */
+        /* Jam Tengah */
         .clock-section { 
-            background: rgba(0, 0, 0, 0.5); padding: 20px 40px; border-radius: 30px; 
-            text-align: center; border: 2px solid rgba(255, 255, 255, 0.3); 
-            width: fit-content; margin: 0 auto;
+            background: rgba(0, 0, 0, 0.5); padding: 25px; border-radius: 30px; 
+            text-align: center; border: 2px solid rgba(255, 255, 255, 0.3);
         }
-        #jam { font-size: 8rem; font-weight: bold; color: white; line-height: 1; text-shadow: 2px 4px 10px rgba(0,0,0,0.5); }
-        #tanggal-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 5px; }
-        #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
+        #jam { font-size: 8.5rem; font-weight: bold; line-height: 1; }
+        #tanggal-masehi { font-size: 1.8rem; color: #ffd700; }
+        #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; }
 
-        /* JADWAL SHOLAT BAWAH */
+        /* Jadwal Bawah */
         .footer-jadwal { 
-            background: rgba(0, 40, 0, 0.7); display: grid; grid-template-columns: repeat(6, 1fr); 
-            padding: 10px 0; border: 2px solid #ffd700; margin-top: 10px; border-radius: 12px; 
+            background: rgba(0, 40, 0, 0.8); display: grid; grid-template-columns: repeat(6, 1fr); 
+            padding: 10px 0; border: 2px solid #ffd700; border-radius: 12px; margin-top: 10px;
         }
         .sholat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.2); }
-        .sholat-item:last-child { border-right: none; }
-        .sholat-name { font-size: 1rem; color: #ffd700; font-weight: bold; }
-        .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; color: white; line-height: 1; }
+        .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; }
 
-        /* RUNNING TEXT */
-        .running-text { background: #2e7d32; padding: 6px 0; font-size: 1.3rem; margin-top: 10px; border-radius: 5px; font-weight: bold; }
-
-        /* LAYAR IQOMAH */
-        #layar-iqomah {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 10000; display: none;
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-        #countdown { font-size: 15rem; color: #ffd700; font-weight: bold; }
+        .running-text { background: #2e7d32; padding: 6px; font-size: 1.3rem; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -125,7 +78,7 @@
                 <div class="card-body">
                     <div class="row"><span>Pemasukan</span><span id="kas-masuk">0</span></div>
                     <div class="row"><span>Pengeluaran</span><span id="kas-keluar">0</span></div>
-                    <div class="row total"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
+                    <div class="row" style="color:#ffd700; font-weight:bold; border:none;"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
                 </div>
             </div>
             <div class="card">
@@ -146,53 +99,59 @@
     </div>
 
     <div class="footer-jadwal">
-        <div class="sholat-item"><span class="sholat-name">SUBUH</span><span class="sholat-time" id="sh-Fajr">00:00</span></div>
-        <div class="sholat-item"><span class="sholat-name">DZUHUR</span><span class="sholat-time" id="sh-Dhuhr">00:00</span></div>
-        <div class="sholat-item"><span class="sholat-name">ASHAR</span><span class="sholat-time" id="sh-Asr">00:00</span></div>
-        <div class="sholat-item"><span class="sholat-name">MAGHRIB</span><span class="sholat-time" id="sh-Maghrib">00:00</span></div>
-        <div class="sholat-item"><span class="sholat-name">ISYA</span><span class="sholat-time" id="sh-Isha">00:00</span></div>
-        <div class="sholat-item"><span class="sholat-name">SYURUQ</span><span class="sholat-time" id="sh-Sunrise">00:00</span></div>
+        <div class="sholat-item"><span style="color:#ffd700">SUBUH</span><span class="sholat-time" id="sh-Fajr">00:00</span></div>
+        <div class="sholat-item"><span style="color:#ffd700">DZUHUR</span><span class="sholat-time" id="sh-Dhuhr">00:00</span></div>
+        <div class="sholat-item"><span style="color:#ffd700">ASHAR</span><span class="sholat-time" id="sh-Asr">00:00</span></div>
+        <div class="sholat-item"><span style="color:#ffd700">MAGHRIB</span><span class="sholat-time" id="sh-Maghrib">00:00</span></div>
+        <div class="sholat-item"><span style="color:#ffd700">ISYA</span><span class="sholat-time" id="sh-Isha">00:00</span></div>
+        <div class="sholat-item" style="border:none;"><span style="color:#ffd700">SYURUQ</span><span class="sholat-time" id="sh-Sunrise">00:00</span></div>
     </div>
 
     <div class="running-text">
-        <marquee scrollamount="5">"Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga." — Luruskan Shaf — Matikan HP.</marquee>
-    </div>
-
-    <div id="layar-iqomah">
-        <div style="font-size: 3rem; color: #ffd700;">MENUJU IQOMAH</div>
-        <div id="countdown">10:00</div>
+        <marquee>Luruskan Shaf — Matikan HP — "Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga."</marquee>
     </div>
 
     <script>
-        /* --- JAVASCRIPT LOGIC --- */
-
+        /* --- JAVASCRIPT: LOGIKA DATA --- */
         let jadwalGlobal = {};
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
+
+        // FUNGSI INI MEMASTIKAN NAMA "UST SUKRON" TIDAK TERPOTONG
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') inQuotes = !inQuotes;
+                else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
 
         async function updateDataSheets() {
             try {
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
-                const rows = text.split('\n');
-
-                const parseCSV = (str) => {
-                    // Regex ini menangani koma di dalam tanda petik agar saldo uang tidak pecah
-                    const matches = str.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    return matches ? matches.map(m => m.replace(/^"|"$/g, '')) : [];
-                };
-
-                const data = parseCSV(rows[1]); 
-
-                if (data.length > 0) {
-                    // Masukkan data ke HTML
-                    document.getElementById('kas-masuk').innerText  = data[1] || '0'; 
+                const rows = text.split(/\r?\n/);
+                if (rows.length > 1) {
+                    const data = parseCSVLine(rows[1]); // Baris 2
+                    // Update Kas
+                    document.getElementById('kas-masuk').innerText = data[1] || '0';
                     document.getElementById('kas-keluar').innerText = data[2] || '0';
-                    document.getElementById('kas-saldo').innerText  = data[3] || '0';
-                    document.getElementById('imam-isya').innerText  = data[4] || '-';
+                    document.getElementById('kas-saldo').innerText = data[3] || '0';
+                    // Update Imam (Sekarang akan muncul Lengkap)
+                    document.getElementById('imam-isya').innerText = data[4] || '-';
                     document.getElementById('imam-subuh').innerText = data[5] || '-';
                     document.getElementById('imam-jumat').innerText = data[6] || '-';
                 }
-            } catch (e) { console.error("Gagal update data Sheets", e); }
+            } catch (e) { console.error("Gagal ambil data"); }
         }
 
         function updateClock() {
@@ -205,9 +164,8 @@
         }
 
         async function getJadwalSholat() {
-            const lat = -7.8014; const lng = 110.3060;
             try {
-                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=20`);
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=-7.8014&longitude=110.3060&method=20`);
                 const json = await res.json();
                 jadwalGlobal = json.data;
                 const t = jadwalGlobal.timings;
@@ -217,15 +175,14 @@
                 document.getElementById('sh-Maghrib').innerText = t.Maghrib;
                 document.getElementById('sh-Isha').innerText = t.Isha;
                 document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-            } catch (e) { console.log("Gagal muat jadwal"); }
+            } catch (e) { console.log("Gagal jadwal"); }
         }
 
-        window.addEventListener('load', () => { 
-            getJadwalSholat(); 
-            updateDataSheets();
-            setInterval(updateClock, 1000); 
-            setInterval(updateDataSheets, 60000); 
-        });
+        window.onload = () => {
+            getJadwalSholat(); updateDataSheets();
+            setInterval(updateClock, 1000);
+            setInterval(updateDataSheets, 60000);
+        };
     </script>
 </body>
 </html>
