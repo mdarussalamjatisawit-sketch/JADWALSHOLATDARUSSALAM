@@ -9,7 +9,7 @@
         
         body {
             height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg-masjid.jpg');
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; color: white;
             display: flex; flex-direction: column; overflow: hidden;
             padding: 10px 15px; 
@@ -18,55 +18,62 @@
         /* HEADER */
         .header-center {
             text-align: center;
-            background: rgba(0, 100, 0, 0.9);
+            background: rgba(0, 80, 0, 0.7); /* Lebih transparan */
             padding: 8px;
             border-radius: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             border: 2px solid #ffd700;
         }
         .header-center h1 { font-size: 2.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); line-height: 1; }
         .header-center p { font-size: 0.9rem; color: #fff; text-transform: uppercase; margin-top: 3px; }
 
         .main-content {
-            flex: 1; display: flex; justify-content: space-between; align-items: stretch; gap: 12px; min-height: 0;
+            flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 0;
         }
 
         /* SIDEBAR KIRI */
-        .sidebar-left { width: 38%; display: flex; flex-direction: column; gap: 8px; }
-        .card { background: rgba(0, 0, 0, 0.85); border-radius: 8px; border: 2px solid #2e7d32; overflow: hidden; flex: 1; display: flex; flex-direction: column; }
-        .card-header { background: #2e7d32; padding: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: #ffd700; border-bottom: 1px solid #ffd700; }
-        .card-body { padding: 8px 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; }
-        .row { display: flex; justify-content: space-between; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 4px 0; }
-        .total { color: #ffd700; font-weight: bold; font-size: 1.25rem; border-bottom: none; border-top: 2px solid #ffd700; padding-top: 5px; margin-top: 2px; }
-
-        /* JAM TENGAH */
-        .clock-section { 
-            background: rgba(0, 0, 0, 0.7); padding: 15px; border-radius: 15px; 
-            text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); 
-            width: 62%; display: flex; flex-direction: column; justify-content: center;
+        .sidebar-left { width: 38%; display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: center; }
+        .card { 
+            background: rgba(0, 0, 0, 0.5); /* Transparansi ringan */
+            border-radius: 12px; border: 2px solid #2e7d32; overflow: hidden; 
+            padding-bottom: 5px;
         }
-        #jam { font-size: 7.5rem; font-weight: bold; color: white; line-height: 0.9; margin-bottom: 5px; }
-        #tanggal-masehi { font-size: 1.5rem; color: #ffd700; }
-        #tanggal-hijriah { font-size: 1.5rem; color: #00ff00; font-weight: bold; }
+        .card-header { background: rgba(46, 125, 50, 0.8); padding: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: #ffd700; border-bottom: 1px solid #ffd700; }
+        .card-body { padding: 10px 15px; }
+        .row { display: flex; justify-content: space-between; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 5px 0; }
+        .total { color: #ffd700; font-weight: bold; font-size: 1.4rem; border-bottom: none; border-top: 2px solid #ffd700; padding-top: 8px; margin-top: 5px; }
+
+        /* JAM TENGAH - SEKARANG MEPET TEKS */
+        .clock-section { 
+            background: rgba(0, 0, 0, 0.5); /* Lebih transparan */
+            padding: 20px 40px; border-radius: 30px; 
+            text-align: center; border: 2px solid rgba(255, 255, 255, 0.3); 
+            width: fit-content; /* Kotak mepet teks */
+            margin: 0 auto;
+        }
+        #jam { font-size: 8rem; font-weight: bold; color: white; line-height: 1; text-shadow: 2px 4px 10px rgba(0,0,0,0.5); }
+        #tanggal-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 5px; }
+        #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
 
         /* JADWAL SHOLAT BAWAH */
         .footer-jadwal { 
-            background: rgba(0, 40, 0, 0.95); display: grid; grid-template-columns: repeat(6, 1fr); 
-            padding: 8px 0; border: 2px solid #ffd700; margin-top: 8px; border-radius: 8px; 
+            background: rgba(0, 40, 0, 0.7); /* Lebih transparan */
+            display: grid; grid-template-columns: repeat(6, 1fr); 
+            padding: 10px 0; border: 2px solid #ffd700; margin-top: 10px; border-radius: 12px; 
         }
         .sholat-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.2); }
         .sholat-item:last-child { border-right: none; }
         .sholat-name { font-size: 1rem; color: #ffd700; font-weight: bold; }
-        .sholat-time { font-size: 2.5rem; font-weight: bold; display: block; color: white; line-height: 1; }
+        .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; color: white; line-height: 1; }
 
-        .running-text { background: #2e7d32; padding: 6px 0; font-size: 1.2rem; margin-top: 8px; border-radius: 4px; font-weight: bold; }
+        .running-text { background: #2e7d32; padding: 6px 0; font-size: 1.3rem; margin-top: 10px; border-radius: 5px; font-weight: bold; }
 
         #layar-iqomah {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 10000; display: none;
+            background: rgba(0,0,0,0.9); z-index: 10000; display: none;
             flex-direction: column; align-items: center; justify-content: center;
         }
-        #countdown { font-size: 14rem; color: #ffd700; font-weight: bold; }
+        #countdown { font-size: 15rem; color: #ffd700; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -113,7 +120,7 @@
     </div>
 
     <div class="running-text">
-        <marquee scrollamount="5">"Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga." — Luruskan Shaf — Matikan HP — Jaga Kebersihan.</marquee>
+        <marquee scrollamount="5">"Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga." — Luruskan Shaf — Matikan HP.</marquee>
     </div>
 
     <div id="layar-iqomah">
@@ -130,26 +137,20 @@
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
                 const rows = text.split('\n');
-                
-                // Fungsi cerdas memisahkan CSV (tetap menjaga koma di dalam tanda petik nominal uang)
                 const parseCSV = (str) => {
                     const matches = str.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
                     return matches ? matches.map(m => m.replace(/^"|"$/g, '')) : [];
                 };
-
                 const data = parseCSV(rows[1]); 
-
                 if (data.length > 0) {
-                    // Mapping urutan kolom Anda: B=1(Masuk), C=2(Keluar), D=3(Saldo Akhir), E=4(Isya), F=5(Subuh), G=6(Jumat)
                     document.getElementById('kas-masuk').innerText  = data[1] || '0'; 
                     document.getElementById('kas-keluar').innerText = data[2] || '0';
                     document.getElementById('kas-saldo').innerText  = data[3] || '0';
-                    
                     document.getElementById('imam-isya').innerText  = data[4] || '-';
                     document.getElementById('imam-subuh').innerText = data[5] || '-';
                     document.getElementById('imam-jumat').innerText = data[6] || '-';
                 }
-            } catch (e) { console.error("Gagal update data Sheets", e); }
+            } catch (e) { console.error("Gagal update data"); }
         }
 
         function updateClock() {
