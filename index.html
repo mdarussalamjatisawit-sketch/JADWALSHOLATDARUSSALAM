@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Shalat Masjid Darussalam</title>
     <style>
+        /* --- PENGATURAN TAMPILAN (CSS) --- */
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         
         body {
             height: 100vh; width: 100vw;
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bg-masjid.jpg');
+            /* Latar belakang gambar masjid dengan efek gelap agar teks putih terbaca jelas */
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('bg-masjid.jpg');
             background-size: cover; background-position: center; color: white;
             display: flex; flex-direction: column; overflow: hidden;
             padding: 10px 15px; 
         }
 
-        /* HEADER */
+        /* Gaya Kotak Nama Masjid di Bagian Atas */
         .header-center {
             text-align: center;
-            background: rgba(0, 80, 0, 0.7); /* Lebih transparan */
+            background: rgba(0, 80, 0, 0.7); 
             padding: 8px;
             border-radius: 10px;
             margin-bottom: 10px;
@@ -27,37 +30,70 @@
         .header-center h1 { font-size: 2.2rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); line-height: 1; }
         .header-center p { font-size: 0.9rem; color: #fff; text-transform: uppercase; margin-top: 3px; }
 
+        /* Kontainer Utama yang membagi Kas/Imam (Kiri) dan Jam (Tengah) */
         .main-content {
             flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 0;
         }
 
-        /* SIDEBAR KIRI */
+        /* Kolom Sisi Kiri (Info Kas dan Imam) */
         .sidebar-left { width: 38%; display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: center; }
+        
+        /* Desain Kotak Transparan */
         .card { 
-            background: rgba(0, 0, 0, 0.5); /* Transparansi ringan */
+            background: rgba(0, 0, 0, 0.5); 
             border-radius: 12px; border: 2px solid #2e7d32; overflow: hidden; 
             padding-bottom: 5px;
         }
+        
         .card-header { background: rgba(46, 125, 50, 0.8); padding: 5px; text-align: center; font-weight: bold; font-size: 1.1rem; color: #ffd700; border-bottom: 1px solid #ffd700; }
+        
         .card-body { padding: 10px 15px; }
-        .row { display: flex; justify-content: space-between; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 5px 0; }
+
+        /* Baris Data (Misal: Pemasukan : Rp 100.000) */
+        .row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; /* Agar jika teks panjang, label tetap di atas */
+            font-size: 1.2rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.2); 
+            padding: 6px 0;
+            gap: 15px;
+        }
+
+        /* Pengaturan agar Nama Imam yang panjang tidak terpotong (Turun ke bawah) */
+        .row span:last-child {
+            text-align: right;
+            word-wrap: break-word; /* Memecah kata jika terlalu panjang */
+            white-space: normal;   /* Mengizinkan teks pindah baris (Sangat penting agar nama tidak terpotong) */
+            flex: 1;               /* Mengambil sisa ruang yang tersedia */
+            line-height: 1.2;
+        }
+
+        /* Label di sebelah kiri (Misal: 'IMAM SUBUH') */
+        .row span:first-child {
+            white-space: nowrap; /* Label jangan sampai pecah baris */
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        /* Gaya angka Saldo Akhir */
         .total { color: #ffd700; font-weight: bold; font-size: 1.4rem; border-bottom: none; border-top: 2px solid #ffd700; padding-top: 8px; margin-top: 5px; }
 
-        /* JAM TENGAH - SEKARANG MEPET TEKS */
+        /* Gaya Kotak Jam Tengah - Ukurannya otomatis mepet teks */
         .clock-section { 
-            background: rgba(0, 0, 0, 0.5); /* Lebih transparan */
+            background: rgba(0, 0, 0, 0.5); 
             padding: 20px 40px; border-radius: 30px; 
             text-align: center; border: 2px solid rgba(255, 255, 255, 0.3); 
-            width: fit-content; /* Kotak mepet teks */
+            width: fit-content; 
             margin: 0 auto;
         }
         #jam { font-size: 8rem; font-weight: bold; color: white; line-height: 1; text-shadow: 2px 4px 10px rgba(0,0,0,0.5); }
         #tanggal-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 5px; }
         #tanggal-hijriah { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
 
-        /* JADWAL SHOLAT BAWAH */
+        /* Gaya Jadwal Sholat Bawah (Subuh, Dzuhur, dll) */
         .footer-jadwal { 
-            background: rgba(0, 40, 0, 0.7); /* Lebih transparan */
+            background: rgba(0, 40, 0, 0.7); 
             display: grid; grid-template-columns: repeat(6, 1fr); 
             padding: 10px 0; border: 2px solid #ffd700; margin-top: 10px; border-radius: 12px; 
         }
@@ -66,8 +102,10 @@
         .sholat-name { font-size: 1rem; color: #ffd700; font-weight: bold; }
         .sholat-time { font-size: 2.8rem; font-weight: bold; display: block; color: white; line-height: 1; }
 
+        /* Teks Berjalan di Paling Bawah */
         .running-text { background: #2e7d32; padding: 6px 0; font-size: 1.3rem; margin-top: 10px; border-radius: 5px; font-weight: bold; }
 
+        /* Penampung Layar Hitam Full saat Iqomah */
         #layar-iqomah {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 10000; display: none;
@@ -129,20 +167,31 @@
     </div>
 
     <script>
-        let jadwalGlobal = {};
+        /* --- LOGIKA PROGRAM (JAVASCRIPT) --- */
+
+        let jadwalGlobal = {}; // Tempat menyimpan data waktu sholat dari internet
+
+        // URL CSV dari Google Sheets (Link publikasi web)
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
 
+        // Fungsi Mengambil Data dari Google Sheets
         async function updateDataSheets() {
             try {
+                // Fetch data, ditambah timestamp unik agar tidak mengambil cache lama (Real-time)
                 const res = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await res.text();
-                const rows = text.split('\n');
+                const rows = text.split('\n'); // Memecah data per baris
+
+                // Regex Parser untuk memisahkan kolom (memastikan angka kas bermata uang tidak pecah/error)
                 const parseCSV = (str) => {
                     const matches = str.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
                     return matches ? matches.map(m => m.replace(/^"|"$/g, '')) : [];
                 };
-                const data = parseCSV(rows[1]); 
+
+                const data = parseCSV(rows[1]); // Mengambil Baris 2 (Data Hari Ini)
+
                 if (data.length > 0) {
+                    // Mapping kolom Sheets ke ID di HTML (A=0, B=1, C=2, dst)
                     document.getElementById('kas-masuk').innerText  = data[1] || '0'; 
                     document.getElementById('kas-keluar').innerText = data[2] || '0';
                     document.getElementById('kas-saldo').innerText  = data[3] || '0';
@@ -150,25 +199,33 @@
                     document.getElementById('imam-subuh').innerText = data[5] || '-';
                     document.getElementById('imam-jumat').innerText = data[6] || '-';
                 }
-            } catch (e) { console.error("Gagal update data"); }
+            } catch (e) { console.error("Gagal update data Sheets", e); }
         }
 
+        // Fungsi Menjalankan Jam Digital & Tanggal Masehi/Hijriah
         function updateClock() {
             const now = new Date();
+            // Update Tampilan Jam
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
+            // Update Tampilan Tanggal Masehi
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Ambil info Tanggal Hijriah dari data jadwal sholat (jika sudah termuat)
             if (jadwalGlobal.date) {
                 document.getElementById('tanggal-hijriah').innerText = `${jadwalGlobal.date.hijri.day} ${jadwalGlobal.date.hijri.month.en} ${jadwalGlobal.date.hijri.year} H`;
             }
         }
 
+        // Fungsi Mengambil Jadwal Sholat dari API Aladhan (Gamping, Sleman)
         async function getJadwalSholat() {
-            const lat = -7.8014; const lng = 110.3060;
+            const lat = -7.8014; const lng = 110.3060; // Titik Koordinat Lokasi Masjid
             try {
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=20`);
                 const json = await res.json();
-                jadwalGlobal = json.data;
+                jadwalGlobal = json.data; // Simpan data secara keseluruhan
                 const t = jadwalGlobal.timings;
+                
+                // Masukkan jam waktu sholat ke ID masing-masing di bagian bawah
                 document.getElementById('sh-Fajr').innerText = t.Fajr;
                 document.getElementById('sh-Dhuhr').innerText = t.Dhuhr;
                 document.getElementById('sh-Asr').innerText = t.Asr;
@@ -178,11 +235,13 @@
             } catch (e) { console.log("Gagal muat jadwal"); }
         }
 
+        // Jalankan perintah saat halaman pertama kali dibuka
         window.addEventListener('load', () => { 
-            getJadwalSholat(); 
-            updateDataSheets();
-            setInterval(updateClock, 1000); 
-            setInterval(updateDataSheets, 60000); 
+            getJadwalSholat();  // Muat jadwal sholat
+            updateDataSheets(); // Muat data dari Sheets
+            
+            setInterval(updateClock, 1000);       // Jam berdetik tiap 1 detik
+            setInterval(updateDataSheets, 60000); // Sinkronisasi Google Sheets tiap 60 detik (1 menit)
         });
     </script>
 </body>
