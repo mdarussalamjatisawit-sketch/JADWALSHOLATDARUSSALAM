@@ -231,7 +231,7 @@
                 timerIqomah.style.display = 'block';
                 timerIqomah.classList.remove('blink'); // DIAM (Angka tidak berkedip)
                 
-                let sisaWaktu = 2 * 60; //untuk hitung mundur 14 menit,kalau ingin lama ganti 14 dengan angka 14*60=14menit
+                let sisaWaktu = 14* 60; //mengganti durasi iqomah 14×60=14 menit
                 const hitungMundur = setInterval(() => {
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
