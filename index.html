@@ -156,7 +156,7 @@
     </div>
 
     <div class="running-text">
-        <marquee>Luruskan Shaf — Matikan HP — "Barangsiapa membangun masjid karena Allah, Allah bangunkan rumah di surga."</marquee>
+        <marquee>Diriwayatkan dari Abdullah bin Umar RA, bahwa Rasulullah SAW bersabda, "Sholat berjamaah itu lebih utama daripada sholat sendiri sebanyak 27 derajat." (HR. Bukhari)</marquee>
     </div>
 
     <div onclick="mulaiSiklusAdzanIqomah('MAGHRIB')" style="position:fixed; bottom:0; right:0; width:50px; height:50px; cursor:pointer; z-index:100;"></div>
@@ -231,7 +231,7 @@
                 timerIqomah.style.display = 'block';
                 timerIqomah.classList.remove('blink'); // DIAM (Angka tidak berkedip)
                 
-                let sisaWaktu = 14 * 60; 
+                let sisaWaktu = 14 * 60; //untuk hitung mundur 14 menit,kalau ingin lama ganti 14 dengan angka 14*60=14menit
                 const hitungMundur = setInterval(() => {
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
@@ -250,7 +250,7 @@
                     }
                     sisaWaktu--;
                 }, 1000);
-            }, 30000); // 30 Detik untuk Tes
+            }, 30000); // 30 Detik untuk Tes sesuaikan dengan durasi adzan
         }
 
         async function getJadwalSholat() {
