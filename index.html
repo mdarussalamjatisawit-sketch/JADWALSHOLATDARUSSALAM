@@ -231,17 +231,18 @@
                 timerIqomah.style.display = 'block';
                 timerIqomah.classList.remove('blink'); // DIAM (Angka tidak berkedip)
                 
-                let sisaWaktu = 14 * 60; //untuk hitung mundur 14 menit,kalau ingin lama ganti 14 dengan angka 14*60=14menit
+                let sisaWaktu = 2 * 60; //untuk hitung mundur 14 menit,kalau ingin lama ganti 14 dengan angka 14*60=14menit
                 const hitungMundur = setInterval(() => {
                     let m = Math.floor(sisaWaktu / 60);
                     let s = sisaWaktu % 60;
                     timerIqomah.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                     
                     if (sisaWaktu <= 0) {
-                        clearInterval(hitungMundur);
-                        status.classList.remove('blink');
-                        status.innerText = "SHAF RAPAT & LURUS";
-                        timerIqomah.innerText = "SHOLAT";
+    clearInterval(hitungMundur);
+    status.classList.remove('blink');
+    status.innerText = "SHAF RAPAT & LURUS";
+    timerIqomah.innerText = "SHOLAT"; // Tulisan ini
+    timerIqomah.style.fontSize = "20vw"; // TAMBAHKAN BARIS INI untuk mengatur ukuran khusus tulisan SHOLAT
                         
                         setTimeout(() => {
                             layar.style.display = 'none';
