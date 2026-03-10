@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Neon Pink Adzan</title>
+    <title>TV Masjid Darussalam - Black Neon Mode</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
         
@@ -46,28 +46,26 @@
         .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; }
         .p-time { font-size: 2.5rem; font-weight: bold; }
 
-        /* WARNA EMAS UNTUK WAKTU SELANJUTNYA */
         .next-sholat { 
             background: linear-gradient(145deg, #ffd700, #b8860b) !important; 
             transform: scale(1.08); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); border: 2px solid #fff;
         }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* MODE ADZAN/IQOMAH */
+        /* MODE ADZAN/IQOMAH: BACKGROUND HITAM TOTAL */
         #mode-sholat {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('masjid.jpg') no-repeat center center; background-size: cover;
+            background: #000; /* Hitam Saja */
             z-index: 9999; text-align: center; padding-top: 100px;
         }
         
-        /* EFEK NEON PINK PADA TEKS */
         .big-text { 
             color: #fff; font-size: 18vw; font-weight: 900; display: block; line-height: 1; 
             text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff; 
             text-transform: uppercase;
         }
-        .judul-atas { font-size: 5rem; color: #ffd700; font-weight: bold; text-shadow: 4px 4px 15px #000; }
-        .sub-teks { font-size: 3.5rem; color: #00ff00; margin-top: 30px; text-shadow: 3px 3px 10px #000; }
+        .judul-atas { font-size: 5rem; color: #ffd700; font-weight: bold; }
+        .sub-teks { font-size: 3.5rem; color: #00ff00; margin-top: 30px; }
 
         .blink-custom { animation: blinker 2s linear infinite; }
         @keyframes blinker { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
