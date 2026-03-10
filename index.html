@@ -6,30 +6,30 @@
     <title>TV Masjid Darussalam</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #121212; color: white; padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background: #004d00; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        body { background: #0a0a0a; color: white; padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #004d00; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         .header h1 { color: #ffd700; font-size: 2.2rem; text-shadow: 2px 2px 4px #000; }
         .main { display: flex; flex: 1; gap: 15px; }
         .side { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: #000; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
+        .card { background: #111; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
         .card-h { background: #2e7d32; padding: 10px; color: #ffd700; font-weight: bold; text-align: center; font-size: 1.1rem; }
-        .card-b { padding: 10px 15px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 8px 0; font-size: 1.1rem; }
-        .center { flex: 1.2; background: rgba(255,255,255,0.03); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #444; }
-        #jam { font-size: 8rem; font-weight: bold; line-height: 1; text-shadow: 5px 5px 15px #000; }
+        .card-b { padding: 12px 18px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; font-size: 1.1rem; }
+        .center { flex: 1.2; background: rgba(255,255,255,0.03); border-radius: 35px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #333; }
+        #jam { font-size: 8rem; font-weight: bold; line-height: 1; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
         #tgl-m { font-size: 1.8rem; color: #ffd700; margin-top: 10px; }
-        #tgl-h { font-size: 2rem; color: #00ff00; font-weight: bold; }
-        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 15px; }
-        .box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 12px 5px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-        .box-n { color: #ffd700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .box-t { font-size: 2.5rem; font-weight: bold; }
+        #tgl-h { font-size: 2.1rem; color: #00ff00; font-weight: bold; }
+        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
+        .box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 15px 5px; text-align: center; }
+        .box-n { color: #ffd700; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+        .box-t { font-size: 2.5rem; font-weight: bold; color: #fff; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Sleman, Yogyakarta</p>
+        <p>Jadwal KHGT Muhammadiyah - Yogyakarta</p>
     </div>
 
     <div class="main">
@@ -53,7 +53,7 @@
         </div>
         <div class="center">
             <div id="jam">00:00:00</div>
-            <div id="tgl-m">Memuat...</div>
+            <div id="tgl-m">Memuat Tanggal...</div>
             <div id="tgl-h">--</div>
         </div>
     </div>
@@ -70,50 +70,51 @@
     <script>
         const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        async function muatData() {
+        async function ambilData() {
             try {
-                const res = await fetch(urlCSV + '&cache=' + Date.now());
-                const text = await res.text();
-                const rows = text.split(/\r?\n/);
+                const r = await fetch(urlCSV + '&cb=' + Date.now());
+                const t = await r.text();
+                const baris = t.split(/\r?\n/);
                 const tglSkrg = new Date().getDate().toString();
 
-                for (let i = 1; i < rows.length; i++) {
-                    // Pecah kolom dan bersihkan spasi/kutip yang mengganggu
-                    let col = rows[i].split(',').map(v => v.replace(/"/g, '').trim()).filter(v => v !== "");
+                for (let i = 1; i < baris.length; i++) {
+                    // Pecah kolom, buang kutipan, buang kolom yang benar-benar kosong
+                    let col = baris[i].split(',').map(v => v.replace(/"/g, '').trim()).filter(v => v !== "");
 
-                    // Cari baris yang mengandung tanggal hari ini atau nama hari
-                    if (col.some(c => c.includes(tglSkrg) || c.includes("Ramadan"))) {
-                        // JADWAL (Mencari teks yang ada tanda titik dua seperti 04:35)
-                        const times = col.filter(c => c.includes(':') && c.length <= 5);
-                        if (times.length >= 6) {
-                            document.getElementById('s-fajr').innerText = times[0];
-                            document.getElementById('s-sunr').innerText = times[1];
-                            document.getElementById('s-dhuhr').innerText = times[2];
-                            document.getElementById('s-asr').innerText = times[3];
-                            document.getElementById('s-magh').innerText = times[4];
-                            document.getElementById('s-isha').innerText = times[5];
+                    // Cari baris berdasarkan angka tanggal hari ini di kolom awal
+                    if (col[0] && col[0].includes(tglSkrg)) {
+                        
+                        // 1. CARI JADWAL SHOLAT (Cari teks yang ada tanda ':' )
+                        const jamSholat = col.filter(c => c.includes(':') && c.length <= 5);
+                        if (jamSholat.length >= 6) {
+                            document.getElementById('s-fajr').innerText = jamSholat[0];
+                            document.getElementById('s-sunr').innerText = jamSholat[1];
+                            document.getElementById('s-dhuhr').innerText = jamSholat[2];
+                            document.getElementById('s-asr').innerText = jamSholat[3];
+                            document.getElementById('s-magh').innerText = jamSholat[4];
+                            document.getElementById('s-isha').innerText = jamSholat[5];
                         }
 
-                        // HIJRIAH (Cari kata Ramadan)
-                        const hijri = col.find(c => c.includes("Ramadan") || c.includes("1447"));
-                        if (hijri) document.getElementById('tgl-h').innerText = hijri;
+                        // 2. CARI HIJRIAH (Cari kata Ramadan)
+                        const hijri = col.find(c => c.toLowerCase().includes("ramadan"));
+                        document.getElementById('tgl-h').innerText = hijri ? hijri + " 1447 H" : "--";
 
-                        // KEUANGAN (Cari yang mengandung Rp atau angka besar)
-                        const money = col.filter(c => c.includes('Rp') || (c.length > 5 && !c.includes(':')));
-                        document.getElementById('k-in').innerText = money[0] || '0';
-                        document.getElementById('k-out').innerText = money[1] || '0';
-                        document.getElementById('k-s').innerText = money[2] || '0';
+                        // 3. CARI KEUANGAN (Cari kolom yang isinya angka murni dan panjang/besar)
+                        const keuangan = col.filter(c => !c.includes(':') && !c.includes('Maret') && !c.includes('Ramadan') && c.length >= 4);
+                        document.getElementById('k-in').innerText = keuangan[0] || '0';
+                        document.getElementById('k-out').innerText = keuangan[1] || '0';
+                        document.getElementById('k-s').innerText = keuangan[2] || '0';
 
-                        // IMAM (Biasanya kolom terakhir yang sisa)
-                        // Berdasarkan posisi di sheet Mas Aris (kolom M, N, O)
-                        const endCols = col.slice(-3);
-                        document.getElementById('i-t').innerText = endCols[0] || '-';
-                        document.getElementById('i-s').innerText = endCols[1] || '-';
-                        document.getElementById('i-j').innerText = endCols[2] || '-';
+                        // 4. CARI NAMA IMAM (Biasanya di 3 kolom terakhir)
+                        const imam = col.slice(-3);
+                        document.getElementById('i-t').innerText = imam[0] || '-';
+                        document.getElementById('i-s').innerText = imam[1] || '-';
+                        document.getElementById('i-j').innerText = imam[2] || '-';
+                        
                         break;
                     }
                 }
-            } catch (e) { console.log("Gagal memuat data"); }
+            } catch (e) { console.log("Gagal muat data"); }
         }
 
         function updateWaktu() {
@@ -123,8 +124,8 @@
         }
 
         setInterval(updateWaktu, 1000);
-        setInterval(muatData, 300000);
-        window.onload = muatData;
+        setInterval(ambilData, 300000);
+        window.onload = ambilData;
     </script>
 </body>
 </html>
