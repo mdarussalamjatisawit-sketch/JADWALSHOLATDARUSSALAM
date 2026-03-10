@@ -3,36 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Final Fix</title>
+    <title>TV Masjid Darussalam</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body {
-            background: #1a1a1a; color: white; padding: 15px; overflow: hidden; height: 100vh;
-            display: flex; flex-direction: column;
-        }
-        .header { background: #006400; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; }
-        .header h1 { color: #ffd700; font-size: 2.5rem; }
-        .main { display: flex; flex: 1; gap: 20px; }
+        body { background: #121212; color: white; padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #004d00; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; }
+        .header h1 { color: #ffd700; font-size: 2.2rem; }
+        .main { display: flex; flex: 1; gap: 15px; }
         .side { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
         .card { background: #000; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
-        .card-h { background: #2e7d32; padding: 10px; color: #ffd700; font-weight: bold; text-align: center; }
-        .card-b { padding: 15px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; font-size: 1.2rem; }
-        .center { flex: 1.2; background: rgba(255,255,255,0.05); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #jam { font-size: 8rem; font-weight: bold; }
-        #tgl-m { font-size: 1.8rem; color: #ffd700; }
-        #tgl-h { font-size: 2rem; color: #00ff00; }
-        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 20px; }
-        .box { background: #004d00; border: 2px solid #ffd700; border-radius: 12px; padding: 15px 5px; text-align: center; }
-        .box-n { color: #ffd700; font-size: 1rem; font-weight: bold; }
-        .box-t { font-size: 2.5rem; font-weight: bold; }
+        .card-h { background: #2e7d32; padding: 10px; color: #ffd700; font-weight: bold; text-align: center; font-size: 1.1rem; }
+        .card-b { padding: 10px 15px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 8px 0; font-size: 1.1rem; }
+        .center { flex: 1.2; background: rgba(255,255,255,0.03); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #333; }
+        #jam { font-size: 7rem; font-weight: bold; line-height: 1; }
+        #tgl-m { font-size: 1.6rem; color: #ffd700; margin-top: 10px; }
+        #tgl-h { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
+        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 15px; }
+        .box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 12px 5px; text-align: center; }
+        .box-n { color: #ffd700; font-size: 0.9rem; font-weight: bold; }
+        .box-t { font-size: 2.2rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Sleman</p>
+        <p>Jadwal KHGT Muhammadiyah - Sleman, DIY</p>
     </div>
 
     <div class="main">
@@ -40,17 +37,17 @@
             <div class="card">
                 <div class="card-h">KEUANGAN MASJID</div>
                 <div class="card-b">
-                    <div class="row"><span>Masuk</span><span id="k-in">0</span></div>
-                    <div class="row"><span>Keluar</span><span id="k-out">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none;"><span>SALDO</span><span id="k-s">0</span></div>
+                    <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
+                    <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">0</span></div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-h">PETUGAS HARI INI</div>
                 <div class="card-b">
-                    <div class="row"><span>TARAWIH</span><span id="i-t">-</span></div>
+                    <div class="row"><span>ISYA/TARAWIH</span><span id="i-t">-</span></div>
                     <div class="row"><span>IMAM SUBUH</span><span id="i-s">-</span></div>
-                    <div class="row"><span>JUM'AT</span><span id="i-j">-</span></div>
+                    <div class="row"><span>IMAM JUM'AT</span><span id="i-j">-</span></div>
                 </div>
             </div>
         </div>
@@ -71,56 +68,54 @@
     </div>
 
     <script>
-        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
+        const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
         async function muatData() {
             try {
-                const res = await fetch(url + '&cb=' + Date.now());
+                const res = await fetch(urlCSV + '&cache=' + Date.now());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/);
+                
+                // Cari angka tanggal hari ini (misal: "10")
                 const tglSkrg = new Date().getDate().toString();
 
                 for (let i = 1; i < rows.length; i++) {
-                    // Pakai Regex agar tanda koma di dalam kutipan tidak bikin kolom pecah
-                    let col = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    if (!col) col = rows[i].split(',');
+                    // Pakai cara manual untuk memecah kolom
+                    let col = rows[i].split(',').map(v => v.replace(/"/g, '').trim());
 
-                    // Bersihkan tanda kutip
-                    col = col.map(v => v.replace(/"/g, '').trim());
+                    // Jika baris mengandung tanggal hari ini
+                    if (col[0].includes(tglSkrg) || col[1].includes(tglSkrg)) {
+                        // JADWAL (Berdasarkan urutan di screenshot Mas Aris)
+                        document.getElementById('tgl-h').innerText = col[2];
+                        document.getElementById('s-fajr').innerText = col[3];
+                        document.getElementById('s-sunr').innerText = col[4];
+                        document.getElementById('s-dhuhr').innerText = col[5];
+                        document.getElementById('s-asr').innerText = col[6];
+                        document.getElementById('s-magh').innerText = col[7];
+                        document.getElementById('s-isha').innerText = col[8];
 
-                    // Cek Kolom 0 (Tanggal)
-                    if (col[0].includes(tglSkrg)) {
-                        // Karena ada koma, kolom bergeser. Kita sesuaikan:
-                        document.getElementById('tgl-h').innerText = col[2]; // Hijriah
-                        document.getElementById('s-fajr').innerText = col[3]; // Subuh
-                        document.getElementById('s-sunr').innerText = col[4]; // Syuruq
-                        document.getElementById('s-dhuhr').innerText = col[5]; // Zuhur
-                        document.getElementById('s-asr').innerText = col[6];   // Ashar
-                        document.getElementById('s-magh').innerText = col[7];  // Maghrib
-                        document.getElementById('s-isha').innerText = col[8];  // Isya
-
-                        // Data Kas (Mulai Kolom 10)
+                        // KEUANGAN
                         document.getElementById('k-in').innerText = col[10] || '0';
                         document.getElementById('k-out').innerText = col[11] || '0';
                         document.getElementById('k-s').innerText = col[12] || '0';
 
-                        // Data Imam
+                        // IMAM
                         document.getElementById('i-t').innerText = col[13] || '-';
                         document.getElementById('i-s').innerText = col[14] || '-';
                         document.getElementById('i-j').innerText = col[15] || '-';
                         break;
                     }
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) { console.log("Gagal ambil data"); }
         }
 
-        function updateJam() {
+        function updateWaktu() {
             const n = new Date();
             document.getElementById('jam').innerText = n.toLocaleTimeString('id-ID');
             document.getElementById('tgl-m').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        setInterval(updateJam, 1000);
+        setInterval(updateWaktu, 1000);
         setInterval(muatData, 300000);
         window.onload = muatData;
     </script>
