@@ -5,31 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV Masjid Darussalam</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background: #121212; color: white; padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background: #004d00; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; }
-        .header h1 { color: #ffd700; font-size: 2.2rem; }
+        .header { background: #004d00; padding: 15px; border: 3px solid #ffd700; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .header h1 { color: #ffd700; font-size: 2.2rem; text-shadow: 2px 2px 4px #000; }
         .main { display: flex; flex: 1; gap: 15px; }
         .side { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
         .card { background: #000; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
         .card-h { background: #2e7d32; padding: 10px; color: #ffd700; font-weight: bold; text-align: center; font-size: 1.1rem; }
         .card-b { padding: 10px 15px; }
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 8px 0; font-size: 1.1rem; }
-        .center { flex: 1.2; background: rgba(255,255,255,0.03); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #333; }
-        #jam { font-size: 7rem; font-weight: bold; line-height: 1; }
-        #tgl-m { font-size: 1.6rem; color: #ffd700; margin-top: 10px; }
-        #tgl-h { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
+        .center { flex: 1.2; background: rgba(255,255,255,0.03); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #444; }
+        #jam { font-size: 8rem; font-weight: bold; line-height: 1; text-shadow: 5px 5px 15px #000; }
+        #tgl-m { font-size: 1.8rem; color: #ffd700; margin-top: 10px; }
+        #tgl-h { font-size: 2rem; color: #00ff00; font-weight: bold; }
         .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 15px; }
-        .box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 12px 5px; text-align: center; }
-        .box-n { color: #ffd700; font-size: 0.9rem; font-weight: bold; }
-        .box-t { font-size: 2.2rem; font-weight: bold; }
+        .box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 12px 5px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .box-n { color: #ffd700; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
+        .box-t { font-size: 2.5rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Sleman, DIY</p>
+        <p>Jadwal KHGT Muhammadiyah - Sleman, Yogyakarta</p>
     </div>
 
     <div class="main">
@@ -39,7 +39,7 @@
                 <div class="card-b">
                     <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
                     <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">0</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold; font-size:1.3rem;"><span>SALDO</span><span id="k-s">0</span></div>
                 </div>
             </div>
             <div class="card">
@@ -75,38 +75,45 @@
                 const res = await fetch(urlCSV + '&cache=' + Date.now());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/);
-                
-                // Cari angka tanggal hari ini (misal: "10")
                 const tglSkrg = new Date().getDate().toString();
 
                 for (let i = 1; i < rows.length; i++) {
-                    // Pakai cara manual untuk memecah kolom
-                    let col = rows[i].split(',').map(v => v.replace(/"/g, '').trim());
+                    // Pecah kolom dan bersihkan spasi/kutip yang mengganggu
+                    let col = rows[i].split(',').map(v => v.replace(/"/g, '').trim()).filter(v => v !== "");
 
-                    // Jika baris mengandung tanggal hari ini
-                    if (col[0].includes(tglSkrg) || col[1].includes(tglSkrg)) {
-                        // JADWAL (Berdasarkan urutan di screenshot Mas Aris)
-                        document.getElementById('tgl-h').innerText = col[2];
-                        document.getElementById('s-fajr').innerText = col[3];
-                        document.getElementById('s-sunr').innerText = col[4];
-                        document.getElementById('s-dhuhr').innerText = col[5];
-                        document.getElementById('s-asr').innerText = col[6];
-                        document.getElementById('s-magh').innerText = col[7];
-                        document.getElementById('s-isha').innerText = col[8];
+                    // Cari baris yang mengandung tanggal hari ini atau nama hari
+                    if (col.some(c => c.includes(tglSkrg) || c.includes("Ramadan"))) {
+                        // JADWAL (Mencari teks yang ada tanda titik dua seperti 04:35)
+                        const times = col.filter(c => c.includes(':') && c.length <= 5);
+                        if (times.length >= 6) {
+                            document.getElementById('s-fajr').innerText = times[0];
+                            document.getElementById('s-sunr').innerText = times[1];
+                            document.getElementById('s-dhuhr').innerText = times[2];
+                            document.getElementById('s-asr').innerText = times[3];
+                            document.getElementById('s-magh').innerText = times[4];
+                            document.getElementById('s-isha').innerText = times[5];
+                        }
 
-                        // KEUANGAN
-                        document.getElementById('k-in').innerText = col[10] || '0';
-                        document.getElementById('k-out').innerText = col[11] || '0';
-                        document.getElementById('k-s').innerText = col[12] || '0';
+                        // HIJRIAH (Cari kata Ramadan)
+                        const hijri = col.find(c => c.includes("Ramadan") || c.includes("1447"));
+                        if (hijri) document.getElementById('tgl-h').innerText = hijri;
 
-                        // IMAM
-                        document.getElementById('i-t').innerText = col[13] || '-';
-                        document.getElementById('i-s').innerText = col[14] || '-';
-                        document.getElementById('i-j').innerText = col[15] || '-';
+                        // KEUANGAN (Cari yang mengandung Rp atau angka besar)
+                        const money = col.filter(c => c.includes('Rp') || (c.length > 5 && !c.includes(':')));
+                        document.getElementById('k-in').innerText = money[0] || '0';
+                        document.getElementById('k-out').innerText = money[1] || '0';
+                        document.getElementById('k-s').innerText = money[2] || '0';
+
+                        // IMAM (Biasanya kolom terakhir yang sisa)
+                        // Berdasarkan posisi di sheet Mas Aris (kolom M, N, O)
+                        const endCols = col.slice(-3);
+                        document.getElementById('i-t').innerText = endCols[0] || '-';
+                        document.getElementById('i-s').innerText = endCols[1] || '-';
+                        document.getElementById('i-j').innerText = endCols[2] || '-';
                         break;
                     }
                 }
-            } catch (e) { console.log("Gagal ambil data"); }
+            } catch (e) { console.log("Gagal memuat data"); }
         }
 
         function updateWaktu() {
