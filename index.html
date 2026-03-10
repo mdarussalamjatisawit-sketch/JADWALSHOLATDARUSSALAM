@@ -1,143 +1,77 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Final</title>
+    <title>Tes Data Masjid</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        body {
-            min-height: 100vh; width: 100vw;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1590076215667-875d45308666?q=80&w=2000') no-repeat center center fixed;
-            background-size: cover; color: white; display: flex; flex-direction: column; padding: 10px; overflow: hidden;
-        }
-        .header { text-align: center; background: rgba(0, 80, 0, 0.95); padding: 10px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 10px; }
-        .header h1 { font-size: 2rem; color: #ffd700; text-shadow: 2px 2px 5px #000; }
-        .main { flex: 1; display: flex; gap: 15px; }
-        .side { flex: 0.9; display: flex; flex-direction: column; gap: 10px; }
-        .card { background: rgba(0, 0, 0, 0.8); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
-        .card-h { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.2rem; }
-        .card-b { padding: 10px 15px; }
-        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1.1rem; }
-        .center { flex: 1.1; background: rgba(0, 0, 0, 0.4); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
-        #jam { font-size: 8rem; font-weight: bold; line-height: 1; }
-        #tgl-m { font-size: 1.6rem; color: #ffd700; }
-        #tgl-h { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
-        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 10px; }
-        .box { background: rgba(0, 60, 0, 0.9); padding: 10px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 12px; }
-        .box-n { font-size: 0.9rem; color: #ffd700; font-weight: bold; }
-        .box-t { font-size: 2.5rem; font-weight: bold; color: #fff; }
-        #debug { position: fixed; bottom: 2px; right: 5px; font-size: 10px; color: #eee; background: rgba(0,0,0,0.5); padding: 2px 5px; border-radius: 3px; }
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
+        .data-box { border: 1px solid #fff; padding: 10px; margin-top: 10px; line-height: 1.8; }
+        #status { color: yellow; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Sleman, Yogyakarta</p>
-    </div>
+    <h2>Tes Koneksi Jadwal Sholat</h2>
+    <div id="status">Sedang mengambil data...</div>
 
-    <div class="main">
-        <div class="side">
-            <div class="card">
-                <div class="card-h">KEUANGAN MASJID</div>
-                <div class="card-b">
-                    <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
-                    <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO AKHIR</span><span id="k-s">0</span></div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-h">IMAM & PENCERAMAH</div>
-                <div class="card-b">
-                    <div class="row"><span>ISYA/TARAWIH</span><span id="i-t">-</span></div>
-                    <div class="row"><span>IMAM SUBUH</span><span id="i-s">-</span></div>
-                    <div class="row"><span>IMAM JUM'AT</span><span id="i-j">-</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="center">
-            <div id="jam">00:00:00</div>
-            <div id="tgl-m">Memuat...</div>
-            <div id="tgl-h">--</div>
-        </div>
+    <div class="data-box">
+        <b>Tanggal:</b> <span id="tgl">?</span><br>
+        <b>Hijriah:</b> <span id="hijriah">?</span><br>
+        <hr>
+        <b>Subuh:</b> <span id="subuh">--:--</span><br>
+        <b>Zuhur:</b> <span id="zuhur">--:--</span><br>
+        <b>Ashar:</b> <span id="ashar">--:--</span><br>
+        <b>Maghrib:</b> <span id="maghrib">--:--</span><br>
+        <b>Isya:</b> <span id="isya">--:--</span>
     </div>
-
-    <div class="footer">
-        <div class="box"><div class="box-n">SUBUH</div><div class="box-t" id="s-fajr">--:--</div></div>
-        <div class="box"><div class="box-n">SYURUQ</div><div class="box-t" id="s-sunr">--:--</div></div>
-        <div class="box"><div class="box-n">ZUHUR</div><div class="box-t" id="s-dhuhr">--:--</div></div>
-        <div class="box"><div class="box-n">ASHAR</div><div class="box-t" id="s-asr">--:--</div></div>
-        <div class="box"><div class="box-n">MAGHRIB</div><div class="box-t" id="s-magh">--:--</div></div>
-        <div class="box"><div class="box-n">ISYA</div><div class="box-t" id="s-isha">--:--</div></div>
-    </div>
-
-    <div id="debug">Menghubungkan...</div>
 
     <script>
-        const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
+        // Link CSV Mas Aris
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        function bersih(t) { return (t || "").replace(/"/g, '').trim(); }
-
-        async function muatData() {
-            const st = document.getElementById('debug');
+        async function ambilData() {
             try {
-                const res = await fetch(urlCSV + '&cache=' + Date.now());
-                const teks = await res.text();
-                const baris = teks.split(/\r?\n/);
+                const response = await fetch(url + '&t=' + Date.now());
+                const csvText = await response.text();
                 
-                // Cari tanggal hari ini (angka saja, misal: "10")
-                const tglSkrg = new Date().getDate().toString();
+                // Pecah jadi baris
+                const rows = csvText.split(/\r?\n/);
+                
+                // Ambil angka tanggal hari ini (10)
+                const hariIni = new Date().getDate().toString();
+                
+                let ditemukan = false;
 
-                let barisDitemukan = false;
-                for (let i = 1; i < baris.length; i++) {
-                    // Deteksi pemisah otomatis (koma atau titik koma)
-                    let col = baris[i].split(';');
-                    if (col.length < 5) col = baris[i].split(',');
+                for (let i = 1; i < rows.length; i++) {
+                    // Coba pecah pakai titik koma (;) dulu karena Sheets Indonesia sering pakai itu
+                    let cols = rows[i].split(';');
+                    if (cols.length < 5) cols = rows[i].split(','); // kalau gagal pakai koma (,)
 
-                    // Cari yang kolom A-nya mengandung angka tanggal hari ini
-                    if (col[0] && col[0].includes(tglSkrg)) {
-                        // JADWAL (Col B-H)
-                        document.getElementById('tgl-h').innerText = bersih(col[1]);
-                        document.getElementById('s-fajr').innerText = bersih(col[2]);
-                        document.getElementById('s-sunr').innerText = bersih(col[3]);
-                        document.getElementById('s-dhuhr').innerText = bersih(col[4]);
-                        document.getElementById('s-asr').innerText = bersih(col[5]);
-                        document.getElementById('s-magh').innerText = bersih(col[6]);
-                        document.getElementById('s-isha').innerText = bersih(col[7]);
-
-                        // KEUANGAN (Col J-L)
-                        document.getElementById('k-in').innerText = bersih(col[9]) || '0';
-                        document.getElementById('k-out').innerText = bersih(col[10]) || '0';
-                        document.getElementById('k-s').innerText = bersih(col[11]) || '0';
-
-                        // IMAM (Col M-O)
-                        document.getElementById('i-t').innerText = bersih(col[12]) || '-';
-                        document.getElementById('i-s').innerText = bersih(col[13]) || '-';
-                        document.getElementById('i-j').innerText = bersih(col[14]) || '-';
-
-                        barisDitemukan = true;
-                        st.innerText = "Data Terupdate: " + tglSkrg + " Maret";
+                    // Cek jika kolom A mengandung angka tanggal hari ini
+                    if (cols[0] && cols[0].includes(hariIni)) {
+                        document.getElementById('tgl').innerText = cols[0];
+                        document.getElementById('hijriah').innerText = cols[1];
+                        document.getElementById('subuh').innerText = cols[2];
+                        document.getElementById('zuhur').innerText = cols[4];
+                        document.getElementById('ashar').innerText = cols[5];
+                        document.getElementById('maghrib').innerText = cols[6];
+                        document.getElementById('isya').innerText = cols[7];
+                        
+                        ditemukan = true;
+                        document.getElementById('status').innerText = "Koneksi BERHASIL!";
                         break;
                     }
                 }
-                if(!barisDitemukan) st.innerText = "Tanggal " + tglSkrg + " tidak ada di sheet.";
-            } catch (e) {
-                st.innerText = "Gagal mengambil data.";
+
+                if (!ditemukan) {
+                    document.getElementById('status').innerText = "Koneksi OK, tapi Tanggal " + hariIni + " tidak ada di sheet.";
+                }
+
+            } catch (error) {
+                document.getElementById('status').innerText = "Gagal total: " + error.message;
             }
         }
 
-        function jam() {
-            const n = new Date();
-            document.getElementById('jam').innerText = n.toLocaleTimeString('id-ID');
-            document.getElementById('tgl-m').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-        }
-
-        window.onload = () => {
-            muatData();
-            setInterval(jam, 1000);
-            setInterval(muatData, 300000); 
-        };
+        ambilData();
     </script>
 </body>
 </html>
