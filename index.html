@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Final Fix</title>
+    <title>TV Masjid Darussalam - Fix Column</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         body {
             min-height: 100vh; width: 100vw;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1590076215667-875d45308666?q=80&w=2000') no-repeat center center fixed;
-            background-size: cover; color: white; display: flex; flex-direction: column; padding: 15px; overflow: hidden;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1590076215667-875d45308666?q=80&w=2000') no-repeat center center fixed;
+            background-size: cover; color: white; display: flex; flex-direction: column; padding: 10px; overflow: hidden;
         }
-        .header { text-align: center; background: rgba(0, 80, 0, 0.9); padding: 15px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 20px; }
-        .header h1 { font-size: 2.5rem; color: #ffd700; text-shadow: 2px 2px 5px #000; }
-        .main { flex: 1; display: flex; gap: 20px; }
-        .side { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: rgba(0, 0, 0, 0.7); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
-        .card-h { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.3rem; }
-        .card-b { padding: 15px 25px; }
-        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 10px 0; justify-content: space-between; font-size: 1.2rem; }
-        .center { flex: 1.3; background: rgba(0, 0, 0, 0.3); border-radius: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
-        #jam { font-size: 9rem; font-weight: bold; line-height: 1; }
-        #tgl-m { font-size: 2rem; color: #ffd700; }
-        #tgl-h { font-size: 2.2rem; color: #00ff00; font-weight: bold; }
-        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 20px; }
-        .box { background: rgba(0, 50, 0, 0.9); padding: 15px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 15px; }
-        .box-n { font-size: 1.1rem; color: #ffd700; font-weight: bold; }
-        .box-t { font-size: 3rem; font-weight: bold; color: #fff; }
-        #debug { position: fixed; bottom: 5px; right: 10px; font-size: 10px; color: #666; }
+        .header { text-align: center; background: rgba(0, 80, 0, 0.95); padding: 10px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 10px; }
+        .header h1 { font-size: 2rem; color: #ffd700; text-shadow: 2px 2px 5px #000; }
+        .main { flex: 1; display: flex; gap: 15px; }
+        .side { flex: 0.9; display: flex; flex-direction: column; gap: 10px; }
+        .card { background: rgba(0, 0, 0, 0.8); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
+        .card-h { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.2rem; }
+        .card-b { padding: 10px 15px; }
+        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1rem; }
+        .center { flex: 1.1; background: rgba(0, 0, 0, 0.4); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
+        #jam { font-size: 7.5rem; font-weight: bold; line-height: 1; }
+        #tgl-m { font-size: 1.6rem; color: #ffd700; }
+        #tgl-h { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
+        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 10px; }
+        .box { background: rgba(0, 60, 0, 0.9); padding: 10px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 12px; }
+        .box-n { font-size: 0.9rem; color: #ffd700; font-weight: bold; }
+        .box-t { font-size: 2.2rem; font-weight: bold; color: #fff; }
+        #debug { position: fixed; bottom: 2px; right: 5px; font-size: 9px; color: #555; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah (Data 2 Sheet Terpisah)</p>
+        <p>Jadwal KHGT Muhammadiyah - Sleman</p>
     </div>
 
     <div class="main">
@@ -44,11 +44,11 @@
                 <div class="card-b">
                     <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
                     <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">0</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO AKHIR</span><span id="k-s">0</span></div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-h">PETUGAS HARI INI</div>
+                <div class="card-h">IMAM & PENCERAMAH</div>
                 <div class="card-b">
                     <div class="row"><span>ISYA/TARAWIH</span><span id="i-t">-</span></div>
                     <div class="row"><span>IMAM SUBUH</span><span id="i-s">-</span></div>
@@ -72,74 +72,72 @@
         <div class="box"><div class="box-n">ISYA</div><div class="box-t" id="s-isha">--:--</div></div>
     </div>
 
-    <div id="debug">Status: Menunggu...</div>
+    <div id="debug">Status: Memulai sinkronisasi...</div>
 
     <script>
-        // Link CSV dari 2 Sheet Berbeda
         const urlTampilan = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
         const urlJadwal = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        async function updateData() {
+        function clean(text) { return (text || "").replace(/"/g, '').trim(); }
+
+        async function muatData() {
             try {
-                // 1. AMBIL DATA DARI SHEET "TAMPILAN JAM TV" (KAS & IMAM)
+                // 1. DATA TAMPILAN (KAS & IMAM)
                 const resT = await fetch(urlTampilan + '&cb=' + Date.now());
                 const rowsT = (await resT.text()).split(/\r?\n/);
                 if (rowsT.length > 1) {
-                    // Cari baris yang ada isinya (bukan judul)
                     const d = rowsT[1].split(/[,;]/); 
-                    document.getElementById('k-in').innerText = (d[1] || '0').replace(/"/g,'');
-                    document.getElementById('k-out').innerText = (d[2] || '0').replace(/"/g,'');
-                    document.getElementById('k-s').innerText = (d[3] || '0').replace(/"/g,'');
-                    document.getElementById('i-t').innerText = (d[4] || '-').replace(/"/g,'');
-                    document.getElementById('i-s').innerText = (d[5] || '-').replace(/"/g,'');
-                    document.getElementById('i-j').innerText = (d[6] || '-').replace(/"/g,'');
+                    // Sesuai screenshot: B=Masuk, C=Keluar, D=Saldo, E=Isya, F=Subuh, G=Jumat
+                    document.getElementById('k-in').innerText = clean(d[1]) || '0';
+                    document.getElementById('k-out').innerText = clean(d[2]) || '0';
+                    document.getElementById('k-s').innerText = clean(d[3]) || '0';
+                    document.getElementById('i-t').innerText = clean(d[4]) || '-';
+                    document.getElementById('i-s').innerText = clean(d[5]) || '-';
+                    document.getElementById('i-j').innerText = clean(d[6]) || '-';
                 }
 
-                // 2. AMBIL DATA DARI SHEET "JAM SHOLAT KHGT" (WAKTU SHOLAT)
+                // 2. DATA JADWAL
                 const resJ = await fetch(urlJadwal + '&cb=' + Date.now());
                 const rowsJ = (await resJ.text()).split(/\r?\n/);
                 
                 const hariIni = new Date();
-                const tglSaja = hariIni.getDate().toString(); // Angka "10"
-                const namaHari = hariIni.toLocaleDateString('id-ID', { weekday: 'long' }); // "Selasa"
+                const tglSaja = hariIni.getDate().toString().padStart(2, '0'); // "10"
+                const blnSaja = (hariIni.getMonth() + 1).toString().padStart(2, '0'); // "03"
+                const thnSaja = hariIni.getFullYear(); // "2026"
+                const cari = thnSaja + "-" + blnSaja + "-" + tglSaja; // "2026-03-10"
 
                 let ditemukan = false;
-                for (let i = 0; i < rowsJ.length; i++) {
-                    const rowText = rowsJ[i].toLowerCase();
-                    // JIKA baris mengandung kata "selasa" DAN angka "10"
-                    if (rowText.includes(tglSaja) && rowText.includes(namaHari.toLowerCase())) {
-                        const col = rowsJ[i].split(/[,;]/).map(c => c.replace(/"/g, '').trim());
-                        
-                        document.getElementById('tgl-h').innerText = col[1] || '--';
-                        document.getElementById('s-fajr').innerText = col[2] || '--:--';
-                        document.getElementById('s-sunr').innerText = col[3] || '--:--';
-                        document.getElementById('s-dhuhr').innerText = col[4] || '--:--';
-                        document.getElementById('s-asr').innerText = col[5] || '--:--';
-                        document.getElementById('s-magh').innerText = col[6] || '--:--';
-                        document.getElementById('s-isha').innerText = col[7] || '--:--';
-                        
+                for (let i = 1; i < rowsJ.length; i++) {
+                    const col = rowsJ[i].split(/[,;]/);
+                    if (clean(col[0]) === cari) {
+                        // Sesuai screenshot: B=Hijriah, C=Subuh, D=Terbit, E=Zuhur, F=Ashar, G=Maghrib, H=Isya
+                        document.getElementById('tgl-h').innerText = clean(col[1]);
+                        document.getElementById('s-fajr').innerText = clean(col[2]);
+                        document.getElementById('s-sunr').innerText = clean(col[3]);
+                        document.getElementById('s-dhuhr').innerText = clean(col[4]);
+                        document.getElementById('s-asr').innerText = clean(col[5]);
+                        document.getElementById('s-magh').innerText = clean(col[6]);
+                        document.getElementById('s-isha').innerText = clean(col[7]);
                         ditemukan = true;
-                        document.getElementById('debug').innerText = "Data Jadwal OK";
+                        document.getElementById('debug').innerText = "Update OK: " + cari;
                         break;
                     }
                 }
-                if(!ditemukan) document.getElementById('debug').innerText = "Jadwal tgl " + tglSaja + " tidak ketemu";
+                if(!ditemukan) document.getElementById('debug').innerText = "Tgl " + cari + " belum ada di sheet.";
 
-            } catch (e) { 
-                document.getElementById('debug').innerText = "Error: " + e.message;
-            }
+            } catch (e) { document.getElementById('debug').innerText = "Error: " + e.message; }
         }
 
-        function clock() {
+        function jam() {
             const n = new Date();
             document.getElementById('jam').innerText = n.toLocaleTimeString('id-ID');
             document.getElementById('tgl-m').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
         window.onload = () => {
-            updateData();
-            setInterval(clock, 1000);
-            setInterval(updateData, 300000); // Sinkron ulang tiap 5 menit
+            muatData();
+            setInterval(jam, 1000);
+            setInterval(muatData, 600000); 
         };
     </script>
 </body>
