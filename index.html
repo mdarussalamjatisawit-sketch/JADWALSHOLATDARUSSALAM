@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - Fix Column</title>
+    <title>TV Masjid Darussalam - Final</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         body {
@@ -18,23 +18,23 @@
         .card { background: rgba(0, 0, 0, 0.8); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
         .card-h { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.2rem; }
         .card-b { padding: 10px 15px; }
-        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1rem; }
+        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1.1rem; }
         .center { flex: 1.1; background: rgba(0, 0, 0, 0.4); border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
-        #jam { font-size: 7.5rem; font-weight: bold; line-height: 1; }
+        #jam { font-size: 8rem; font-weight: bold; line-height: 1; }
         #tgl-m { font-size: 1.6rem; color: #ffd700; }
         #tgl-h { font-size: 1.8rem; color: #00ff00; font-weight: bold; }
         .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 10px; }
         .box { background: rgba(0, 60, 0, 0.9); padding: 10px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 12px; }
         .box-n { font-size: 0.9rem; color: #ffd700; font-weight: bold; }
-        .box-t { font-size: 2.2rem; font-weight: bold; color: #fff; }
-        #debug { position: fixed; bottom: 2px; right: 5px; font-size: 9px; color: #555; }
+        .box-t { font-size: 2.5rem; font-weight: bold; color: #fff; }
+        #debug { position: fixed; bottom: 2px; right: 5px; font-size: 10px; color: #eee; background: rgba(0,0,0,0.5); padding: 2px 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Jadwal KHGT Muhammadiyah - Sleman</p>
+        <p>Jadwal KHGT Muhammadiyah - Sleman, Yogyakarta</p>
     </div>
 
     <div class="main">
@@ -72,60 +72,59 @@
         <div class="box"><div class="box-n">ISYA</div><div class="box-t" id="s-isha">--:--</div></div>
     </div>
 
-    <div id="debug">Status: Memulai sinkronisasi...</div>
+    <div id="debug">Menghubungkan...</div>
 
     <script>
-        const urlTampilan = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
-        const urlJadwal = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
+        const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
-        function clean(text) { return (text || "").replace(/"/g, '').trim(); }
+        function bersih(t) { return (t || "").replace(/"/g, '').trim(); }
 
         async function muatData() {
+            const st = document.getElementById('debug');
             try {
-                // 1. DATA TAMPILAN (KAS & IMAM)
-                const resT = await fetch(urlTampilan + '&cb=' + Date.now());
-                const rowsT = (await resT.text()).split(/\r?\n/);
-                if (rowsT.length > 1) {
-                    const d = rowsT[1].split(/[,;]/); 
-                    // Sesuai screenshot: B=Masuk, C=Keluar, D=Saldo, E=Isya, F=Subuh, G=Jumat
-                    document.getElementById('k-in').innerText = clean(d[1]) || '0';
-                    document.getElementById('k-out').innerText = clean(d[2]) || '0';
-                    document.getElementById('k-s').innerText = clean(d[3]) || '0';
-                    document.getElementById('i-t').innerText = clean(d[4]) || '-';
-                    document.getElementById('i-s').innerText = clean(d[5]) || '-';
-                    document.getElementById('i-j').innerText = clean(d[6]) || '-';
-                }
-
-                // 2. DATA JADWAL
-                const resJ = await fetch(urlJadwal + '&cb=' + Date.now());
-                const rowsJ = (await resJ.text()).split(/\r?\n/);
+                const res = await fetch(urlCSV + '&cache=' + Date.now());
+                const teks = await res.text();
+                const baris = teks.split(/\r?\n/);
                 
-                const hariIni = new Date();
-                const tglSaja = hariIni.getDate().toString().padStart(2, '0'); // "10"
-                const blnSaja = (hariIni.getMonth() + 1).toString().padStart(2, '0'); // "03"
-                const thnSaja = hariIni.getFullYear(); // "2026"
-                const cari = thnSaja + "-" + blnSaja + "-" + tglSaja; // "2026-03-10"
+                // Cari tanggal hari ini (angka saja, misal: "10")
+                const tglSkrg = new Date().getDate().toString();
 
-                let ditemukan = false;
-                for (let i = 1; i < rowsJ.length; i++) {
-                    const col = rowsJ[i].split(/[,;]/);
-                    if (clean(col[0]) === cari) {
-                        // Sesuai screenshot: B=Hijriah, C=Subuh, D=Terbit, E=Zuhur, F=Ashar, G=Maghrib, H=Isya
-                        document.getElementById('tgl-h').innerText = clean(col[1]);
-                        document.getElementById('s-fajr').innerText = clean(col[2]);
-                        document.getElementById('s-sunr').innerText = clean(col[3]);
-                        document.getElementById('s-dhuhr').innerText = clean(col[4]);
-                        document.getElementById('s-asr').innerText = clean(col[5]);
-                        document.getElementById('s-magh').innerText = clean(col[6]);
-                        document.getElementById('s-isha').innerText = clean(col[7]);
-                        ditemukan = true;
-                        document.getElementById('debug').innerText = "Update OK: " + cari;
+                let barisDitemukan = false;
+                for (let i = 1; i < baris.length; i++) {
+                    // Deteksi pemisah otomatis (koma atau titik koma)
+                    let col = baris[i].split(';');
+                    if (col.length < 5) col = baris[i].split(',');
+
+                    // Cari yang kolom A-nya mengandung angka tanggal hari ini
+                    if (col[0] && col[0].includes(tglSkrg)) {
+                        // JADWAL (Col B-H)
+                        document.getElementById('tgl-h').innerText = bersih(col[1]);
+                        document.getElementById('s-fajr').innerText = bersih(col[2]);
+                        document.getElementById('s-sunr').innerText = bersih(col[3]);
+                        document.getElementById('s-dhuhr').innerText = bersih(col[4]);
+                        document.getElementById('s-asr').innerText = bersih(col[5]);
+                        document.getElementById('s-magh').innerText = bersih(col[6]);
+                        document.getElementById('s-isha').innerText = bersih(col[7]);
+
+                        // KEUANGAN (Col J-L)
+                        document.getElementById('k-in').innerText = bersih(col[9]) || '0';
+                        document.getElementById('k-out').innerText = bersih(col[10]) || '0';
+                        document.getElementById('k-s').innerText = bersih(col[11]) || '0';
+
+                        // IMAM (Col M-O)
+                        document.getElementById('i-t').innerText = bersih(col[12]) || '-';
+                        document.getElementById('i-s').innerText = bersih(col[13]) || '-';
+                        document.getElementById('i-j').innerText = bersih(col[14]) || '-';
+
+                        barisDitemukan = true;
+                        st.innerText = "Data Terupdate: " + tglSkrg + " Maret";
                         break;
                     }
                 }
-                if(!ditemukan) document.getElementById('debug').innerText = "Tgl " + cari + " belum ada di sheet.";
-
-            } catch (e) { document.getElementById('debug').innerText = "Error: " + e.message; }
+                if(!barisDitemukan) st.innerText = "Tanggal " + tglSkrg + " tidak ada di sheet.";
+            } catch (e) {
+                st.innerText = "Gagal mengambil data.";
+            }
         }
 
         function jam() {
@@ -137,7 +136,7 @@
         window.onload = () => {
             muatData();
             setInterval(jam, 1000);
-            setInterval(muatData, 600000); 
+            setInterval(muatData, 300000); 
         };
     </script>
 </body>
