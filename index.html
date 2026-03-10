@@ -1,42 +1,142 @@
-<script>
-    async function muatData() {
-        try {
-            const res = await fetch(urlCSV + '&t=' + Date.now());
-            const text = await res.text();
-            
-            // Pecah berdasarkan baris, lalu pecah tiap baris berdasarkan koma
-            const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Masjid Darussalam - Final</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { 
+            background: #0a0a0a; color: white; padding: 20px; 
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+        
+        /* Bagian Atas */
+        .header { 
+            background: linear-gradient(to bottom, #004d00, #003300); 
+            border: 3px solid #ffd700; border-radius: 15px; 
+            text-align: center; padding: 15px; margin-bottom: 20px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .header h1 { color: #ffd700; font-size: 2.8rem; text-shadow: 2px 2px 4px #000; }
 
-            // KITA AMBIL DATA DARI DUA BARIS SEKALIGUS
-            // Baris [1] untuk Tanggal & Hijriah
-            // Baris [2] untuk Jam Sholat & Kas
-            
-            const b1 = rows[1]; // Baris data pertama
-            const b2 = rows[2]; // Baris data kedua (isinya jam sholat)
+        /* Area Tengah */
+        .main-content { display: flex; flex: 1; gap: 20px; }
+        
+        /* Panel Kiri */
+        .side-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: #111; border: 2px solid #2e7d32; border-radius: 15px; overflow: hidden; }
+        .card-h { background: #2e7d32; color: #ffd700; padding: 10px; font-weight: bold; text-align: center; font-size: 1.2rem; }
+        .card-b { padding: 15px; }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; font-size: 1.3rem; }
 
-            // MENYATUKAN DATA (Agar tidak lompat)
-            
-            // Tanggal Hijriah: Ambil "21 Ramadan" dari B1 + "1447 H" dari B2
-            document.getElementById('date-hijriah').innerText = b1[2] + " " + b2[0];
+        /* Panel Tengah (Jam) */
+        .clock-panel { 
+            flex: 1.5; background: rgba(255,255,255,0.03); 
+            border-radius: 30px; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; border: 1px solid #444;
+        }
+        #jam-digital { font-size: 8.5rem; font-weight: bold; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        #tgl-masehi { font-size: 1.8rem; color: #ffd700; margin-top: 10px; }
+        #tgl-hijriah { font-size: 2.2rem; color: #00ff00; font-weight: bold; }
 
-            // Jam Sholat (Semua ada di Baris 2)
-            document.getElementById('sh-subuh').innerText   = b2[1]; 
-            document.getElementById('sh-terbit').innerText  = b2[2];
-            document.getElementById('sh-zuhur').innerText   = b2[3];
-            document.getElementById('sh-ashar').innerText   = b2[4];
-            document.getElementById('sh-maghrib').innerText = b2[5];
-            document.getElementById('sh-isya').innerText    = b2[6];
+        /* Panel Bawah (Jadwal) */
+        .prayer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 20px; }
+        .p-box { background: #003300; border: 2px solid #ffd700; border-radius: 12px; padding: 15px 5px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .p-time { font-size: 2.8rem; font-weight: bold; }
+    </style>
+</head>
+<body>
 
-            // Keuangan (Ada di Baris 2, kolom agak jauh)
-            document.getElementById('kas-masuk').innerText  = b2[8] || "0";
-            document.getElementById('kas-keluar').innerText = b2[10] || "0";
-            document.getElementById('kas-saldo').innerText  = b2[12] || "0";
+    <div class="header">
+        <h1>MASJID DARUSSALAM</h1>
+        <p>Jadwal KHGT Muhammadiyah - Yogyakarta</p>
+    </div>
 
-            // Petugas
-            document.getElementById('imam-t').innerText = b2[13] || "-";
-            document.getElementById('imam-s').innerText = b2[14] || "-";
-            document.getElementById('imam-j').innerText = b2[15] || "-";
+    <div class="main-content">
+        <div class="side-panel">
+            <div class="card">
+                <div class="card-h">KEUANGAN MASJID</div>
+                <div class="card-b">
+                    <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
+                    <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-h">PETUGAS HARI INI</div>
+                <div class="card-b">
+                    <div class="row"><span>Tarawih</span><span id="im-t">-</span></div>
+                    <div class="row"><span>Subuh</span><span id="im-s">-</span></div>
+                    <div class="row"><span>Jum'at</span><span id="im-j">-</span></div>
+                </div>
+            </div>
+        </div>
 
-        } catch (err) { console.error("Data belum siap..."); }
-    }
-</script>
+        <div class="clock-panel">
+            <div id="jam-digital">00:00:00</div>
+            <div id="tgl-masehi">Memuat...</div>
+            <div id="tgl-hijriah">--</div>
+        </div>
+    </div>
+
+    <div class="prayer-grid">
+        <div class="p-box"><div class="p-name">SUBUH</div><div class="p-time" id="sh-subuh">--:--</div></div>
+        <div class="p-box"><div class="p-name">SYURUQ</div><div class="p-time" id="sh-terbit">--:--</div></div>
+        <div class="p-box"><div class="p-name">ZUHUR</div><div class="p-time" id="sh-zuhur">--:--</div></div>
+        <div class="p-box"><div class="p-name">ASHAR</div><div class="p-time" id="sh-ashar">--:--</div></div>
+        <div class="p-box"><div class="p-name">MAGHRIB</div><div class="p-time" id="sh-maghrib">--:--</div></div>
+        <div class="p-box"><div class="p-name">ISYA</div><div class="p-time" id="sh-isya">--:--</div></div>
+    </div>
+
+    <script>
+        const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
+
+        async function muatData() {
+            try {
+                const res = await fetch(urlCSV + '&t=' + Date.now());
+                const text = await res.text();
+                // Pecah data dengan koma, hilangkan kutipan
+                const rows = text.split(/\r?\n/).map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
+
+                // SOLUSI LOMPAT: Ambil Baris 1 & Baris 2
+                const b1 = rows[1]; 
+                const b2 = rows[2]; 
+
+                // 1. Tanggal Hijriah (Gabung B1 & B2)
+                document.getElementById('tgl-hijriah').innerText = b1[2] + " " + b2[0]; 
+
+                // 2. Jadwal Sholat (Dari Baris 2)
+                document.getElementById('sh-subuh').innerText   = b2[1];
+                document.getElementById('sh-terbit').innerText  = b2[2];
+                document.getElementById('sh-zuhur').innerText   = b2[3];
+                document.getElementById('sh-ashar').innerText   = b2[4];
+                document.getElementById('sh-maghrib').innerText = b2[5];
+                document.getElementById('sh-isya').innerText    = b2[6];
+
+                // 3. Keuangan (Dari Baris 2)
+                document.getElementById('kas-in').innerText    = b2[8] || "0";
+                document.getElementById('kas-out').innerText   = b2[10] || "0";
+                document.getElementById('kas-saldo').innerText = b2[12] || "0";
+
+                // 4. Petugas (Dari Baris 2)
+                document.getElementById('im-t').innerText = b2[13] || "-";
+                document.getElementById('im-s').innerText = b2[14] || "-";
+                document.getElementById('im-j').innerText = b2[15] || "-";
+
+            } catch (err) { console.log("Menunggu data..."); }
+        }
+
+        function jamAktif() {
+            const n = new Date();
+            document.getElementById('jam-digital').innerText = n.toLocaleTimeString('id-ID');
+            document.getElementById('tgl-masehi').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        setInterval(jamAktif, 1000);
+        setInterval(muatData, 60000); // Cek data tiap menit
+        window.onload = muatData;
+    </script>
+</body>
+</html>
