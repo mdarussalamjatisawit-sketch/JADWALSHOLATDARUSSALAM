@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Shalat KHGT - Masjid Darussalam</title>
+    <title>TV Masjid Darussalam - Dual Sheet</title>
     <style>
-        /* --- CSS TETAP RESPONSIVE (TV & HP) --- */
+        /* CSS Tetap Sama Seperti Sebelumnya (Responsive TV & HP) */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         body {
             min-height: 100vh; width: 100vw;
@@ -13,10 +13,7 @@
             background-size: cover; background-position: center; background-attachment: fixed;
             color: white; display: flex; flex-direction: column; padding: 10px; overflow-x: hidden;
         }
-        .header-center {
-            text-align: center; background: rgba(0, 80, 0, 0.8); 
-            padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #ffd700;
-        }
+        .header-center { text-align: center; background: rgba(0, 80, 0, 0.8); padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #ffd700; }
         .header-center h1 { font-size: 1.8rem; color: #ffd700; }
         .main-content { flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; }
         .sidebar-left { flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 12px; }
@@ -25,7 +22,6 @@
         .card-header { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; }
         .card-body { padding: 10px 15px; }
         .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; }
-        .row span:first-child { font-weight: bold; color: #ffd700; font-size: 0.9rem; }
         #jam { font-size: 7rem; font-weight: bold; line-height: 1; }
         #tanggal-masehi { font-size: 1.6rem; color: #ffd700; }
         #tanggal-hijriah { font-size: 1.6rem; color: #00ff00; }
@@ -58,7 +54,7 @@
 
     <div class="header-center">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Standar KHGT Muhammadiyah - Sleman, DIY</p>
+        <p>Sinkronisasi KHGT Muhammadiyah - Sleman</p>
     </div>
 
     <div class="main-content">
@@ -85,7 +81,7 @@
             <div id="jam">00:00:00</div>
             <div id="tanggal-masehi">--</div>
             <div id="tanggal-hijriah">--</div>
-            <p style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">Sumber: khgt.muhammadiyah.or.id</p>
+            <p style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">Update Otomatis Jam 01:00 WIB</p>
         </div>
     </div>
 
@@ -99,106 +95,123 @@
     </div>
 
     <div class="running-text">
-        <marquee>Sesuai Keputusan Musyawarah Nasional Tarjih ke-31, waktu Subuh ditambah 8 menit dari kriteria lama. Gunakan KHGT sebagai pemersatu umat.</marquee>
+        <marquee>Jadwal Sholat & Kalender Hijriah berdasarkan Kalender Hijriah Global Tunggal (KHGT) Muhammadiyah.</marquee>
     </div>
 
     <script>
         let jadwalGlobal = {};
         let isSpecialMode = false;
-        // Penyesuaian Tanggal Hijriah jika ada selisih dengan KHGT Muhammadiyah (default 0)
-        const ADJ_HIJRIAH = 0; 
 
-        async function getJadwalSholat() {
-            try {
-                // Method 11 adalah Majelis Tarjih Muhammadiyah
-                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=-7.8014&longitude=110.3060&method=11`);
-                const json = await res.json();
-                jadwalGlobal = json.data;
-                const t = jadwalGlobal.timings;
-                
-                document.getElementById('sh-Fajr').innerText = t.Fajr;
-                document.getElementById('sh-Dhuhr').innerText = t.Dhuhr;
-                document.getElementById('sh-Asr').innerText = t.Asr;
-                document.getElementById('sh-Maghrib').innerText = t.Maghrib;
-                document.getElementById('sh-Isha').innerText = t.Isha;
-                document.getElementById('sh-Sunrise').innerText = t.Sunrise;
-                
-                // Menampilkan Kalender Hijriah KHGT
-                const h = json.data.date.hijri;
-                let dayHijri = parseInt(h.day) + ADJ_HIJRIAH;
-                document.getElementById('tanggal-hijriah').innerText = `${dayHijri} ${h.month.en} ${h.year} H`;
-            } catch (e) { console.log("API Error"); }
-        }
+        // MASUKKAN 2 LINK CSV ANDA DI SINI
+        const urlSheetTampilan = 'LINK_CSV_SHEET_TAMPILAN_JAM_TV_ANDA';
+        const urlSheetJadwal = 'LINK_CSV_SHEET_JAM_SHOLAT_KHGT_ANDA';
 
-        async function updateDataSheets() {
+        // 1. Fungsi Mengambil Data Tampilan (Kas & Imam)
+        async function fetchTampilan() {
             try {
-                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
-                const res = await fetch(csvUrl + '&t=' + new Date().getTime());
+                const res = await fetch(urlSheetTampilan + '&t=' + new Date().getTime());
                 const text = await res.text();
                 const rows = text.split(/\r?\n/);
                 if (rows.length > 1) {
                     const data = rows[1].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    document.getElementById('kas-masuk').innerText = data[1] || '0';
-                    document.getElementById('kas-keluar').innerText = data[2] || '0';
-                    document.getElementById('kas-saldo').innerText = data[3] || '0';
+                    document.getElementById('kas-masuk').innerText = (data[1] || '0').replace(/"/g, '');
+                    document.getElementById('kas-keluar').innerText = (data[2] || '0').replace(/"/g, '');
+                    document.getElementById('kas-saldo').innerText = (data[3] || '0').replace(/"/g, '');
                     document.getElementById('imam-isya').innerText = (data[4] || '-').replace(/"/g, '');
                     document.getElementById('imam-subuh').innerText = (data[5] || '-').replace(/"/g, '');
                     document.getElementById('imam-jumat').innerText = (data[6] || '-').replace(/"/g, '');
                 }
-            } catch (e) { console.log("CSV Error"); }
+            } catch (e) { console.log("Gagal muat Sheet Tampilan"); }
+        }
+
+        // 2. Fungsi Mengambil Jadwal Sholat (Mencari baris berdasarkan tanggal hari ini)
+        async function fetchJadwal() {
+            try {
+                const res = await fetch(urlSheetJadwal + '&t=' + new Date().getTime());
+                const text = await res.text();
+                const rows = text.split(/\r?\n/);
+                
+                // Cari tanggal hari ini format DD/MM/YYYY atau sesuai format di Sheet Anda
+                const hariIni = new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'2-digit', year:'numeric'}).replace(/\//g, '/');
+                
+                let found = false;
+                for (let i = 1; i < rows.length; i++) {
+                    const col = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    // Asumsi: Kolom 0 adalah Tanggal Masehi (01/01/2025)
+                    if (col[0].replace(/"/g, '').trim() === hariIni) {
+                        document.getElementById('tanggal-hijriah').innerText = col[1].replace(/"/g, '');
+                        jadwalGlobal = {
+                            Fajr: col[2].trim(),
+                            Sunrise: col[3].trim(),
+                            Dhuhr: col[4].trim(),
+                            Asr: col[5].trim(),
+                            Maghrib: col[6].trim(),
+                            Isha: col[7].trim()
+                        };
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    document.getElementById('sh-Fajr').innerText = jadwalGlobal.Fajr;
+                    document.getElementById('sh-Sunrise').innerText = jadwalGlobal.Sunrise;
+                    document.getElementById('sh-Dhuhr').innerText = jadwalGlobal.Dhuhr;
+                    document.getElementById('sh-Asr').innerText = jadwalGlobal.Asr;
+                    document.getElementById('sh-Maghrib').innerText = jadwalGlobal.Maghrib;
+                    document.getElementById('sh-Isha').innerText = jadwalGlobal.Isha;
+                }
+            } catch (e) { console.log("Gagal muat Sheet Jadwal"); }
         }
 
         function updateClock() {
             const now = new Date();
-            const jamMenitSekarang = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
+            const jamMenit = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
             document.getElementById('jam').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('tanggal-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             
             if (isSpecialMode) return;
-            if (jadwalGlobal.timings) {
-                const daftarSholat = { "Fajr": "SUBUH", "Dhuhr": "DZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
-                for (let key in daftarSholat) {
-                    if (jamMenitSekarang === jadwalGlobal.timings[key].substring(0, 5) && now.getSeconds() < 2) {
-                        mulaiSiklusAdzanIqomah(daftarSholat[key]);
-                    }
+            
+            const daftar = { "Fajr": "SUBUH", "Dhuhr": "DZUHUR", "Asr": "ASHAR", "Maghrib": "MAGHRIB", "Isha": "ISYA" };
+            for (let key in daftar) {
+                if (jamMenit === jadwalGlobal[key] && now.getSeconds() < 2) {
+                    mulaiSiklusAdzanIqomah(daftar[key]);
                 }
             }
         }
 
-        function mulaiSiklusAdzanIqomah(namaSholat) {
+        function mulaiSiklusAdzanIqomah(nama) {
             isSpecialMode = true;
             const layar = document.getElementById('layar-khusus');
             layar.style.display = 'flex';
             document.getElementById('status-teks').innerText = "WAKTU ADZAN";
-            document.getElementById('nama-waktu-besar').innerText = namaSholat;
+            document.getElementById('nama-waktu-besar').innerText = nama;
             document.getElementById('timer-iqomah').style.display = 'none';
 
             setTimeout(() => {
                 document.getElementById('status-teks').innerText = "MENUJU IQOMAH";
                 document.getElementById('nama-waktu-besar').style.display = 'none';
                 document.getElementById('timer-iqomah').style.display = 'block';
-                
-                let sisaWaktu = 14 * 60;
-                const hitungMundur = setInterval(() => {
-                    let m = Math.floor(sisaWaktu / 60);
-                    let s = sisaWaktu % 60;
+                let sisa = 14 * 60;
+                const hitung = setInterval(() => {
+                    let m = Math.floor(sisa / 60), s = sisa % 60;
                     document.getElementById('timer-iqomah').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                    if (sisaWaktu <= 0) {
-                        clearInterval(hitungMundur);
+                    if (sisa <= 0) {
+                        clearInterval(hitung);
                         document.getElementById('timer-iqomah').innerText = "SHOLAT";
                         setTimeout(() => { layar.style.display = 'none'; isSpecialMode = false; }, 20000);
                     }
-                    sisaWaktu--;
+                    sisa--;
                 }, 1000);
-            }, 240000); 
+            }, 240000);
         }
 
         window.onload = () => {
-            getJadwalSholat(); 
-            updateDataSheets();
+            fetchTampilan();
+            fetchJadwal();
             setInterval(updateClock, 1000);
-            setInterval(updateDataSheets, 300000); 
-            setInterval(getJadwalSholat, 3600000); // Update jadwal tiap jam
+            setInterval(fetchTampilan, 300000); // Update kas tiap 5 menit
+            setInterval(fetchJadwal, 3600000);  // Update jadwal tiap jam
         };
     </script>
 </body>
