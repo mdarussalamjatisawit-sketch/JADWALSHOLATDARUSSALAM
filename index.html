@@ -3,61 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid Darussalam - KHGT Final</title>
+    <title>TV Masjid Darussalam - KHGT v3</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         body {
             min-height: 100vh; width: 100vw;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1590076215667-875d45308666?q=80&w=2000') no-repeat center center fixed;
-            background-size: cover; color: white; display: flex; flex-direction: column; padding: 15px; overflow: hidden;
+            background-size: cover; color: white; display: flex; flex-direction: column; padding: 10px; overflow: hidden;
         }
-        .header { text-align: center; background: rgba(0, 100, 0, 0.9); padding: 15px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 15px; }
-        .header h1 { font-size: 2.8rem; color: #ffd700; text-shadow: 2px 2px 5px #000; }
-        
-        .main { flex: 1; display: flex; gap: 20px; align-items: stretch; }
-        .side { flex: 0.7; display: flex; flex-direction: column; gap: 15px; }
-        .card { background: rgba(0, 0, 0, 0.75); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; flex: 1; }
-        .card-h { background: #2e7d32; padding: 10px; text-align: center; font-weight: bold; color: #ffd700; font-size: 1.4rem; }
-        .card-b { padding: 15px 25px; display: flex; flex-direction: column; justify-content: space-around; height: 80%; }
-        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1.3rem; }
-        
-        .center { flex: 1.3; background: rgba(0, 0, 0, 0.4); border-radius: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid rgba(255,255,255,0.1); }
-        #jam { font-size: 10rem; font-weight: bold; color: #fff; text-shadow: 5px 5px 15px #000; line-height: 1; }
-        #tgl-m { font-size: 2rem; color: #ffd700; margin-top: 10px; }
-        #tgl-h { font-size: 2.3rem; color: #00ff00; font-weight: bold; }
-
-        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
-        .box { background: rgba(0, 60, 0, 0.9); padding: 15px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .box-n { font-size: 1.2rem; color: #ffd700; font-weight: bold; margin-bottom: 5px; }
-        .box-t { font-size: 3.2rem; font-weight: bold; color: #fff; }
-
-        #adzan-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .header { text-align: center; background: rgba(0, 80, 0, 0.9); padding: 10px; border-radius: 15px; border: 3px solid #ffd700; margin-bottom: 10px; }
+        .header h1 { font-size: 2.2rem; color: #ffd700; }
+        .main { flex: 1; display: flex; gap: 15px; }
+        .side { flex: 0.8; display: flex; flex-direction: column; gap: 10px; }
+        .card { background: rgba(0, 0, 0, 0.7); border-radius: 15px; border: 2px solid #2e7d32; overflow: hidden; }
+        .card-h { background: #2e7d32; padding: 8px; text-align: center; font-weight: bold; color: #ffd700; }
+        .card-b { padding: 10px 20px; }
+        .row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 0; justify-content: space-between; font-size: 1.1rem; }
+        .center { flex: 1.2; background: rgba(0, 0, 0, 0.4); border-radius: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
+        #jam { font-size: 8rem; font-weight: bold; line-height: 1; }
+        #tgl-m { font-size: 1.8rem; color: #ffd700; }
+        #tgl-h { font-size: 2rem; color: #00ff00; font-weight: bold; }
+        .footer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 10px; }
+        .box { background: rgba(0, 50, 0, 0.9); padding: 10px 5px; text-align: center; border: 2px solid #ffd700; border-radius: 12px; }
+        .box-n { font-size: 1rem; color: #ffd700; font-weight: bold; }
+        .box-t { font-size: 2.8rem; font-weight: bold; color: #fff; }
+        #debug { position: fixed; bottom: 0; right: 0; font-size: 10px; color: gray; padding: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="adzan-layer">
-        <h1 style="font-size: 5rem; color: #ffd700;">WAKTU ADZAN</h1>
-        <div id="adzan-nama" style="font-size: 15vw; font-weight: bold;">-</div>
-    </div>
-
     <div class="header">
         <h1>MASJID DARUSSALAM</h1>
-        <p>Kalender Hijriah Global Tunggal (KHGT) Muhammadiyah</p>
+        <p>Jadwal KHGT Muhammadiyah</p>
     </div>
 
     <div class="main">
         <div class="side">
             <div class="card">
-                <div class="card-h">KAS MASJID</div>
+                <div class="card-h">KEUANGAN</div>
                 <div class="card-b">
-                    <div class="row"><span>Pemasukan</span><span id="k-in">0</span></div>
-                    <div class="row"><span>Pengeluaran</span><span id="k-out">0</span></div>
-                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">0</span></div>
+                    <div class="row"><span>Masuk</span><span id="k-in">...</span></div>
+                    <div class="row"><span>Keluar</span><span id="k-out">...</span></div>
+                    <div class="row" style="color:#ffd700; border:none; font-weight:bold;"><span>SALDO</span><span id="k-s">...</span></div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-h">PETUGAS HARI INI</div>
+                <div class="card-h">PETUGAS</div>
                 <div class="card-b">
                     <div class="row"><span>IMAM TARAWIH</span><span id="i-t">-</span></div>
                     <div class="row"><span>IMAM SUBUH</span><span id="i-s">-</span></div>
@@ -81,18 +72,28 @@
         <div class="box"><div class="box-n">ISYA</div><div class="box-t" id="s-isha">--:--</div></div>
     </div>
 
+    <div id="debug">Status: Memuat...</div>
+
     <script>
         let jadwal = {};
         const urlTampilan = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=73762516&single=true&output=csv';
         const urlJadwal = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
 
+        // Fungsi membelah baris CSV dengan koma atau titik koma
+        function splitCSV(row) {
+            if (row.includes(';')) return row.split(';');
+            return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+        }
+
         async function muatData() {
             try {
-                // Ambil Data Tampilan (Kas/Imam)
-                const resT = await fetch(urlTampilan + '&cache=' + Date.now());
+                document.getElementById('debug').innerText = "Status: Mencoba ambil data...";
+                
+                // 1. DATA TAMPILAN
+                const resT = await fetch(urlTampilan + '&t=' + Date.now());
                 const rowsT = (await resT.text()).split(/\r?\n/);
                 if (rowsT.length > 1) {
-                    const d = rowsT[1].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    const d = splitCSV(rowsT[1]);
                     document.getElementById('k-in').innerText = d[1]?.replace(/"/g,'') || '0';
                     document.getElementById('k-out').innerText = d[2]?.replace(/"/g,'') || '0';
                     document.getElementById('k-s').innerText = d[3]?.replace(/"/g,'') || '0';
@@ -101,18 +102,18 @@
                     document.getElementById('i-j').innerText = d[6]?.replace(/"/g,'') || '-';
                 }
 
-                // Ambil Jadwal Sholat
-                const resJ = await fetch(urlJadwal + '&cache=' + Date.now());
+                // 2. DATA JADWAL
+                const resJ = await fetch(urlJadwal + '&t=' + Date.now());
                 const rowsJ = (await resJ.text()).split(/\r?\n/);
                 
-                const hariIni = new Date();
-                const tglSaja = hariIni.getDate().toString(); // Angka "10"
+                const tglSaja = new Date().getDate().toString();
+                let ditemukan = false;
 
                 for (let i = 1; i < rowsJ.length; i++) {
-                    const col = rowsJ[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    const col = splitCSV(rowsJ[i]);
                     let teksTgl = col[0]?.replace(/"/g, '') || "";
                     
-                    // JIKA di kolom A ada angka tanggal hari ini (misal "10")
+                    // Cek jika kolom pertama mengandung angka tanggal hari ini
                     if (teksTgl.includes(tglSaja)) {
                         document.getElementById('tgl-h').innerText = col[1]?.replace(/"/g,'') || '--';
                         jadwal = {
@@ -126,35 +127,27 @@
                         document.getElementById('s-asr').innerText = jadwal.asr;
                         document.getElementById('s-magh').innerText = jadwal.magh;
                         document.getElementById('s-isha').innerText = jadwal.isha;
-                        console.log("Jadwal ditemukan untuk tanggal: " + tglSaja);
+                        ditemukan = true;
+                        document.getElementById('debug').innerText = "Status: Jadwal OK (Tgl " + tglSaja + ")";
                         break;
                     }
                 }
-            } catch (e) { console.error("Gagal muat data: ", e); }
+                if(!ditemukan) document.getElementById('debug').innerText = "Status: Tanggal " + tglSaja + " Tidak Ditemukan di Sheet";
+            } catch (e) { 
+                document.getElementById('debug').innerText = "Status: Gagal Load (" + e.message + ")";
+            }
         }
 
-        function updateJam() {
+        function jam() {
             const n = new Date();
             document.getElementById('jam').innerText = n.toLocaleTimeString('id-ID');
             document.getElementById('tgl-m').innerText = n.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            
-            const skrg = n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0');
-            const list = { "fajr":"SUBUH", "dhuhr":"ZUHUR", "asr":"ASHAR", "magh":"MAGHRIB", "isha":"ISYA" };
-            
-            for (let k in list) {
-                if (skrg === (jadwal[k] || "").substring(0,5) && n.getSeconds() < 2) {
-                    const l = document.getElementById('adzan-layer');
-                    l.style.display = 'flex';
-                    document.getElementById('adzan-nama').innerText = list[k];
-                    setTimeout(() => { l.style.display = 'none'; }, 300000); // 5 menit
-                }
-            }
         }
 
         window.onload = () => {
             muatData();
-            setInterval(updateJam, 1000);
-            setInterval(muatData, 300000); // Refresh data tiap 5 menit
+            setInterval(jam, 1000);
+            setInterval(muatData, 300000);
         };
     </script>
 </body>
