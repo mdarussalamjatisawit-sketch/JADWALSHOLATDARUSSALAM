@@ -187,47 +187,67 @@
         }
 
         function mulaiModeSholat(tipe, nama, detik) {
-            modeAktif = true;
-            const ui = document.getElementById('mode-sholat');
-            ui.style.display = 'flex';
-            let sisa = detik;
-            clearInterval(timer);
+    modeAktif = true;
+    const ui = document.getElementById('mode-sholat');
+    ui.style.display = 'flex';
+    let sisa = detik;
+    clearInterval(timer);
+    
+    timer = setInterval(() => {
+        const m_atas = document.getElementById('msg-atas');
+        const m_utama = document.getElementById('msg-utama');
+        const m_bawah = document.getElementById('msg-bawah');
+
+        m_atas.classList.remove('blink-custom');
+        m_utama.classList.remove('blink-custom');
+
+        if (tipe === "ADZAN") {
+            // --- UBAH WARNA SAAT ADZAN ---
+            m_atas.innerText = "SAAT ADZAN";
+            m_atas.style.color = "ff0084"; // hijau stabilo
             
-            timer = setInterval(() => {
-                const m_atas = document.getElementById('msg-atas');
-                const m_utama = document.getElementById('msg-utama');
-                const m_bawah = document.getElementById('msg-bawah');
-
-                m_atas.classList.remove('blink-custom');
-                m_utama.classList.remove('blink-custom');
-
-                if (tipe === "ADZAN") {
-                    m_atas.innerText = "SAAT ADZAN";
-                    m_utama.innerText = nama;
-                    m_utama.classList.add('blink-custom');
-                    m_bawah.innerText = "harap Tenang & Mendengarkan";
-                } else if (tipe === "IQOMAH") {
-                    m_atas.innerText = "MENUJU IQOMAH";
-                    m_atas.classList.add('blink-custom'); 
-                    let min = Math.floor(sisa / 60); let sec = sisa % 60;
-                    m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
-                    m_bawah.innerText = "MATIKAN HP & DRIKAN SHOLAT SUNAH";
-                } else if (tipe === "SHOLAT") {
-                    m_atas.innerText = "DIRIKAN";
-                    m_utama.innerText = "SHOLAT";
-                    m_utama.classList.add('blink-custom');
-                    m_bawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU'";
-                }
-
-                sisa--;
-                if (sisa < 0) {
-                    clearInterval(timer);
-                    if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
-                    else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
-                    else { ui.style.display = 'none'; modeAktif = false; }
-                }
-            }, 1000);
+            m_utama.innerText = nama;
+            m_utama.style.color = "#B1FB17"; // hijau stabilo (Nama Sholat)
+            m_utama.classList.add('blink-custom');
+            
+            m_bawah.innerText = "harap Tenang & Mendengarkan";
+            m_bawah.style.color = "ff0084"; // Kuning Emas
+            
+        } else if (tipe === "IQOMAH") {
+            // --- UBAH WARNA SAAT IQOMAH ---
+            m_atas.innerText = "MENUJU IQOMAH";
+            m_atas.style.color = "ff0084"; // pink
+            m_atas.classList.add('blink-custom'); 
+            
+            let min = Math.floor(sisa / 60); let sec = sisa % 60;
+            m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
+            m_utama.style.color = "#B1FB17"; // Angka timer Putih
+            
+            m_bawah.innerText = "MATIKAN HP & DRIKAN SHOLAT SUNAH";
+            m_bawah.style.color = "ff0084";
+            
+        } else if (tipe === "SHOLAT") {
+            // --- UBAH WARNA SAAT SHOLAT ---
+            m_atas.innerText = "DIRIKAN";
+            m_atas.style.color = "ff0084";
+            
+            m_utama.innerText = "SHOLAT";
+            m_utama.style.color = "#B1FB17";
+            m_utama.classList.add('blink-custom');
+            
+            m_bawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU'";
+            m_bawah.style.color = "ff0084";
         }
+
+        sisa--;
+        if (sisa < 0) {
+            clearInterval(timer);
+            if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
+            else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
+            else { ui.style.display = 'none'; modeAktif = false; }
+        }
+    }, 1000);
+    }
 
         setInterval(sistemWaktu, 1000);
         muatData(); setInterval(muatData, 600000);
