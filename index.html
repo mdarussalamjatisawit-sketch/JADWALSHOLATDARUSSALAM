@@ -74,14 +74,18 @@
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; font-size: 1.1rem; padding: 5px 0; }
 
         /* --- JADWAL SHOLAT (BAGIAN BAWAH) --- */
-        .prayer-section {
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 10px;
-            padding: 10px 20px 25px 20px; /* Padding bawah 25px agar tidak mepet mentok layar */
-            background: rgba(0, 40, 0, 0.95);
-            border-top: 4px solid #ffd700;
-        }
+     .prayer-section {
+    display: grid; 
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px;
+    /* Ubah angka 25px (angka terakhir) menjadi lebih kecil, misal 5px atau 0 */
+    padding: 10px 20px 5px 20px; 
+    background: rgba(0, 40, 0, 0.95);
+    border-top: 4px solid #ffd700;
+    
+    /* Tambahkan baris ini jika ingin memaksa menempel ke bawah */
+    margin-top: auto; 
+}
         .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 10px 5px; text-align: center; }
         .p-name { color: #ffd700; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
         .p-time { font-size: 2.4rem; font-weight: 900; }
