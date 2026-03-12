@@ -40,7 +40,7 @@
 
         #jam-digital {
             font-weight: 900;
-            font-size: clamp(4rem, 15vw, 9rem); /* Otomatis mengecil di HP, membesar di TV */
+            font-size: clamp(4rem, 15vw, 9rem); 
             line-height: 1;
             background: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
             -webkit-background-clip: text;
@@ -59,30 +59,56 @@
         .card-b { padding: 10px 15px; }
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #444; padding: 3px 0; font-size: 1rem; }
 
-        /* JADWAL SHOLAT - MEPET BAWAH */
+        /* --- JADWAL SHOLAT - PENYESUAIAN MEPET BAWAH --- */
         .prayer-section {
             display: grid; 
             grid-template-columns: repeat(6, 1fr); 
-            gap: 5px;
-            padding: 10px 10px 0px 10px; /* Bawah 0px agar mepet */
+            gap: 10px;
+            /* Padding bawah 0px agar blok hijau menempel ke dasar */
+            padding: 10px 10px 0px 10px; 
             background: rgba(0, 40, 0, 0.95);
             border-top: 4px solid #ffd700;
             margin-top: auto; 
+            margin-bottom: 0px;
+            height: auto;
         }
 
         .p-box { 
             background: rgba(0,0,0,0.8); 
             border: 2px solid #ffd700; 
-            border-radius: 8px 8px 0 0; /* Bawah kotak dibuat siku agar mepet bingkai */
-            padding: 10px 2px 5px 2px; 
-            text-align: center; 
+            /* Bawah kotak dibuat siku agar mepet bingkai TV */
+            border-radius: 10px 10px 0 0; 
+            /* Padding bawah 0px supaya angka jam bisa turun maksimal */
+            padding: 8px 5px 0px 5px; 
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .p-name { color: #ffd700; font-size: clamp(0.7rem, 2vw, 1rem); font-weight: bold; }
-        .p-time { font-size: clamp(1.2rem, 5vw, 2.5rem); font-weight: 900; line-height: 1; }
+        .p-name { 
+            color: #ffd700; 
+            font-size: clamp(0.7rem, 2vw, 1rem); 
+            font-weight: bold; 
+            margin-bottom: 2px;
+        }
 
-        .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; color: #000 !important; }
-        .next-sholat .p-name { color: #000 !important; }
+        .p-time { 
+            font-size: clamp(1.2rem, 5vw, 2.5rem); 
+            font-weight: 900; 
+            /* Menghilangkan jarak hampa di bawah angka agar tidak terpotong saat mepet */
+            line-height: 0.9; 
+            margin-bottom: 0px;
+            padding-bottom: 2px; /* Jarak sangat tipis agar angka tidak hilang tertutup casing TV */
+        }
+
+        .next-sholat { 
+            background: linear-gradient(145deg, #ffd700, #b8860b) !important; 
+            transform: scale(1.03);
+            box-shadow: 0 0 20px #ffd700;
+            z-index: 5;
+        }
+        .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
         /* MODAL SHOLAT */
         #mode-sholat {
