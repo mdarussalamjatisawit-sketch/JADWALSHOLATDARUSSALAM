@@ -220,30 +220,55 @@
     66.7%, 100% { opacity: 0; } /* Mati 1 detik */
         }
         /* MODE ADZAN & IQOMAH */
-        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; text-align: center; justify-content: center; align-items: center; flex-direction: column; }
+        /* --- MODAL ADZAN & IQOMAH (GANTI SEMUA BAGIAN INI) --- */
+        #mode-sholat { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); 
+            z-index: 9999; 
+            text-align: center; 
+            display: flex; /* Paksa ke tengah */
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column; 
+        }
         
-        /* Teks Utama (Nama Sholat / Angka Iqomah) */
-        .big-text { 
+        /* Tulisan Nama Sholat / Angka Iqomah (RAKSASA & EMAS) */
         .big-text { 
             font-family: 'Arial Black', sans-serif;
             font-weight: 900;
+            /* Efek Emas Gradasi */
             background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 18vw; 
+            /* Ukuran Raksasa */
+            font-size: 15rem; 
+            line-height: 1;
             margin: 0;
-            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8)) drop-shadow(5px 5px 5px #000);
-            animation: kedip-jeda 3s infinite; /* Panggil animasi kedip 2:1 */
+            /* Efek Glow */
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8)) drop-shadow(5px 5px 5px #000);
+            /* Animasi Kedip Jeda */
+            animation: kedip-jeda 3s infinite;
         }
 
+        /* Tulisan Kecil di Bawahnya (Menuju Iqomah / Harap Tenang) */
         .sub-text { 
             font-weight: bold;
             color: #D4AF37; 
-            font-size: 4vw; 
-            margin-top: -20px;
+            font-size: 3rem; 
+            margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 5px;
-            filter: drop-shadow(2px 2px 2px #000);
+            filter: drop-shadow(2px 2px 5px #000);
+            animation: kedip-jeda 3s infinite;
+        }
+
+        /* ANIMASI KEDIP JEDA (Nyala 2s, Mati 1s) */
+        @keyframes kedip-jeda {
+            0%, 66.6% { opacity: 1; } /* Nyala */
+            66.7%, 100% { opacity: 0; } /* Jeda Mati */
         }
     </style>
 </head>
