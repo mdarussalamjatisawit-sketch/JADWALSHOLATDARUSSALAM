@@ -8,17 +8,23 @@
         /* CSS DASAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
-        body { 
+             body { 
+            /* Menggunakan nama file yang sesuai */
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
+            
+            /* KUNCI: Ubah dari cover menjadi 100% 100% agar gambar dipaksa full */
             background-size: 100% 100%; 
+            
             color: white; 
-            min-height: 100vh; 
+            height: 100vh; 
             width: 100vw; 
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
             margin: 0;
-        }
+       }
+
+
 
         /* HEADER KAPSUL */
         .header-section { text-align: center; padding: 10px 0; }
@@ -47,18 +53,28 @@
         }
 
         /* RUNNING TEXT */
-        .marquee-container { 
-            margin: 10px auto; 
-            width: 90%; 
-            background: rgba(0, 0, 0, 0.7); 
-            overflow: hidden; 
-            white-space: nowrap; 
-            padding: 8px 0; 
-            border-radius: 50px; 
-            border: 2px solid #ff00ff; 
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); 
-        }
-
+        /* --- EDIT RUNNING TEXT DI SINI --- */
+.marquee-container { 
+    margin: 10px auto; 
+    
+    /* 1. MERUBAH LEBAR BOX */
+    /* Ubah persentasenya: 100% (full layar), 80% (lebih pendek) */
+    width: 50%; 
+    
+    background: rgba(0, 0, 0, 0.7); 
+    overflow: hidden; 
+    white-space: nowrap; 
+    padding: 8px 0; 
+    border-radius: 50px; 
+    
+    /* 2. MERUBAH WARNA OUTLINE */
+    /* Ganti #D4AF37 dengan warna pilihan (sekarang saya set EMAS) */
+    border: 3px solid #D4AF37; 
+    
+    /* 3. MERUBAH WARNA PIJAR (GLOW) */
+    /* Sesuaikan warnanya agar senada dengan outline */
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
+}
         .marquee-text { 
             display: inline-block; 
             font-size: 1.2rem; 
@@ -90,9 +106,38 @@
             flex-shrink: 0;
         }
 
-        .dates { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; font-size: 1.5rem; font-weight: 800; }
-        #tgl-masehi, #tgl-hijriah { background: rgba(0, 0, 0, 0.7); padding: 5px 20px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.3); }
-        #tgl-hijriah { color: #B1FB17 !important; }
+       /* 1. Atur container utamanya dulu */
+        .dates { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 15px; 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+        }
+
+        /* 2. Atur Tanggal Masehi dan geser ke KIRI */
+        #tgl-masehi { 
+            background: rgba(0, 0, 0, 0.7); 
+            padding: 5px 20px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            
+           /* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
+            transform: translateX(-250px)translateY(15px);
+        }
+
+        /* 3. Atur Tanggal Hijriah dan geser ke KANAN */
+        #tgl-hijriah { 
+            background: rgba(0, 0, 0, 0.7); 
+            padding: 5px 20px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            color: #B1FB17 !important; 
+            
+            /* translateX(300px) untuk menggeser ke kiri dan kanan translateY(15px) untuk menggeser kotak ke atas dan bawah*/
+            transform: translateX(300px)translateY(15px);
+        }
 
         .info-container { display: flex; flex-wrap: wrap; gap: 15px; width: 95%; justify-content: center; }
         .card { background: rgba(0, 0, 0, 0.85); border: 2px solid #2e7d32; border-radius: 12px; flex: 1; min-width: 280px; max-width: 450px; }
