@@ -76,11 +76,15 @@
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
 }
         .marquee-text { 
-            display: inline-block; 
-            font-size: 1.2rem; 
+            display: block; 
+            width: 100%;
+            text-align: center; /* Supaya teks di tengah kotak */
+            font-size: 1.3rem; 
             color: #fff; 
-            animation: jalan-mulus 25s linear infinite;
-            will-change: transform;
+            font-weight: bold;
+            /* Efek Muncul Halus */
+            transition: opacity 1s ease-in-out; 
+            opacity: 1;
         }
 
         /* AREA TENGAH */
@@ -258,7 +262,7 @@
             <div class="header-text">MASJID DARUSSALAM</div>
         </div>
         <div class="marquee-container">
-           <div class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tanggal & jadwal SHOLAT Mengacu KHGT Muhammadiyah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div id="text-berita" class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman</div>
         </div>
     </div>
 
@@ -403,7 +407,24 @@
             }
         }, 1000);
     }
+const daftarTeks = [
+        "Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman",
+        "Tanggal & Jadwal SHOLAT Mengacu KHGT Muhammadiyah"
+    ];
+    let indeksTeks = 0;
 
+    function gantiTeksBerita() {
+        const elemenTeks = document.getElementById('text-berita');
+        if (elemenTeks) {
+            elemenTeks.style.opacity = 0; // Memudar hilang
+            setTimeout(() => {
+                indeksTeks = (indeksTeks + 1) % daftarTeks.length;
+                elemenTeks.innerText = daftarTeks[indeksTeks];
+                elemenTeks.style.opacity = 1; // Memudar muncul
+            }, 1000); 
+        }
+    }
+    setInterval(gantiTeksBerita, 7000); // Ganti setiap 7 detik
     setInterval(sistemWaktu, 1000);
     muatData(); setInterval(muatData, 600000);
 </script>
