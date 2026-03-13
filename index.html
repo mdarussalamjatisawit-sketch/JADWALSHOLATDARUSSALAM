@@ -215,44 +215,19 @@
             .main-display { justify-content: center; }
         }
 
-        @keyframes kedip-jeda {
-    0%, 66.6% { opacity: 1; } /* Nyala 2 detik */
-    66.7%, 100% { opacity: 0; } /* Mati 1 detik */
+        @keyframes animasi-pijar-gold {
+            0%, 100% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
+            50% { filter: drop-shadow(3px 3px 2px #000) brightness(1.2) drop-shadow(0 0 10px #ffd700); }
         }
-        /* 222: MODE ADZAN & IQOMAH */
-        #mode-sholat { 
-            display: none; position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.8); 
-            z-index: 9999; text-align: center; 
-            display: flex; justify-content: center; align-items: center; flex-direction: column; 
-        }
-        
-        .big-text { 
-            font-family: 'Arial Black', sans-serif;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 18rem; line-height: 1; margin: 0;
-            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8)) drop-shadow(5px 5px 5px #000);
-        }
+        @keyframes jalan-mulus { from { transform: translate3d(100%, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
+        @keyframes muncul-halus { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CLASS KHUSUS UNTUK KEDIP (Akan dipanggil lewat script) */
-        .efek-kedip {
-            animation: kedip-jeda 3s infinite;
-        }
-
-        .sub-text { 
-            font-weight: bold; color: #D4AF37; font-size: 3.5rem; 
-            margin-top: 10px; text-transform: uppercase; letter-spacing: 5px;
-            filter: drop-shadow(2px 2px 5px #000);
-        }
-
-        @keyframes kedip-jeda {
-            0%, 66.6% { opacity: 1; }
-            66.7%, 100% { opacity: 0; }
-        }
+        /* MODAL ADZAN */
+        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000 !important; z-index: 999999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .big-text { color: #ffd700; font-size: 20vw; font-weight: 900; text-transform: uppercase; line-height: 0.8; }
+        .sub-text { color: #fff; font-size: 4vw; margin: 20px 0; font-weight: bold; }
+        .blink-custom { animation: blink-logic 2s linear infinite; }
+        @keyframes blink-logic { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -374,25 +349,25 @@
         timer = setInterval(() => {
             const m_atas = document.getElementById('msg-atas');
             const m_utama = document.getElementById('msg-utama');
-            
-            // Hapus dulu efek kedipnya setiap detik supaya tidak double
-            m_utama.classList.remove('efek-kedip');
+            const m_bawah = document.getElementById('msg-bawah');
+            m_atas.classList.remove('blink-custom');
+            m_utama.classList.remove('blink-custom');
 
             if (tipe === "ADZAN") {
                 m_atas.innerText = "SAAT ADZAN";
                 m_utama.innerText = nama;
-                m_utama.classList.add('efek-kedip'); // NAMA SHOLAT BERKEDIP
+                m_utama.classList.add('blink-custom');
                 m_bawah.innerText = "Harap Tenang & Mendengarkan";
             } else if (tipe === "IQOMAH") {
                 m_atas.innerText = "MENUJU IQOMAH";
+                m_atas.classList.add('blink-custom');
                 let min = Math.floor(sisa / 60); let sec = sisa % 60;
                 m_utama.innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
-                m_utama.classList.add('efek-kedip'); // TIMER BERKEDIP
                 m_bawah.innerText = "MATIKAN HP & DIRIKAN SHOLAT SUNNAH";
             } else if (tipe === "SHOLAT") {
                 m_atas.innerText = "DIRIKAN";
-                m_utama.innerText = "SHOLAT"; 
-                // TIDAK PAKAI efek-kedip (DIAM)
+                m_utama.innerText = "SHOLAT";
+                m_utama.classList.add('blink-custom');
                 m_bawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU'";
             }
 
@@ -414,3 +389,6 @@
 </script>
 </body>
 </html>
+
+
+
