@@ -103,12 +103,8 @@
             background: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(5px 5px 5px rgba(0,0,0,1));
-            text-shadow: 
-                2px 2px 0px #CCFF00, /*outline angka jam*/
-               -2px -2px 0px #CCFF00, 
-                2px -2px 0px #CCFF00, 
-               -2px 2px 0px #CCFF00;
+            -webkit-text-stroke: 3px #CCFF00; /* 3px adalah tebal garisnya GARIS TEPI (OUTLINE) HIJAU STABILO */
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,1)) drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); /* EFEK GLOW EMAS (Agar tetap mewah) */
             flex-shrink: 0;
         }
 
