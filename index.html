@@ -96,30 +96,32 @@
         }
 
         #jam-digital {
-            font-family: 'DigitaltS', Gadget, sans-serif;
+            font-family: 'Arial Black', Gadget, sans-serif;
             font-size: 13rem; 
             font-weight: 900;
             line-height: 0.8;
             
-            /* WARNA EMAS 3D (Lebih Solid & Mengkilap) */
-            background: linear-gradient(to bottom, 
-                #f7e695 0%, 
-                #d4af37 40%, 
-                #b8860b 50%, 
-                #8a6d3b 100%);
+            /* WARNA EMAS (Isi Angka) */
+            background: linear-gradient(to bottom, #f7e695 0%, #d4af37 40%, #b8860b 50%, #8a6d3b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
 
-            /* OUTLINE HIJAU STABILO */
-            -webkit-text-stroke: 3px #CCFF00;
+            /* TEKNIK GARIS TEPI LUAR (OUTLINE) HIJAU STABILO */
+            /* Kita buat bayangan ke 8 arah supaya membentuk garis luar yang rapi */
+            text-shadow: 
+                2px 2px 0px #CCFF00, 
+               -2px -2px 0px #CCFF00, 
+                2px -2px 0px #CCFF00, 
+               -2px 2px 0px #CCFF00,
+                3px 0px 0px #CCFF00,
+               -3px 0px 0px #CCFF00,
+                0px 3px 0px #CCFF00,
+                0px -3px 0px #CCFF00;
 
-            /* EFEK TIMBUL 3D & GLOW */
-            filter: 
-                drop-shadow(4px 4px 0px rgba(0,0,0,0.8)) /* Bayangan sisi agar 3D */
-                drop-shadow(0 0 10px rgba(204, 255, 0, 0.5)); /* Pijar Hijau halus */
+            /* EFEK TIMBUL 3D & GLOW HALUS */
+            filter: drop-shadow(5px 5px 3px rgba(0,0,0,0.8));
             
             flex-shrink: 0;
-            display: inline-block;
         }
         
 
