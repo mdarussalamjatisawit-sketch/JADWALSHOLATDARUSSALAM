@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Masjid DarUSSALAM - Full Screen Adzan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TV Masjid DarUSSALAM - Responsif</title>
     <style>
-        /* CSS DASAR - Reset agar tidak ada scroll */
+        /* CSS DASAR - ANTI SCROLL */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
         body { 
@@ -19,118 +19,92 @@
             overflow: hidden; 
         }
 
-        /* HEADER KAPSUL */
+        /* HEADER & MARQUEE - DIPERKETAT */
         .header-section { text-align: center; padding: 5px 0; flex-shrink: 0; }
-        
         .header-wrapper {
             display: inline-block;
-            background: #000000;
-            padding: 5px 30px;
+            background: #000;
+            padding: 2px 25px;
             border-radius: 50px;
             border: 2px solid #D4AF37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
-
-        .header-text { 
-            font-family: 'Arial Black', sans-serif; 
-            font-size: clamp(1.2rem, 4vw, 3rem); 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            display: inline-flex; 
-            overflow: hidden;
-        }
-
+        .header-text { font-family: 'Arial Black', sans-serif; font-size: clamp(1rem, 4vw, 2.5rem); font-weight: 900; text-transform: uppercase; display: inline-flex; }
         .header-text span {
-            display: inline-block;
-            background: #fff;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 0 0 #070707) drop-shadow(-2px 0 0 #070707) drop-shadow(0 2px 0 #070707) drop-shadow(0 -2px 0 #070707) drop-shadow(0 0 4px #ffd700);
-            opacity: 0;
-            transform: scale(0); 
-            animation: masuk-zoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            display: inline-block; background: #fff; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px #ffd700); opacity: 0; transform: scale(0); animation: masuk-zoom 0.8s forwards;
         }
+        @keyframes masuk-zoom { to { opacity: 1; transform: scale(1); } }
+        .hilang { animation: keluar-halus 0.5s forwards !important; }
+        @keyframes keluar-halus { to { opacity: 0; transform: translateY(5px); } }
 
-        @keyframes masuk-zoom { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
-        .hilang { animation: keluar-halus 1s ease-in forwards !important; }
-        @keyframes keluar-halus { to { opacity: 0; transform: translateY(10px); } }
+        .marquee-container { margin: 3px auto; width: 95%; background: rgba(0,0,0,0.7); padding: 3px; border-radius: 50px; border: 1.5px solid #D4AF37; text-align: center; }
+        .marquee-text { font-size: clamp(0.7rem, 2vw, 1rem); font-weight: bold; transition: opacity 1s; }
 
-        /* RUNNING TEXT */
-        .marquee-container { 
-            margin: 5px auto; 
-            width: 90%; 
-            background: rgba(0, 0, 0, 0.7); 
-            padding: 5px 15px; 
-            border-radius: 50px; 
-            border: 2px solid #D4AF37; 
-            text-align: center;
-        }
-        .marquee-text { font-size: clamp(0.8rem, 2vw, 1.1rem); font-weight: bold; transition: opacity 1s; opacity: 1; }
-
-        /* AREA TENGAH - Dibuat fleksibel agar tidak mendorong bawah */
+        /* AREA TENGAH - PENGHEMAT RUANG UTAMA */
         .main-display { 
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            justify-content: space-evenly; 
+            justify-content: center; 
             align-items: center; 
-            padding: 5px;
-            min-height: 0; /* Penting agar flexbox tidak overflow */
+            padding: 2px;
+            min-height: 0; 
         }
 
         #jam-digital {
             font-family: 'Arial Black', sans-serif;
-            font-size: clamp(3.5rem, 16vw, 11rem); 
+            font-size: clamp(3rem, 22vw, 10rem); /* Ukuran jam lebih fleksibel */
             font-weight: 900;
-            line-height: 1;
-            background: #fff;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 0 0 #070707) drop-shadow(-2px 0 0 #070707) drop-shadow(0 2px 0 #070707) drop-shadow(0 -2px 0 #070707) drop-shadow(0 0 10px #ffd700);
+            line-height: 0.9;
+            background: #fff; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px #ffd700);
+            margin: 5px 0;
         }
 
-        .dates { display: flex; gap: 8px; justify-content: center; width: 100%; }
+        .dates { display: flex; gap: 5px; justify-content: center; margin-bottom: 5px; }
         #tgl-masehi, #tgl-hijriah { 
-            background: rgba(0,0,0,0.7); padding: 5px 15px; border-radius: 50px; border: 2px solid #D4AF37;
-            font-size: clamp(0.7rem, 2.2vw, 1.2rem); font-weight: 800;
+            background: rgba(0,0,0,0.8); padding: 3px 12px; border-radius: 50px; border: 1.5px solid #D4AF37;
+            font-size: clamp(0.65rem, 2.5vw, 1.1rem); font-weight: 800;
         }
         #tgl-hijriah { color: #CCFF00; }
 
-        /* INFO BOX */
-        .info-container { display: flex; gap: 10px; width: 95%; max-width: 900px; }
-        .card { background: rgba(0,0,0,0.85); border: 1.5px solid #D4AF37; border-radius: 10px; flex: 1; overflow: hidden; }
-        .card-h { background: #000; color: #D4AF37; padding: 4px; font-weight: bold; text-align: center; font-size: clamp(0.6rem, 1.6vw, 0.9rem); border-bottom: 1.5px solid #D4AF37; }
-        .card-b { padding: 5px 10px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: clamp(0.6rem, 1.6vw, 0.9rem); padding: 3px 0; }
+        /* TABEL INFO - LEBIH PADAT */
+        .info-container { display: flex; gap: 8px; width: 98%; max-width: 900px; }
+        .card { background: rgba(0,0,0,0.85); border: 1.5px solid #D4AF37; border-radius: 8px; flex: 1; overflow: hidden; }
+        .card-h { background: #000; color: #D4AF37; padding: 3px; font-weight: bold; text-align: center; font-size: 0.75rem; border-bottom: 1.5px solid #D4AF37; }
+        .card-b { padding: 4px 8px; }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.7rem; padding: 2px 0; }
 
-        /* JADWAL SHOLAT - Bagian Bawah */
+        /* JADWAL SHOLAT - TERKUNCI DI BAWAH */
         .prayer-section {
             display: grid; 
             grid-template-columns: repeat(6, 1fr); 
-            gap: 5px;
-            padding: 10px; 
-            background: rgba(0,0,0,0.8);
+            gap: 4px;
+            padding: 8px; 
+            background: rgba(0,0,0,0.9);
             border-top: 3px solid #ffd700;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Tidak boleh mengecil */
         }
-        .p-box { background: rgba(0,0,0,0.5); border: 1.5px solid #ffd700; border-radius: 8px; padding: 5px 2px; text-align: center; }
-        .p-name { color: #ffd700; font-size: clamp(0.55rem, 1.3vw, 0.8rem); font-weight: bold; }
-        .p-time { font-size: clamp(0.9rem, 3.2vw, 2rem); font-weight: 900; color: white; }
+        .p-box { background: rgba(40,40,40,0.5); border: 1px solid #ffd700; border-radius: 6px; padding: 4px 2px; text-align: center; }
+        .p-name { color: #ffd700; font-size: 0.6rem; font-weight: bold; }
+        .p-time { font-size: clamp(0.9rem, 4vw, 1.8rem); font-weight: 900; color: white; line-height: 1; }
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* PERBAIKAN KHUSUS ANDROID/HP */
-        @media (max-width: 768px) {
-            .prayer-section { grid-template-columns: repeat(3, 1fr); }
-            .info-container { flex-direction: row; } /* Tetap jejer agar hemat tempat vertikal */
-            .main-display { justify-content: center; gap: 10px; }
-            #jam-digital { margin: 10px 0; }
+        /* PERBAIKAN TOTAL ANDROID/HP */
+        @media (max-width: 600px) {
+            .prayer-section { grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 6px; }
+            .info-container { gap: 5px; }
+            .card-b { padding: 3px 6px; }
+            .row { font-size: 0.65rem; padding: 1px 0; }
+            #jam-digital { margin: 2px 0; font-size: 20vw; }
+            .header-wrapper { padding: 2px 15px; }
         }
-
-        /* MODAL ADZAN */
+        
+        /* LAYOUT ADZAN */
         #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center; }
         .big-text { background: linear-gradient(to bottom, #BF953F, #FCF6BA, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 15vw; font-weight: 900; }
-        .sub-text { color: #D4AF37; font-size: 5vw; margin: 10px 0; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -138,7 +112,7 @@
 <div id="ui-normal" style="height: 100vh; display: flex; flex-direction: column;">
     <div class="header-section">
         <div class="header-wrapper"><div id="header-animasi" class="header-text"></div></div>
-        <div class="marquee-container"><div id="text-berita" class="marquee-text">Pemuat data...</div></div>
+        <div class="marquee-container"><div id="text-berita" class="marquee-text">Memuat Jadwal...</div></div>
     </div>
 
     <div class="main-display">
@@ -178,15 +152,12 @@
 </div>
 
 <div id="mode-sholat">
-    <div id="msg-atas" class="sub-text"></div>
-    <div id="msg-utama" class="big-text"></div>
-    <div id="msg-bawah" class="sub-text"></div>
+    <div id="msg-utama" class="big-text">ADZAN</div>
 </div>
 
 <script>
-    const DURASI_ADZAN = 120; const DURASI_IQOMAH = 720; const DURASI_SHOLAT = 30; 
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
-    let jadwal = {}; let timer; let modeAktif = false;
+    let jadwal = {};
 
     function jalankanAnimasiHuruf() {
         const wadah = document.getElementById('header-animasi');
@@ -195,14 +166,14 @@
         kata.split("").forEach((huruf, urutan) => {
             const span = document.createElement("span");
             span.innerHTML = huruf === " " ? "&nbsp;" : huruf;
-            span.style.animationDelay = `${urutan * 0.1}s`;
+            span.style.animationDelay = `${urutan * 0.05}s`;
             wadah.appendChild(span);
         });
         setTimeout(() => {
             const semuaHuruf = wadah.querySelectorAll('span');
             semuaHuruf.forEach(s => s.classList.add('hilang'));
             setTimeout(jalankanAnimasiHuruf, 600);            
-        }, 5000);
+        }, 6000);
     }    
     jalankanAnimasiHuruf();
 
@@ -232,7 +203,7 @@
     function sistemWaktu() {
         const now = new Date();
         const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-        document.getElementById('jam-digital').innerText = now.toLocaleTimeString('id-ID');
+        document.getElementById('jam-digital').innerText = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0') + "." + now.getSeconds().toString().padStart(2,'0');
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 
         let foundNext = false;
@@ -242,47 +213,20 @@
             if (!foundNext && jamMenit < jadwal[s]) { box.classList.add('next-sholat'); foundNext = true; }
         });
         if (!foundNext) document.getElementById('box-SUBUH').classList.add('next-sholat');
-
-        for (let s in jadwal) { if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif) mulaiModeSholat("ADZAN", s, DURASI_ADZAN); }
     }
 
-    const daftarTeks = ["Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman", "Tanggal & Jadwal SHOLAT Mengacu KHGT"];
-    let indeksTeks = 0;
-    function gantiTeksBerita() {
+    setInterval(() => {
         const el = document.getElementById('text-berita');
-        if (el) {
-            el.style.opacity = 0;
-            setTimeout(() => {
-                indeksTeks = (indeksTeks + 1) % daftarTeks.length;
-                el.innerText = daftarTeks[indeksTeks];
-                el.style.opacity = 1;
-            }, 1000); 
-        }
-    }
-    setInterval(gantiTeksBerita, 7000);
+        const daftar = ["Perum Jatisawit Asri, Sleman", "Jadwal Sholat Mengacu KHGT"];
+        el.style.opacity = 0;
+        setTimeout(() => {
+            el.innerText = daftar[Math.floor(Math.random() * daftar.length)];
+            el.style.opacity = 1;
+        }, 1000);
+    }, 8000);
+
     setInterval(sistemWaktu, 1000);
     muatData(); setInterval(muatData, 600000);
-
-    function mulaiModeSholat(tipe, nama, detik) {
-        modeAktif = true;
-        document.getElementById('mode-sholat').style.display = 'flex';
-        let sisa = detik;
-        clearInterval(timer);
-        timer = setInterval(() => {
-            const m_utama = document.getElementById('msg-utama');
-            const m_atas = document.getElementById('msg-atas');
-            const m_bawah = document.getElementById('msg-bawah');
-            if (tipe === "ADZAN") { m_atas.innerText = "ADZAN"; m_utama.innerText = nama; m_bawah.innerText = "Harap Tenang"; }
-            else if (tipe === "IQOMAH") { m_atas.innerText = "IQOMAH"; m_utama.innerText = Math.floor(sisa/60) + ":" + (sisa%60).toString().padStart(2,'0'); m_bawah.innerText = "Matikan HP"; }
-            else { m_atas.innerText = "DIRIKAN"; m_utama.innerText = "SHOLAT"; m_bawah.innerText = "Niat Khusyu'"; }
-            sisa--;
-            if (sisa < 0) {
-                if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
-                else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
-                else { document.getElementById('mode-sholat').style.display = 'none'; modeAktif = false; clearInterval(timer); }
-            }
-        }, 1000);
-    }
 </script>
 </body>
 </html>
