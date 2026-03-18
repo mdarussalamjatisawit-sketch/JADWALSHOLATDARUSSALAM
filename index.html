@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TV Masjid DarUSSALAM - Fixed Highlight</title>
     <style>
-        /* CSS TETAP KONSISTEN */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { 
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
@@ -37,10 +36,10 @@
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.7rem; padding: 2px 0; }
         
         .bottom-prayer { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 3px solid #ffd700; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 5px; }
-        .p-box { border: 1px solid #ffd700; text-align: center; padding: 4px 0; border-radius: 5px; background: rgba(50,50,50,0.3); }
+        .p-box { border: 1px solid #ffd700; text-align: center; padding: 4px 0; border-radius: 5px; background: rgba(50,50,50,0.3); transition: all 0.5s ease; }
         
         /* HIGHLIGHT SHOLAT TERDEKAT */
-        .sholat-mendatang { background: #ffd700 !important; box-shadow: 0 0 20px #ffd700; border: 2px solid #fff; }
+        .sholat-mendatang { background: #ffd700 !important; box-shadow: 0 0 20px #ffd700; border: 2px solid #fff; transform: scale(1.02); }
         .sholat-mendatang * { color: #000 !important; font-weight: 900; }
 
         #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
@@ -89,7 +88,6 @@
 </div>
 
 <script>
-    // Durasi dikembalikan ke standar produksi (detik)
     const DURASI_ADZAN = 10; 
     const DURASI_IQOMAH = 10; 
     const DURASI_SHOLAT = 10;
@@ -144,7 +142,7 @@
         const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
 
-        // LOGIKA HIGHLIGHT: MENCARI WAKTU BERIKUTNYA
+        // LOGIKA HIGHLIGHT: MENCARI TARGET BERIKUTNYA
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
@@ -155,7 +153,6 @@
             }
         }
         
-        // Jika jam sudah melewati Isya, maka yang menyala adalah Subuh (persiapan besok)
         if (!mendatang) mendatang = "SUBUH";
 
         urutan.forEach(s => { 
@@ -167,7 +164,6 @@
             }
         });
 
-        // Trigger ADZAN
         for (let s in jadwal) {
             if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif && now.getSeconds() < 2) {
                 mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
@@ -193,7 +189,7 @@
                 mAtas.innerText = "SAAT IQOMAH"; mAtas.className = "txt-sedang blink-custom";
                 let m = Math.floor(sisa/60), s = sisa%60;
                 mUtama.innerText = m + ":" + (s < 10 ? '0' + s : s); mUtama.className = "txt-besar";
-                mBawah.innerText = "DIRIKAN SHOLAT SUNAH"; mBawah.className = "txt-sedang";
+                mBawah.innerText = "DIRIKAN SHOLAT SUNAH"; mBawah.className = "txt-sedang blink-custom";
             } else if (tipe === "SHOLAT") {
                 mAtas.innerText = "DIRIKAN"; mAtas.className = "txt-sedang";
                 mUtama.innerText = "SHOLAT"; mUtama.className = "txt-besar";
