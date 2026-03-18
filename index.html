@@ -41,16 +41,6 @@
             overflow: hidden;
         }
 
-        /* Ini adalah gaya untuk tiap huruf */
-    .header-text { 
-            font-family: 'Arial Black', sans-serif; 
-            font-size: clamp(1.5rem, 5vw, 3.5rem); 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            display: inline-flex; 
-            overflow: hidden; /* Penting: agar huruf meluncur dari balik dinding kapsul */
-        }
-
    /* Gaya untuk tiap huruf pada header tulisan masjid darussalam*/
     .header-text span {
             display: inline-block;
@@ -61,61 +51,36 @@
             -webkit-text-fill-color: transparent;
 
             /* 2. OUTLINE HIJAU STABILO RAPI (TEKNIK DROP-SHADOW JAM) */
-            /* Menggunakan 4 sisi agar outline terlihat tebal dan rata */
             filter:                 
-                drop-shadow(2px 0 0 #070707) /* LAYER 1: Pekat & Tajam (Paling Dekat Angka) */              
-                drop-shadow(-2px 0 0 #070707)  /* Kita buat 4 arah agar warnanya solid mengunci bentuk angka */
+                drop-shadow(2px 0 0 #070707)              
+                drop-shadow(-2px 0 0 #070707)
                 drop-shadow(0 2px 0 #070707) 
                 drop-shadow(0 -2px 0 #070707)             
-                drop-shadow(0 0 4px #ffd700)/* LAYER 2: Mulai Memancar (Sedang) */ /* Jarak 0 0 agar menyebar rata ke segala arah */
-                
-                /* LAYER 3: Pendaran Luas & Cerah (Paling Luar) */
-                /* Gunakan radius blur besar (15px) agar pendarannya lembut */
-                drop-shadow(0 0 8px rgba(255, 215, 0, 0.7)); /* Sedikit transparan agar cerah */
+                drop-shadow(0 0 4px #ffd700)
+                drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
+
         /* 3. PENGATURAN POSISI & ANIMASI */
         opacity: 0;
-        /* Mulai dari ukuran 0 (kecil sekali) */
         transform: scale(0); 
-        /* Jalankan animasi zoom */
         animation: masuk-zoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
        @keyframes masuk-zoom {
-            0% {
-                opacity: 0;
-                transform: scale(0); /* Dari kecil */
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1); /* Ke ukuran asli */
-            }
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
         }      
         .hilang {
-            animation: keluar-halus 1s ease-in forwards !important;/* Animasi untuk menghilangkan huruf sebelum diulang */
+            animation: keluar-halus 1s ease-in forwards !important;
         }
 
         @keyframes keluar-halus {
             to { opacity: 0; transform: translateY(10px); }
         }      
-        @keyframes typing { /* Keyframe untuk memunculkan huruf per karakter */
-            from { width: 0; }
-            to { width: 100%; }
-        }      
-        @keyframes ketik-kanan { /* Animasi Huruf Muncul dari Kanan */
-            from { 
-                width: 0; 
-                margin-left: 100%; /* Mulai dari sisi kanan kapsul */
-            }
-            to { 
-                width: 100%; 
-                margin-left: 0; /* Berhenti di posisi normal */
-            }
-        }
 
         /* RUNNING TEXT BERGANTI HALUS */
         .marquee-container { 
             margin: 10px auto; 
-            width: clamp(80%, 60%, 90%); 
+            width: clamp(80%, 85%, 95%); 
             background: rgba(0, 0, 0, 0.7); 
             padding: 8px 20px; 
             border-radius: 50px; 
@@ -139,35 +104,25 @@
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            gap: 20px; 
+            gap: 15px; 
             padding: 10px;
         }
 
         #jam-digital {
             font-family: 'Arial Black', Gadget, sans-serif;
-            font-size: clamp(4rem, 18vw, 13rem); 
+            font-size: clamp(4rem, 18vw, 12rem); 
             font-weight: 900;
             line-height: 0.8;
             background: linear-gradient(to bottom, #fff 0%, #fff 0%, #fff 50%, #fff 0%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Outline Hijau Stabilo Rapi Luar Saja */
            filter: 
-                /* LAYER 1: Pekat & Tajam (Paling Dekat Angka) */
-                /* Kita buat 4 arah agar warnanya solid mengunci bentuk angka */
                 drop-shadow(2px 0 0 #070707) 
                 drop-shadow(-2px 0 0 #070707) 
                 drop-shadow(0 2px 0 #070707) 
                 drop-shadow(0 -2px 0 #070707)
-                
-                /* LAYER 2: Mulai Memancar (Sedang) */
-                /* Jarak 0 0 agar menyebar rata ke segala arah */
                 drop-shadow(0 0 8px #ffd700)
-                
-                /* LAYER 3: Pendaran Luas & Cerah (Paling Luar) */
-                /* Gunakan radius blur besar (15px) agar pendarannya lembut */
-                drop-shadow(0 0 15px rgba(255, 215, 0, 0.7)); /* Sedikit transparan agar cerah */
-
+                drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
         }
 
         /* TANGGAL */
@@ -175,17 +130,17 @@
             display: flex; 
             flex-wrap: wrap; 
             justify-content: center; 
-            gap: 15px; 
+            gap: 10px; 
             width: 100%;
         }
 
         #tgl-masehi, #tgl-hijriah { 
             background: rgba(0, 0, 0, 0.7); 
-            padding: 8px 25px; 
+            padding: 8px 20px; 
             border-radius: 50px; 
             border: 3px solid #D4AF37; 
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            font-size: clamp(0.9rem, 3vw, 1.5rem); 
+            font-size: clamp(0.8rem, 2.5vw, 1.4rem); 
             font-weight: 800;
             text-align: center;
         }
@@ -195,8 +150,8 @@
         /* INFO BOX */
         .info-container { 
             display: flex; 
-            gap: 20px; 
-            width: 90%; 
+            gap: 15px; 
+            width: 95%; 
             max-width: 1000px;
             justify-content: center; 
         }
@@ -212,52 +167,56 @@
         .card-h { 
             background: #000; 
             color: #D4AF37; 
-            padding: 8px; 
+            padding: 6px; 
             font-weight: bold; 
             text-align: center; 
-            font-size: clamp(0.8rem, 2vw, 1.1rem); 
+            font-size: clamp(0.7rem, 1.8vw, 1rem); 
             border-bottom: 2px solid #D4AF37;
         }
 
-        .card-b { padding: 10px 15px; }
+        .card-b { padding: 8px 12px; }
 
         .row { 
             display: flex; 
             justify-content: space-between; 
             border-bottom: 1px solid #444; 
-            font-size: clamp(0.8rem, 2vw, 1.05rem); 
-            padding: 5px 0; 
+            font-size: clamp(0.7rem, 1.8vw, 1rem); 
+            padding: 4px 0; 
         }
 
-        /* JADWAL SHOLAT */
+        /* JADWAL SHOLAT - Perbaikan Responsif */
         .prayer-section {
             display: grid; 
             grid-template-columns: repeat(6, 1fr); 
             gap: 8px;
-            padding: 15px; 
+            padding: 10px; 
             background: rgba(0,0,0,0.6);
             border-top: 4px solid #ffd700;
+            width: 100%;
         }
-        .p-box { background: rgba(0,0,0,0.8); border: 2px solid #ffd700; border-radius: 10px; padding: 10px; text-align: center; }
-        .p-name { color: #ffd700; font-size: 0.8rem; font-weight: bold; }
-        .p-time { font-size: clamp(1.2rem, 4vw, 2.5rem); font-weight: 900; line-height: 1; }
+        .p-box { 
+            background: rgba(0,0,0,0.8); 
+            border: 2px solid #ffd700; 
+            border-radius: 10px; 
+            padding: 8px 2px; 
+            text-align: center; 
+        }
+        .p-name { color: #ffd700; font-size: clamp(0.6rem, 1.5vw, 0.9rem); font-weight: bold; }
+        .p-time { font-size: clamp(1rem, 3.5vw, 2.2rem); font-weight: 900; line-height: 1.1; color: white; }
         .next-sholat { background: linear-gradient(145deg, #ffd700, #b8860b) !important; box-shadow: 0 0 15px #ffd700; }
         .next-sholat .p-name, .next-sholat .p-time { color: #000 !important; }
 
-        /* RESPONSIVE HP POTRET */
-        @media (max-width: 600px) {
-            .info-container { flex-direction: column; width: 100%; }
-            .prayer-section { grid-template-columns: repeat(3, 1fr); }
+        /* RESPONSIVE ANDROID / HP */
+        @media (max-width: 768px) {
+            .prayer-section { grid-template-columns: repeat(3, 1fr); gap: 5px; } /* Jadi 2 baris agar tidak terpotong */
+            .info-container { flex-direction: column; gap: 10px; }
             .dates { flex-direction: column; align-items: center; }
-            #tgl-masehi, #tgl-hijriah { width: 90%; }
-            .main-display { gap: 10px; }
+            #tgl-masehi, #tgl-hijriah { width: 95%; }
+            #jam-digital { font-size: 18vw; }
+            body { background-attachment: scroll; } /* Performa lebih baik di HP */
         }
 
         /* ANIMASI */
-        @keyframes animasi-pijar-gold {
-            0%, 100% { filter: drop-shadow(3px 3px 2px #000) brightness(1); }
-            50% { filter: drop-shadow(3px 3px 2px #000) brightness(1.2) drop-shadow(0 0 10px #ffd700); }
-        }
         @keyframes muncul-halus { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* MODAL ADZAN */
@@ -273,8 +232,8 @@
 <div id="ui-normal" style="min-height: 100vh; display: flex; flex-direction: column;">
     <div class="header-section">
      <div class="header-wrapper">
-    <div id="header-animasi" class="header-text"></div>
-</div>
+        <div id="header-animasi" class="header-text"></div>
+     </div>
         <div class="marquee-container">
             <div id="text-berita" class="marquee-text">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping, Sleman</div>
         </div>
@@ -323,35 +282,29 @@
 </div>
 
 <script>
-    const DURASI_ADZAN = 10; const DURASI_IQOMAH = 10; const DURASI_SHOLAT = 10; 
+    const DURASI_ADZAN = 1200; const DURASI_IQOMAH = 600; const DURASI_SHOLAT = 20; 
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     let jadwal = {}; let timer; let modeAktif = false;
 
-
-//untuk menjalankan animasi header masjid darussalam
-function jalankanAnimasiHuruf() {
+    function jalankanAnimasiHuruf() {
         const wadah = document.getElementById('header-animasi');
         const kata = "MASJID DARUSSALAM";
-        const durasiDiam = 3000; // Diam selama 3 detik (2000 milidetik)
-        wadah.innerHTML = "";   // 1. Bersihkan wadah  
-        kata.split("").forEach((huruf, urutan) => {// 2. Pecah kata jadi huruf dan masukkan ke layar
+        const durasiDiam = 3000;
+        wadah.innerHTML = "";   
+        kata.split("").forEach((huruf, urutan) => {
             const span = document.createElement("span");
             span.innerHTML = huruf === " " ? "&nbsp;" : huruf;
-            span.style.animationDelay = `${urutan * 0.1}s`; // Muncul satu-satu dari kanan
+            span.style.animationDelay = `${urutan * 0.1}s`;
             wadah.appendChild(span);
         });
-        // 3. Hitung total waktu animasi muncul 
-        const totalWaktuTampil = (kata.length * 100) + 600 + durasiDiam;// (Jumlah huruf * 0.1s) + durasi gerak 0.6s + waktu diam 2s
+        const totalWaktuTampil = (kata.length * 100) + 600 + durasiDiam;
         setTimeout(() => {
-            // Beri kelas 'hilang' ke semua huruf sebelum diulang
             const semuaHuruf = wadah.querySelectorAll('span');
             semuaHuruf.forEach(s => s.classList.add('hilang'));
-            // Tunggu sebentar pas menghilang, lalu jalankan lagi dari awal (Loop)
             setTimeout(jalankanAnimasiHuruf, 600);            
         }, totalWaktuTampil);
     }    
-    jalankanAnimasiHuruf();// Jalankan pertama kali saat halaman dibuka
-
+    jalankanAnimasiHuruf();
 
     async function muatData() {
         try {
@@ -459,3 +412,4 @@ function jalankanAnimasiHuruf() {
 </script>
 </body>
 </html>
+
