@@ -13,7 +13,6 @@
         }
 
         body { 
-            /* BACKGROUND MASJID DARUSSALAM DIKEMBALIKAN */
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
             background-size: cover; 
             color: white; 
@@ -23,11 +22,11 @@
             display: flex; 
             flex-direction: column;
             justify-content: space-between;
-            padding: 10px 15px;
+            padding: 10px 20px;
         }
 
         /* ----------------------------------
-           HEADER & RUNNING TEXT (DIKEMBALIKAN)
+           HEADER & RUNNING TEXT
         ---------------------------------- */
         .top-container { 
             width: 100%; 
@@ -36,7 +35,6 @@
             flex-shrink: 0; 
         }
 
-        /* Box Tulisan MASJID DARUSSALAM */
         .header-wrapper { 
             display: inline-block; 
             background: rgba(0,0,0,0.9); 
@@ -62,10 +60,9 @@
         .hilang { animation: keluar-halus 0.5s forwards !important; }
         @keyframes keluar-halus { to { opacity: 0; transform: translateY(-10px); } }
 
-        /* Box Running Text Alamat & KHGT */
         .marquee-container { 
             margin: 4px auto 0 auto; 
-            width: 90%; 
+            width: 100%; 
             background: #000; 
             height: 30px; 
             overflow: hidden; 
@@ -92,13 +89,13 @@
         }
 
         /* ----------------------------------
-           JAM UTAMA & TANGGAL (POSISI KIRI-KANAN)
+           JAM DIGITAL & TANGGAL (MEPET KIRI / KANAN)
         ---------------------------------- */
         .middle-top-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            justify-content: space-between; /* Mepet kiri & kanan sejajar Subuh & Isya */
+            width: 100%;
             margin-top: 5px;
         }
 
@@ -106,34 +103,38 @@
             background: rgba(0, 0, 0, 0.85);
             border: 1.5px solid #D4AF37;
             border-radius: 50px;
-            padding: 5px 18px;
-            font-size: clamp(0.7rem, 2vw, 1rem);
+            padding: 8px 22px;
+            font-size: clamp(0.8rem, 2vw, 1.15rem);
             font-weight: 800;
             color: #ffffff;
             white-space: nowrap;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            width: 28%; /* Menyesuaikan agar sejajar dengan box keuangan / subuh */
+            text-align: center;
         }
         #tgl-hijriah { color: #CCFF00; }
 
+        /* JAM DIGITAL DIPERBESAR */
         .clock-display {
             font-family: 'Arial Black', sans-serif;
-            font-size: clamp(2.5rem, 10vw, 5.5rem);
+            font-size: clamp(4rem, 13vw, 8rem); 
             font-weight: 900;
             color: #ffffff;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
-            filter: drop-shadow(0 0 10px #ffd700);
-            line-height: 1;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
+            filter: drop-shadow(0 0 12px #ffd700);
+            line-height: 0.9;
+            text-align: center;
+            flex: 1;
         }
 
         /* ----------------------------------
-           INFORMASI KEUANGAN & AGENDA
+           INFORMASI KEUANGAN & AGENDA (SEJAJAR SUBUH & ISYA)
         ---------------------------------- */
         .info-container { 
             display: flex; 
-            gap: 15px; 
-            width: 98%; 
-            max-width: 1000px; 
-            margin: 10px auto;
+            justify-content: space-between; /* Memisahkan box mepet kiri dan kanan */
+            width: 100%; 
+            margin: 10px 0;
             align-items: stretch;
             flex: 1;
         }
@@ -153,50 +154,50 @@
             padding: 6px; 
             font-weight: bold; 
             text-align: center; 
-            font-size: 1rem; 
+            font-size: 1.1rem; 
             border-bottom: 2px solid #D4AF37; 
             text-transform: uppercase; 
             letter-spacing: 1px;
         }
 
-        /* BACKGROUND TRANSPARAN UNTUK KEUANGAN & AGENDA */
-        .card-keuangan { flex: 0.9; }
-        .card-agenda { flex: 1.3; }
+        /* BOX KEUANGAN MEPET KIRI & AGENDA MEPET KANAN */
+        .card-keuangan { width: 38%; }
+        .card-agenda { width: 58%; }
 
         .card-b-custom {
             background: rgba(255, 255, 255, 0.88);
             color: #000;
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        /* TABEL KEUANGAN (UKURAN TEKS PAS DI BOX) */
+        /* TABEL KEUANGAN */
         .tbl-keuangan {
             width: 100%;
             border-collapse: collapse;
-            font-size: clamp(0.85rem, 2vw, 1.15rem);
+            font-size: clamp(0.9rem, 2.2vw, 1.25rem);
             font-weight: 800;
         }
         .tbl-keuangan td {
-            padding: 8px 5px;
+            padding: 10px 5px;
             border-bottom: 1px solid rgba(0,0,0,0.15);
         }
         .tbl-keuangan tr.total-row td {
-            font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
             color: #b8860b;
             border-top: 2px solid #000;
             border-bottom: none;
-            padding-top: 10px;
+            padding-top: 12px;
         }
 
         /* TABEL AGENDA KEGIATAN */
         .tbl-agenda { 
             width: 100%; 
             border-collapse: collapse; 
-            font-size: clamp(0.75rem, 1.5vw, 0.9rem); 
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem); 
             table-layout: fixed; 
         }
         .tbl-agenda th { 
@@ -204,13 +205,13 @@
             color: #000; 
             font-weight: 800; 
             border: 1px solid #D4AF37; 
-            padding: 5px; 
+            padding: 6px 5px; 
             text-align: center;
             text-transform: uppercase;
         }
         .tbl-agenda td { 
             border: 1px solid #D4AF37; 
-            padding: 5px; 
+            padding: 6px 5px; 
             text-align: center; 
             color: #111; 
             font-weight: 700;
@@ -228,13 +229,13 @@
         }
 
         /* ----------------------------------
-           JADWAL SHOLAT (BOX DITINGGIKAN & HIGHLIGHT WAKTU MENDEKATI)
+           JADWAL SHOLAT
         ---------------------------------- */
         .bottom-prayer { 
             width: 100%; 
             display: grid; 
             grid-template-columns: repeat(6, 1fr); 
-            gap: 8px; 
+            gap: 12px; 
             padding: 2px 0;
         }
         
@@ -242,18 +243,18 @@
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid #D4AF37; 
             text-align: center; 
-            padding: 8px 0; /* Box Ditinggikan */
+            padding: 10px 0; 
             border-radius: 8px; 
             transition: all 0.3s ease; 
         }
         .p-box div {
-            font-size: clamp(0.8rem, 2vw, 1.1rem); /* Font Nama Sholat Diperbesar */
+            font-size: clamp(0.85rem, 2vw, 1.15rem);
             font-weight: bold;
             color: #fff;
             margin-bottom: 2px;
         }
         .p-box b {
-            font-size: clamp(1.1rem, 2.8vw, 1.7rem); /* Font Jam Sholat Diperbesar */
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             font-weight: 900;
             color: #fff;
         }
@@ -268,7 +269,7 @@
             color: #000 !important; 
         }
 
-        /* MODE LAYAR FULL SHOLAT/ADZAN */
+        /* MODE SCREEN SHOLAT / ADZAN */
         #mode-sholat { 
             display: none; 
             position: fixed; 
@@ -291,7 +292,7 @@
 
 <div id="ui-normal" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
     
-    <!-- 1. HEADER UTAMA & RUNNING TEXT ALAMAT/KHGT -->
+    <!-- HEADER UTAMA & RUNNING TEXT -->
     <div class="top-container">
         <div class="header-wrapper">
             <div id="header-animasi" class="header-text"></div>
@@ -302,14 +303,14 @@
         </div>
     </div>
 
-    <!-- 2. JAM DIGITAL & TANGGAL MASEHI (KIRI) / HIJRIAH (KANAN) -->
+    <!-- MASEHI (KIRI MEPET SUBUH) | JAM BESAR (TENGAH) | HIJRIAH (KANAN MEPET ISYA) -->
     <div class="middle-top-container">
         <div class="date-box" id="tgl-masehi">--</div>
         <div class="clock-display" id="jam-digital">00.00.00</div>
         <div class="date-box" id="tgl-hijriah">--</div>
     </div>
 
-    <!-- 3. KEUANGAN & AGENDA KEGIATAN -->
+    <!-- KEUANGAN (MEPET KIRI) & AGENDA (MEPET KANAN) -->
     <div class="info-container">
         <!-- CARD KEUANGAN -->
         <div class="card card-keuangan">
@@ -318,15 +319,15 @@
                 <table class="tbl-keuangan">
                     <tr>
                         <td style="text-align: left;">PEMASUKAN</td>
-                        <td style="text-align: right;" id="kas-in">0</td>
+                        <td style="text-align: right;" id="kas-in">Rp0</td>
                     </tr>
                     <tr>
                         <td style="text-align: left;">PENGELUARAN</td>
-                        <td style="text-align: right;" id="kas-out">0</td>
+                        <td style="text-align: right;" id="kas-out">Rp0</td>
                     </tr>
                     <tr class="total-row">
                         <td style="text-align: left;">SALDO AKHIR</td>
-                        <td style="text-align: right;" id="kas-saldo">0</td>
+                        <td style="text-align: right;" id="kas-saldo">Rp0</td>
                     </tr>
                 </table>
             </div>
@@ -353,7 +354,7 @@
         </div>
     </div>
 
-    <!-- 4. BOX JADWAL SHOLAT -->
+    <!-- BOX JADWAL SHOLAT -->
     <div class="bottom-prayer">
         <div class="p-box" id="box-SUBUH"><div>SUBUH</div><b id="sh-subuh">--:--</b></div>
         <div class="p-box" id="box-SYURUQ"><div>SYURUQ</div><b id="sh-terbit">--:--</b></div>
@@ -379,7 +380,9 @@
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
 
-    let jadwal = {}; let timerSholat; let modeAktif = false;
+    // Standby Default Jika Internet Lambat
+    let jadwal = { "SUBUH": "04:39", "SYURUQ": "05:45", "ZUHUR": "11:45", "ASHAR": "15:07", "MAGHRIB": "17:41", "ISYA": "18:52" }; 
+    let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
 
     // PARSER CSV
@@ -405,7 +408,7 @@
         return r;
     }
 
-    // ANIMASI KETIK MASJID DARUSSALAM
+    // ANIMASI HEADER MASJID DARUSSALAM
     function jalankanAnimasiHeader() {
         const wadah = document.getElementById('header-animasi');
         const kata = "MASJID DARUSSALAM"; wadah.innerHTML = "";   
@@ -437,21 +440,28 @@
             const res = await fetch(urlCSV + '&t=' + Date.now());
             const text = await res.text();
             const rows = parseCSV(text);
-            const b2 = rows[2];
-            document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
-            jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
-            document.getElementById('sh-subuh').innerText = jadwal.SUBUH; 
-            document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
-            document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; 
-            document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
-            document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
-            document.getElementById('sh-isya').innerText = jadwal.ISYA;
-            
-            // Format Rupiah Tampilan Keuangan
-            document.getElementById('kas-in').innerText = b2[8].includes('Rp') ? b2[8] : 'Rp' + b2[8];
-            document.getElementById('kas-out').innerText = b2[9].includes('Rp') ? b2[9] : 'Rp' + b2[9];
-            document.getElementById('kas-saldo').innerText = b2[10].includes('Rp') ? b2[10] : 'Rp' + b2[10];
-        } catch (e) { console.log("CSV Utama Error"); }
+            if (rows.length >= 3) {
+                const b2 = rows[2];
+                // Update Tanggal Hijriah
+                if(rows[1] && rows[1][2] && b2[0]) {
+                    document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
+                }
+                
+                // Update Jam Sholat
+                jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
+                document.getElementById('sh-subuh').innerText = jadwal.SUBUH || "04:39"; 
+                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ || "05:45";
+                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR || "11:45"; 
+                document.getElementById('sh-ashar').innerText = jadwal.ASHAR || "15:07";
+                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB || "17:41"; 
+                document.getElementById('sh-isya').innerText = jadwal.ISYA || "18:52";
+                
+                // Format Tampilan Keuangan
+                if(b2[8]) document.getElementById('kas-in').innerText = b2[8].includes('Rp') ? b2[8] : 'Rp ' + b2[8];
+                if(b2[9]) document.getElementById('kas-out').innerText = b2[9].includes('Rp') ? b2[9] : 'Rp ' + b2[9];
+                if(b2[10]) document.getElementById('kas-saldo').innerText = b2[10].includes('Rp') ? b2[10] : 'Rp ' + b2[10];
+            }
+        } catch (e) { console.log("CSV Utama Error", e); }
 
         try {
             const resAgenda = await fetch(urlAgendaCSV + '&t=' + Date.now());
@@ -497,7 +507,7 @@
         const tbody = document.getElementById('body-agenda');
         tbody.innerHTML = "";
         if (daftarAgenda.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='4'>Memuat Agenda...</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='4'>Memuat / Belum Ada Agenda</td></tr>";
             return;
         }
 
@@ -529,7 +539,7 @@
         });
     }
 
-    // UPDATE LOGIKA WAKTU DAN HIGHLIGHT WAKTU SHOLAT MENDEKATI
+    // UPDATE LOGIKA WAKTU DAN HIGHLIGHT WAKTU SHOLAT
     function sistemWaktu() {
         const now = new Date();
         const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
@@ -542,7 +552,17 @@
         const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
 
-        // LOGIKA HIGHLIGHT MENDEKATI WAKTU SHOLAT
+        // Pasang Jam Sholat Default saat awal buka sebelum fetch selesai
+        if(document.getElementById('sh-subuh').innerText === "--:--") {
+            document.getElementById('sh-subuh').innerText = jadwal.SUBUH;
+            document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
+            document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR;
+            document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
+            document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB;
+            document.getElementById('sh-isya').innerText = jadwal.ISYA;
+        }
+
+        // LOGIKA HIGHLIGHT SHOLAT MENDEKATI WAKTU
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
@@ -552,7 +572,7 @@
                 break; 
             }
         }
-        if (!mendatang) mendatang = "SUBUH"; // Jika lewat Isya, highlight kembali ke Subuh
+        if (!mendatang) mendatang = "SUBUH";
 
         urutan.forEach(s => { 
             const box = document.getElementById('box-' + s);
@@ -606,6 +626,7 @@
     }
 
     setInterval(sistemWaktu, 1000);
+    sistemWaktu();
     muatData(); 
     setInterval(muatData, 600000);
 </script>
