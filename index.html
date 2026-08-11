@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TV Masjid DARUSSALAM - Fixed Highlight</title>
+    <title>TV Masjid DARUSSALAM - Dynamic Weekly Agenda</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { 
@@ -38,7 +38,7 @@
         .card-b { padding: 6px 10px; }
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.75rem; padding: 3px 0; }
         
-        /* CARD AGENDA KEGIATAN (EFEK KERTAS PUTIH TRANSPARAN) */
+        /* CARD AGENDA KEGIATAN */
         .card-agenda { 
             flex: 1.4; 
             background: rgba(255, 255, 255, 0.92); 
@@ -124,9 +124,9 @@
             <div class="card card-keuangan">
                 <div class="card-h">KEUANGAN</div>
                 <div class="card-b">
-                    <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
-                    <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
-                    <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                    <div class="row"><span>PEMASUKAN</span><span id="kas-in">0</span></div>
+                    <div class="row"><span>PENGELUARAN</span><span id="kas-out">0</span></div>
+                    <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
                 </div>
             </div>
 
@@ -172,13 +172,15 @@
     const DURASI_IQOMAH = 720; 
     const DURASI_SHOLAT = 30;
     
+    // GID 224039655 -> Sheet JAM SHOLAT KHGT
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
+    // GID 355922745 -> Sheet AGENDA KEGIATAN
     const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
 
     let jadwal = {}; let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
 
-    // PARSER CSV KUAT AMAN PETIK DAN KOMA
+    // Parser CSV Aman dari Komma & Tanda Petik
     function parseCSV(text) {
         let p = '', c = '', r = [];
         let q = false;
@@ -226,20 +228,45 @@
     }, 4000);
 
     async function muatData() {
+        // 1. DATA JAM SHOLAT KHGT & KEUANGAN
         try {
             const res = await fetch(urlCSV + '&t=' + Date.now());
             const text = await res.text();
             const rows = parseCSV(text);
-            const b2 = rows[2];
-            document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
-            jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
-            document.getElementById('sh-subuh').innerText = jadwal.SUBUH; document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
-            document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
-            document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; document.getElementById('sh-isya').innerText = jadwal.ISYA;
-            document.getElementById('kas-in').innerText = b2[8]; document.getElementById('kas-out').innerText = b2[9];
-            document.getElementById('kas-saldo').innerText = b2[10];
-        } catch (e) { console.log("CSV Main Error"); }
+            
+            // Mengambil data dari Baris 2 (indeks 1 di JavaScript)
+            const b2 = rows[1]; 
+            if (b2 && b2.length >= 12) {
+                // Posisi Kolom: C=Subuh(2), D=Terbit(3), E=Zuhur(4), F=Ashar(5), G=Maghrib(6), H=Isya(7)
+                jadwal = { 
+                    "SUBUH": b2[2].trim(), 
+                    "SYURUQ": b2[3].trim(), 
+                    "ZUHUR": b2[4].trim(), 
+                    "ASHAR": b2[5].trim(), 
+                    "MAGHRIB": b2[6].trim(), 
+                    "ISYA": b2[7].trim() 
+                };
+                
+                document.getElementById('sh-subuh').innerText = jadwal.SUBUH; 
+                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
+                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; 
+                document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
+                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
+                document.getElementById('sh-isya').innerText = jadwal.ISYA;
+                
+                // Tanggal Masehi/Hijriah dari Kolom I (indeks 8)
+                if (b2[8]) {
+                    document.getElementById('tgl-hijriah').innerText = b2[8].trim();
+                }
 
+                // Posisi Keuangan: J=Pemasukan(9), K=Pengeluaran(10), L=Saldo Akhir(11)
+                document.getElementById('kas-in').innerText = b2[9].trim(); 
+                document.getElementById('kas-out').innerText = b2[10].trim();
+                document.getElementById('kas-saldo').innerText = b2[11].trim();
+            }
+        } catch (e) { console.log("CSV Main Error", e); }
+
+        // 2. DATA AGENDA KEGIATAN
         try {
             const resAgenda = await fetch(urlAgendaCSV + '&t=' + Date.now());
             const textAgenda = await resAgenda.text();
@@ -247,7 +274,7 @@
             const rowsAgenda = parseCSV(textAgenda);
             daftarAgenda = [];
 
-            // Membaca kolom B=TANGGAL (r[1]), C=JAM (r[2]), D=AGENDA (r[3]), E=PENGISI (r[4])
+            // Membaca Kolom B=TANGGAL(r[1]), C=JAM(r[2]), D=AGENDA(r[3]), E=PENGISI(r[4])
             for (let i = 1; i < rowsAgenda.length; i++) {
                 const r = rowsAgenda[i];
                 if (r && r.length >= 4) {
@@ -293,23 +320,34 @@
         const tbody = document.getElementById('body-agenda');
         tbody.innerHTML = "";
 
-        if (daftarAgenda.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='4'>Belum Ada Agenda</td></tr>";
+        const sekarang = new Date();
+        
+        // Menghitung Batas Awal (Hari ini jam 00:00:00) dan Batas Akhir (7 hari ke depan jam 23:59:59)
+        const awalMinggu = new Date(sekarang.getFullYear(), sekarang.getMonth(), sekarang.getDate(), 0, 0, 0);
+        const akhirMinggu = new Date(sekarang.getFullYear(), sekarang.getMonth(), sekarang.getDate() + 7, 23, 59, 59);
+
+        // Filter agenda yang masuk ke dalam rentang 1 minggu ini saja
+        const agendaMingguIni = daftarAgenda.filter(item => {
+            const tglObj = parseKeDate(item.tgl, item.jam);
+            return tglObj && tglObj >= awalMinggu && tglObj <= akhirMinggu;
+        });
+
+        if (agendaMingguIni.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='padding:15px; font-weight:bold;'>Tidak Ada Agenda Minggu Ini</td></tr>";
             return;
         }
 
-        const sekarang = new Date();
+        // Mencari agenda terdekat dari detik ini untuk di-highlight
         let idxHighlight = -1;
-
-        for (let i = 0; i < daftarAgenda.length; i++) {
-            const tglObj = parseKeDate(daftarAgenda[i].tgl, daftarAgenda[i].jam);
+        for (let i = 0; i < agendaMingguIni.length; i++) {
+            const tglObj = parseKeDate(agendaMingguIni[i].tgl, agendaMingguIni[i].jam);
             if (tglObj && tglObj >= sekarang) {
                 idxHighlight = i;
                 break;
             }
         }
 
-        daftarAgenda.forEach((item, index) => {
+        agendaMingguIni.forEach((item, index) => {
             const tr = document.createElement('tr');
             if (index === idxHighlight) {
                 tr.className = 'agenda-active';
