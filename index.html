@@ -29,12 +29,29 @@
         #tgl-masehi, #tgl-hijriah { background: rgba(0,0,0,0.9); padding: 3px 15px; border-radius: 50px; border: 1.2px solid #D4AF37; font-size: clamp(0.6rem, 2.5vw, 1rem); font-weight: 800; }
         #tgl-hijriah { color: #CCFF00; }
         
-        .info-container { display: flex; gap: 8px; width: 95%; max-width: 800px; }
-        .card { background: rgba(0,0,0,0.9); border: 1.2px solid #D4AF37; border-radius: 8px; flex: 1; overflow: hidden; }
-        .card-h { background: #000; color: #D4AF37; padding: 3px; font-weight: bold; text-align: center; font-size: 0.75rem; border-bottom: 1px solid #D4AF37; }
+        .info-container { display: flex; gap: 8px; width: 95%; max-width: 900px; }
+        .card { background: rgba(0,0,0,0.9); border: 1.2px solid #D4AF37; border-radius: 8px; overflow: hidden; }
+        .card-keuangan { flex: 0.8; }
+        .card-agenda { flex: 1.2; }
+        .card-h { background: #000; color: #D4AF37; padding: 3px; font-weight: bold; text-align: center; font-size: 0.75rem; border-bottom: 1px solid #D4AF37; text-transform: uppercase; }
         .card-b { padding: 5px 10px; }
         .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.7rem; padding: 2px 0; }
         
+        /* DESAIN TABEL AGENDA KEGIATAN */
+        .tbl-agenda { width: 100%; border-collapse: collapse; font-size: 0.65rem; }
+        .tbl-agenda th, .tbl-agenda td { border: 1px solid #D4AF37; padding: 3px 5px; text-align: center; }
+        .tbl-agenda th { background: rgba(212, 175, 55, 0.2); color: #D4AF37; font-weight: bold; }
+        .tbl-agenda td { background: rgba(0, 0, 0, 0.5); color: #fff; }
+        
+        /* HIGHLIGHT AGENDA TERDEKAT */
+        .agenda-active td { 
+            background: #ffd700 !important; 
+            color: #000 !important; 
+            font-weight: 900 !important; 
+            font-size: 0.72rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
         .bottom-prayer { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 3px solid #ffd700; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 5px; }
         .p-box { border: 1px solid #ffd700; text-align: center; padding: 4px 0; border-radius: 5px; background: rgba(50,50,50,0.3); transition: all 0.5s ease; }
         
@@ -67,8 +84,35 @@
             <div id="tgl-hijriah">--</div>
         </div>
         <div class="info-container">
-            <div class="card"><div class="card-h">KEUANGAN</div><div class="card-b"><div class="row"><span>Masuk</span><span id="kas-in">0</span></div><div class="row"><span>Keluar</span><span id="kas-out">0</span></div><div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div></div></div>
-            <div class="card"><div class="card-h">PETUGAS</div><div class="card-b"><div class="row"><span>Subuh</span><span id="im-s">-</span></div><div class="row"><span>Jum'at</span><span id="im-j">-</span></div></div></div>
+            <!-- KEUANGAN -->
+            <div class="card card-keuangan">
+                <div class="card-h">KEUANGAN</div>
+                <div class="card-b">
+                    <div class="row"><span>Masuk</span><span id="kas-in">0</span></div>
+                    <div class="row"><span>Keluar</span><span id="kas-out">0</span></div>
+                    <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO</span><span id="kas-saldo">0</span></div>
+                </div>
+            </div>
+
+            <!-- AGENDA KEGIATAN 1 MINGGU -->
+            <div class="card card-agenda">
+                <div class="card-h">AGENDA KEGIATAN</div>
+                <div class="card-b">
+                    <table class="tbl-agenda">
+                        <thead>
+                            <tr>
+                                <th>Tgl</th>
+                                <th>Jam</th>
+                                <th>Kegiatan</th>
+                                <th>Pengisi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body-agenda">
+                            <!-- Data akan diisi otomatis melalui JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="bottom-prayer">
@@ -94,6 +138,7 @@
     
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     let jadwal = {}; let timerSholat; let modeAktif = false;
+    let daftarAgenda = [];
 
     function jalankanAnimasiHeader() {
         const wadah = document.getElementById('header-animasi');
@@ -129,9 +174,74 @@
             document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
             document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; document.getElementById('sh-isya').innerText = jadwal.ISYA;
             document.getElementById('kas-in').innerText = b2[8]; document.getElementById('kas-out').innerText = b2[9];
-            document.getElementById('kas-saldo').innerText = b2[10]; document.getElementById('im-s').innerText = b2[12];
-            document.getElementById('im-j').innerText = b2[13];
+            document.getElementById('kas-saldo').innerText = b2[10];
+
+            // BACA DATA AGENDA DARI CSV (Mulai Baris ke-2 / Index 2 ke Bawah)
+            // Asumsi Kolom CSV: Indeks 12 (Tgl), 13 (Jam), 14 (Kegiatan), 15 (Pengisi)
+            // Format Tgl disarankan YYYY-MM-DD atau DD/MM/YYYY
+            daftarAgenda = [];
+            for (let i = 2; i < rows.length; i++) {
+                if (rows[i][12] && rows[i][14]) {
+                    daftarAgenda.push({
+                        tgl: rows[i][12],
+                        jam: rows[i][13] || "00:00",
+                        kegiatan: rows[i][14],
+                        pengisi: rows[i][15] || "-"
+                    });
+                }
+            }
+            perbaruiTabelAgenda();
+
         } catch (e) { console.log("CSV Error"); }
+    }
+
+    function perbaruiTabelAgenda() {
+        const tbody = document.getElementById('body-agenda');
+        tbody.innerHTML = "";
+
+        if (daftarAgenda.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4'>Belum Ada Agenda</td></tr>";
+            return;
+        }
+
+        const sekarang = new Date();
+        let idxHighlight = -1;
+
+        // Cari agenda terdekat yang BELUM terlewat
+        for (let i = 0; i < daftarAgenda.length; i++) {
+            const p = daftarAgenda[i].tgl.split(/[-/]/);
+            let tglObj;
+            if (p[0].length === 4) {
+                tglObj = new Date(`${p[0]}-${p[1]}-${p[2]}T${daftarAgenda[i].jam}:00`);
+            } else {
+                tglObj = new Date(`${p[2]}-${p[1]}-${p[0]}T${daftarAgenda[i].jam}:00`);
+            }
+
+            if (tglObj >= sekarang) {
+                idxHighlight = i;
+                break;
+            }
+        }
+
+        // Tampilkan data ke tabel
+        daftarAgenda.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            if (index === idxHighlight) {
+                tr.className = 'agenda-active';
+            }
+
+            // Tampilkan tanggal ringkas (DD/MM)
+            const pTgl = item.tgl.split(/[-/]/);
+            const tglTampil = pTgl[0].length === 4 ? `${pTgl[2]}/${pTgl[1]}` : `${pTgl[0]}/${pTgl[1]}`;
+
+            tr.innerHTML = `
+                <td>${tglTampil}</td>
+                <td>${item.jam}</td>
+                <td style="text-align:left;">${item.kegiatan}</td>
+                <td>${item.pengisi}</td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     function sistemWaktu() {
@@ -142,7 +252,7 @@
         const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
 
-        // LOGIKA HIGHLIGHT: MENCARI TARGET BERIKUTNYA
+        // LOGIKA HIGHLIGHT SHOLAT
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
@@ -163,6 +273,11 @@
                 box.classList.remove('sholat-mendatang');
             }
         });
+
+        // UPDATE HIGHLIGHT AGENDA SETIAP MENIT
+        if (now.getSeconds() === 0) {
+            perbaruiTabelAgenda();
+        }
 
         for (let s in jadwal) {
             if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif && now.getSeconds() < 2) {
@@ -209,5 +324,3 @@
 </script>
 </body>
 </html>
-
-
