@@ -2,446 +2,374 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TV Masjid DARUSSALAM - Dynamic Weekly Agenda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Sholat & Informasi Masjid</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { 
-            background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
-            background-size: cover; color: white; height: 100vh; width: 100vw; overflow: hidden; display: flex; flex-direction: column;
-        }
-        .top-container { width: 100%; text-align: center; padding-top: 5px; flex-shrink: 0; }
-        .header-wrapper { display: inline-block; background: rgba(0,0,0,0.9); padding: 2px 25px; border-radius: 50px; border: 2px solid #D4AF37; }
-        .header-text { font-family: 'Arial Black', sans-serif; font-size: clamp(1rem, 4vw, 2.2rem); font-weight: 900; text-transform: uppercase; overflow: hidden; }
-        .header-text span { display: inline-block; opacity: 0; transform: translateX(50px); animation: muncul-kanan 0.5s forwards; filter: drop-shadow(0 0 5px #ffd700); }
-        @keyframes muncul-kanan { to { opacity: 1; transform: translateX(0); } }
-        .hilang { animation: keluar-halus 0.5s forwards !important; }
-        @keyframes keluar-halus { to { opacity: 0; transform: translateY(-10px); } }
-        
-        .marquee-container { margin: 5px auto; width: 90%; background: #000; height: 32px; overflow: hidden; border-radius: 50px; border: 1.5px solid #D4AF37; position: relative; }
-        .marquee-content { position: absolute; width: 100%; text-align: center; line-height: 30px; font-weight: bold; font-size: clamp(0.7rem, 2vw, 1rem); opacity: 0; transform: translateY(100%); }
-        .show-msg { animation: ganti-teks 4s infinite; }
-        @keyframes ganti-teks { 0% { transform: translateY(100%); opacity: 0; } 12%, 62% { transform: translateY(0); opacity: 1; } 75%, 100% { transform: translateY(-100%); opacity: 0; } }
-        
-        .middle-container { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 0; padding-bottom: 100px; }
-        #jam-digital { font-family: 'Arial Black', sans-serif; font-size: clamp(3rem, 18vw, 8.5rem); font-weight: 900; line-height: 1; filter: drop-shadow(0 0 10px #ffd700); margin-bottom: 5px; }
-        .dates { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
-        #tgl-masehi, #tgl-hijriah { background: rgba(0,0,0,0.9); padding: 3px 15px; border-radius: 50px; border: 1.2px solid #D4AF37; font-size: clamp(0.6rem, 2.5vw, 1rem); font-weight: 800; }
-        #tgl-hijriah { color: #CCFF00; }
-        
-        .info-container { display: flex; gap: 10px; width: 95%; max-width: 950px; align-items: stretch; }
-        .card { border-radius: 8px; overflow: hidden; }
-        
-        /* CARD KEUANGAN */
-        .card-keuangan { flex: 0.8; background: rgba(0,0,0,0.9); border: 1.2px solid #D4AF37; }
-        .card-h { background: #000; color: #D4AF37; padding: 4px; font-weight: bold; text-align: center; font-size: 0.8rem; border-bottom: 1px solid #D4AF37; text-transform: uppercase; }
-        .card-b { padding: 6px 10px; }
-        .row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; font-size: 0.75rem; padding: 3px 0; }
-        
-        /* CARD AGENDA KEGIATAN */
-        .card-agenda { 
-            flex: 1.4; 
-            background: rgba(255, 255, 255, 0.92); 
-            border: 2px solid #D4AF37; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            color: #111;
-        }
-        .card-agenda .card-h { 
-            background: #111; 
-            color: #ffd700; 
-            border-bottom: 2px solid #D4AF37; 
-            letter-spacing: 1px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        /* TABEL AGENDA KEGIATAN */
-        .tbl-agenda { width: 100%; border-collapse: collapse; font-size: 0.68rem; table-layout: fixed; }
-        .tbl-agenda th { 
-            background: rgba(212, 175, 55, 0.4); 
-            color: #000; 
-            font-weight: 800; 
-            border: 1px solid #D4AF37; 
-            padding: 4px 5px; 
-            text-align: center;
-            text-transform: uppercase;
-        }
-        .tbl-agenda td { 
-            border: 1px solid #D4AF37; 
-            padding: 4px 6px; 
-            text-align: center; 
-            color: #111; 
-            font-weight: 600;
+        body {
+            background: url(' background.jpg') no-repeat center center fixed; /* Ganti dengan path gambarmu */
+            background-size: cover;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             overflow: hidden;
-            text-overflow: ellipsis;
+            padding: 20px;
+        }
+
+        /* HEADER & JAM UTAMA */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .date-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
             white-space: nowrap;
-        }
-        
-        /* HIGHLIGHT AGENDA TERDEKAT */
-        .agenda-active { 
-            background: #ffd700 !important; 
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-        }
-        .agenda-active td { 
-            background: #ffd700 !important; 
-            color: #000 !important; 
-            font-weight: 900 !important; 
-            font-size: 0.78rem !important;
-            border: 1.5px solid #000 !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .bottom-prayer { position: absolute; bottom: 0; width: 100%; background: #000; border-top: 3px solid #ffd700; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 5px; }
-        .p-box { border: 1px solid #ffd700; text-align: center; padding: 4px 0; border-radius: 5px; background: rgba(50,50,50,0.3); transition: all 0.5s ease; }
-        
-        /* HIGHLIGHT SHOLAT TERDEKAT */
-        .sholat-mendatang { background: #ffd700 !important; box-shadow: 0 0 20px #ffd700; border: 2px solid #fff; transform: scale(1.02); }
-        .sholat-mendatang * { color: #000 !important; font-weight: 900; }
+        .clock-display {
+            font-size: 6rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            line-height: 1;
+        }
 
-        #mode-sholat { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .txt-sedang { font-size: clamp(1.2rem, 4vw, 3rem); font-weight: 600; color: #fff; margin: 10px 0; }
-        .txt-besar { font-size: clamp(4rem, 20vw, 12rem); font-weight: 900; line-height: 0.9; width: 95%; color: #ffd700; text-transform: uppercase; }
-        .blink-custom { animation: blink-anim 3s infinite; }
-        @keyframes blink-anim { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
-        @media (max-width: 600px) { .bottom-prayer { grid-template-columns: repeat(3, 1fr); } .middle-container { padding-bottom: 125px; } }
+        /* AREA KONTEN UTAMA (KEUANGAN & AGENDA) */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: stretch;
+            margin: 20px 0;
+            flex: 1;
+        }
+
+        .card-box {
+            flex: 1;
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+        }
+
+        .card-header {
+            background: linear-gradient(180deg, #111 0%, #000 100%);
+            color: #ffd700;
+            text-align: center;
+            padding: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #ffd700;
+        }
+
+        /* BACKGROUND KEUANGAN DISAMAKAN DENGAN AGENDA (PUTIH SEMI-TRANSPARAN) */
+        .card-body-container {
+            background: rgba(255, 255, 255, 0.85);
+            color: #000;
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TABEL KEUANGAN */
+        .finance-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.3rem; /* Font diperbesar */
+            font-weight: bold;
+        }
+
+        .finance-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .finance-table tr.total-row td {
+            font-size: 1.4rem;
+            color: #b8860b;
+            border-top: 2px solid #000;
+            border-bottom: none;
+            padding-top: 15px;
+        }
+
+        /* TABEL AGENDA */
+        .agenda-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .agenda-table th {
+            background-color: rgba(220, 220, 220, 0.9);
+            color: #000;
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .agenda-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .agenda-table tr.highlight-agenda {
+            background-color: #ffd700 !important;
+            font-weight: bold;
+        }
+
+        /* BARIS JADWAL SHOLAT (DIPERBESAR / DITINGGIKAN) */
+        .prayer-container {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .prayer-box {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 12px 5px; /* Ditinggikan */
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .prayer-title {
+            font-size: 1.3rem; /* Font diperbesar */
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .prayer-time {
+            font-size: 1.6rem; /* Font jam diperbesar */
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        /* HIGHLIGHT WAKTU SHOLAT YANG MENDEKATI */
+        .prayer-box.active {
+            background: #ffd700;
+            transform: scale(1.03);
+            box-shadow: 0 0 15px #ffd700;
+        }
+
+        .prayer-box.active .prayer-title,
+        .prayer-box.active .prayer-time {
+            color: #000000;
+        }
     </style>
 </head>
 <body>
 
-<div id="ui-normal">
-    <div class="top-container">
-        <div class="header-wrapper"><div id="header-animasi" class="header-text"></div></div>
-        <div class="marquee-container">
-            <div id="run-1" class="marquee-content show-msg">Perum Jatisawit Asri, Jitengan, Balecatur, Gamping</div>
-            <div id="run-2" class="marquee-content">Jadwal Sholat Mengacu KHGT</div>
-        </div>
-    </div>
-    <div class="middle-container">
-        <div id="jam-digital">00.00.00</div>
-        <div class="dates">
-            <div id="tgl-masehi">--</div>
-            <div id="tgl-hijriah">--</div>
-        </div>
-        <div class="info-container">
-            <!-- KEUANGAN -->
-            <div class="card card-keuangan">
-                <div class="card-h">KEUANGAN</div>
-                <div class="card-b">
-                    <div class="row"><span>PEMASUKAN</span><span id="kas-in">0</span></div>
-                    <div class="row"><span>PENGELUARAN</span><span id="kas-out">0</span></div>
-                    <div class="row" style="color:#ffd700; font-weight:bold;"><span>SALDO AKHIR</span><span id="kas-saldo">0</span></div>
-                </div>
-            </div>
+    <!-- JAM UTAMA DAN KALENDER -->
+    <div class="header-container">
+        <!-- KALENDER MASEHI DI SEBELAH KIRI -->
+        <div class="date-box" id="masehi-date">Selasa, 11 Agustus 2026</div>
 
-            <!-- AGENDA KEGIATAN -->
-            <div class="card card-agenda">
-                <div class="card-h">AGENDA KEGIATAN 1 MINGGU</div>
-                <div class="card-b" style="padding: 4px;">
-                    <table class="tbl-agenda">
-                        <thead>
-                            <tr>
-                                <th style="width: 20%;">TGL</th>
-                                <th style="width: 18%;">JAM</th>
-                                <th style="width: 37%;">KEGIATAN</th>
-                                <th style="width: 25%;">PENGISI</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body-agenda">
-                            <!-- Data diisi otomatis -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- JAM BESAR -->
+        <div class="clock-display" id="main-clock">10:27:39</div>
+
+        <!-- KALENDER HIJRAH DI SEBELAH KANAN -->
+        <div class="date-box" id="hijri-date">27 Safar 1448 H</div>
+    </div>
+
+    <!-- TAMPILAN KEUANGAN DAN AGENDA -->
+    <div class="main-content">
+        <!-- KEUANGAN -->
+        <div class="card-box">
+            <div class="card-header">KEUANGAN</div>
+            <div class="card-body-container">
+                <table class="finance-table">
+                    <tr>
+                        <td style="text-align: left;">PEMASUKAN</td>
+                        <td style="text-align: right;">Rp5.427.072</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">PENGELUARAN</td>
+                        <td style="text-align: right;">Rp1.966.330</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td style="text-align: left;">SALDO AKHIR</td>
+                        <td style="text-align: right;">Rp3.460.742</td>
+                    </tr>
+                </table>
             </div>
         </div>
+
+        <!-- AGENDA KEGIATAN -->
+        <div class="card-box">
+            <div class="card-header">AGENDA KEGIATAN 1 MINGGU</div>
+            <div class="card-body-container" style="padding: 0;">
+                <table class="agenda-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 12%;">TGL</th>
+                            <th style="width: 15%;">JAM</th>
+                            <th style="width: 45%;">KEGIATAN</th>
+                            <th style="width: 28%;">PENGISI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>11/08</td>
+                            <td>10:00</td>
+                            <td style="text-align: left;">Kajian ahad pagi</td>
+                            <td>Ust Ahmad Rofiq</td>
+                        </tr>
+                        <tr class="highlight-agenda">
+                            <td>12/08</td>
+                            <td>12:09</td>
+                            <td style="text-align: left;">Rapat qurban</td>
+                            <td>Takmir masjid</td>
+                        </tr>
+                        <tr>
+                            <td>13/08</td>
+                            <td>03:13</td>
+                            <td style="text-align: left;">Tpa</td>
+                            <td>Barisda</td>
+                        </tr>
+                        <tr>
+                            <td>14/08</td>
+                            <td>19:00</td>
+                            <td style="text-align: left;">Taqsin quran ibu ibu</td>
+                            <td>Ustadzah</td>
+                        </tr>
+                        <tr>
+                            <td>15/08</td>
+                            <td>04:15</td>
+                            <td style="text-align: left;">Tpa</td>
+                            <td>Barisda</td>
+                        </tr>
+                        <tr>
+                            <td>16/08</td>
+                            <td>04:16</td>
+                            <td style="text-align: left;">Kajian ibu ibu</td>
+                            <td>Ust dede</td>
+                        </tr>
+                        <tr>
+                            <td>17/08</td>
+                            <td>09:16</td>
+                            <td style="text-align: left;">Kajian bapak bapak</td>
+                            <td>Ust Luqman</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="bottom-prayer">
-        <div class="p-box" id="box-SUBUH"><div>SUBUH</div><b id="sh-subuh">--:--</b></div>
-        <div class="p-box" id="box-SYURUQ"><div>SYURUQ</div><b id="sh-terbit">--:--</b></div>
-        <div class="p-box" id="box-ZUHUR"><div>ZUHUR</div><b id="sh-zuhur">--:--</b></div>
-        <div class="p-box" id="box-ASHAR"><div>ASHAR</div><b id="sh-ashar">--:--</b></div>
-        <div class="p-box" id="box-MAGHRIB"><div>MAGHRIB</div><b id="sh-maghrib">--:--</b></div>
-        <div class="p-box" id="box-ISYA"><div>ISYA</div><b id="sh-isya">--:--</b></div>
+
+    <!-- BOX JADWAL SHOLAT -->
+    <div class="prayer-container">
+        <div class="prayer-box" id="box-subuh">
+            <div class="prayer-title">SUBUH</div>
+            <div class="prayer-time" id="time-subuh">04:39</div>
+        </div>
+        <div class="prayer-box" id="box-syuruq">
+            <div class="prayer-title">SYURUQ</div>
+            <div class="prayer-time" id="time-syuruq">05:45</div>
+        </div>
+        <div class="prayer-box" id="box-zuhur">
+            <div class="prayer-title">ZUHUR</div>
+            <div class="prayer-time" id="time-zuhur">11:45</div>
+        </div>
+        <div class="prayer-box" id="box-ashar">
+            <div class="prayer-title">ASHAR</div>
+            <div class="prayer-time" id="time-ashar">15:07</div>
+        </div>
+        <div class="prayer-box" id="box-maghrib">
+            <div class="prayer-title">MAGHRIB</div>
+            <div class="prayer-time" id="time-maghrib">17:41</div>
+        </div>
+        <div class="prayer-box" id="box-isya">
+            <div class="prayer-title">ISYA</div>
+            <div class="prayer-time" id="time-isya">18:52</div>
+        </div>
     </div>
-</div>
 
-<div id="mode-sholat">
-    <div id="msg-atas" class="txt-sedang"></div>
-    <div id="msg-utama" class="txt-besar"></div>
-    <div id="msg-bawah" class="txt-sedang"></div>
-</div>
-
-<script>
-    const DURASI_ADZAN = 120; 
-    const DURASI_IQOMAH = 720; 
-    const DURASI_SHOLAT = 30;
-    
-    // GID 224039655 -> Sheet JAM SHOLAT KHGT
-    const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
-    // GID 355922745 -> Sheet AGENDA KEGIATAN
-    const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
-
-    let jadwal = {}; let timerSholat; let modeAktif = false;
-    let daftarAgenda = [];
-
-    // Parser CSV Aman dari Komma & Tanda Petik
-    function parseCSV(text) {
-        let p = '', c = '', r = [];
-        let q = false;
-        let row = [''];
-        for (let i = 0; i < text.length; i++) {
-            c = text[i];
-            p = text[i - 1];
-            if (c === '"') {
-                if (q && text[i + 1] === '"') { row[row.length - 1] += '"'; i++; }
-                else { q = !q; }
-            } else if (c === ',' && !q) {
-                row.push('');
-            } else if ((c === '\r' || c === '\n') && !q) {
-                if (c === '\r' && text[i + 1] === '\n') { i++; }
-                r.push(row);
-                row = [''];
-            } else {
-                row[row.length - 1] += c;
-            }
-        }
-        if (row.length > 1 || row[0] !== '') { r.push(row); }
-        return r;
-    }
-
-    function jalankanAnimasiHeader() {
-        const wadah = document.getElementById('header-animasi');
-        const kata = "MASJID DARUSSALAM"; wadah.innerHTML = "";   
-        kata.split("").forEach((h, i) => {
-            const span = document.createElement("span"); span.innerHTML = h === " " ? "&nbsp;" : h;
-            span.style.animationDelay = `${i * 0.08}s`; wadah.appendChild(span);
-        });
-        setTimeout(() => {
-            wadah.querySelectorAll('span').forEach(s => s.classList.add('hilang'));
-            setTimeout(jalankanAnimasiHeader, 800);            
-        }, 7000);
-    }    
-    jalankanAnimasiHeader();
-
-    let teksIdx = 1;
-    setInterval(() => {
-        document.getElementById('run-1').classList.remove('show-msg');
-        document.getElementById('run-2').classList.remove('show-msg');
-        teksIdx = teksIdx === 1 ? 2 : 1;
-        setTimeout(() => { document.getElementById('run-' + teksIdx).classList.add('show-msg'); }, 1000);
-    }, 4000);
-
-    async function muatData() {
-        // 1. DATA JAM SHOLAT KHGT & KEUANGAN
-        try {
-            const res = await fetch(urlCSV + '&t=' + Date.now());
-            const text = await res.text();
-            const rows = parseCSV(text);
+    <script>
+        // FUNCTION LOGIKA JAM UTAMA
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('main-clock').textContent = `${hours}.${minutes}.${seconds}`;
             
-            // Mengambil data dari Baris 2 (indeks 1 di JavaScript)
-            const b2 = rows[1]; 
-            if (b2 && b2.length >= 12) {
-                // Posisi Kolom: C=Subuh(2), D=Terbit(3), E=Zuhur(4), F=Ashar(5), G=Maghrib(6), H=Isya(7)
-                jadwal = { 
-                    "SUBUH": b2[2].trim(), 
-                    "SYURUQ": b2[3].trim(), 
-                    "ZUHUR": b2[4].trim(), 
-                    "ASHAR": b2[5].trim(), 
-                    "MAGHRIB": b2[6].trim(), 
-                    "ISYA": b2[7].trim() 
-                };
-                
-                document.getElementById('sh-subuh').innerText = jadwal.SUBUH; 
-                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
-                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; 
-                document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
-                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
-                document.getElementById('sh-isya').innerText = jadwal.ISYA;
-                
-                // Tanggal Masehi/Hijriah dari Kolom I (indeks 8)
-                if (b2[8]) {
-                    document.getElementById('tgl-hijriah').innerText = b2[8].trim();
-                }
+            updatePrayerHighlight(now);
+        }
 
-                // Posisi Keuangan: J=Pemasukan(9), K=Pengeluaran(10), L=Saldo Akhir(11)
-                document.getElementById('kas-in').innerText = b2[9].trim(); 
-                document.getElementById('kas-out').innerText = b2[10].trim();
-                document.getElementById('kas-saldo').innerText = b2[11].trim();
-            }
-        } catch (e) { console.log("CSV Main Error", e); }
+        // ATURAN HIGHLIGHT SHOLAT MENDEKATI WAKTU (LOGIKA YANG DIPERBAIKI)
+        function updatePrayerHighlight(now) {
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-        // 2. DATA AGENDA KEGIATAN
-        try {
-            const resAgenda = await fetch(urlAgendaCSV + '&t=' + Date.now());
-            const textAgenda = await resAgenda.text();
+            // Daftar waktu sholat dalam menit dari awal hari
+            const prayerTimes = [
+                { id: 'box-subuh', time: parseTimeToMinutes(document.getElementById('time-subuh').textContent) },
+                { id: 'box-syuruq', time: parseTimeToMinutes(document.getElementById('time-syuruq').textContent) },
+                { id: 'box-zuhur', time: parseTimeToMinutes(document.getElementById('time-zuhur').textContent) },
+                { id: 'box-ashar', time: parseTimeToMinutes(document.getElementById('time-ashar').textContent) },
+                { id: 'box-maghrib', time: parseTimeToMinutes(document.getElementById('time-maghrib').textContent) },
+                { id: 'box-isya', time: parseTimeToMinutes(document.getElementById('time-isya').textContent) }
+            ];
 
-            const rowsAgenda = parseCSV(textAgenda);
-            daftarAgenda = [];
+            // Bersihkan semua highlight
+            prayerTimes.forEach(p => {
+                document.getElementById(p.id).classList.remove('active');
+            });
 
-            // Membaca Kolom B=TANGGAL(r[1]), C=JAM(r[2]), D=AGENDA(r[3]), E=PENGISI(r[4])
-            for (let i = 1; i < rowsAgenda.length; i++) {
-                const r = rowsAgenda[i];
-                if (r && r.length >= 4) {
-                    const tglVal = (r[1] || "").trim();
-                    const jamVal = (r[2] || "").trim();
-                    const kgtVal = (r[3] || "").trim();
-                    const pgsVal = (r[4] || "-").trim();
+            // Cari waktu sholat berikutnya yang paling mendekati jam sekarang
+            let activeId = prayerTimes[0].id; // Default Subuh untuk esok hari jika lewat Isya
 
-                    if (tglVal && kgtVal && !tglVal.toLowerCase().includes("tanggal")) {
-                        daftarAgenda.push({
-                            tgl: tglVal,
-                            jam: jamVal || "00.00.00",
-                            kegiatan: kgtVal,
-                            pengisi: pgsVal
-                        });
-                    }
+            for (let i = 0; i < prayerTimes.length; i++) {
+                if (currentMinutes < prayerTimes[i].time) {
+                    activeId = prayerTimes[i].id;
+                    break;
                 }
             }
-            perbaruiTabelAgenda();
 
-        } catch (e) { console.log("CSV Agenda Error", e); }
-    }
-
-    function parseKeDate(tglStr, jamStr) {
-        if (!tglStr) return null;
-        const pTgl = tglStr.trim().split('/');
-        if (pTgl.length < 3) return null;
-        
-        const d = pTgl[0].padStart(2, '0');
-        const m = pTgl[1].padStart(2, '0');
-        const y = pTgl[2];
-
-        const jamBersih = (jamStr || "00.00.00").trim().replace(/\./g, ':');
-        const pJam = jamBersih.split(':');
-        const hh = (pJam[0] || "00").padStart(2, '0');
-        const mm = (pJam[1] || "00").padStart(2, '0');
-        const ss = (pJam[2] || "00").padStart(2, '0');
-
-        return new Date(`${y}-${m}-${d}T${hh}:${mm}:${ss}`);
-    }
-
-    function perbaruiTabelAgenda() {
-        const tbody = document.getElementById('body-agenda');
-        tbody.innerHTML = "";
-
-        const sekarang = new Date();
-        
-        // Menghitung Batas Awal (Hari ini jam 00:00:00) dan Batas Akhir (7 hari ke depan jam 23:59:59)
-        const awalMinggu = new Date(sekarang.getFullYear(), sekarang.getMonth(), sekarang.getDate(), 0, 0, 0);
-        const akhirMinggu = new Date(sekarang.getFullYear(), sekarang.getMonth(), sekarang.getDate() + 7, 23, 59, 59);
-
-        // Filter agenda yang masuk ke dalam rentang 1 minggu ini saja
-        const agendaMingguIni = daftarAgenda.filter(item => {
-            const tglObj = parseKeDate(item.tgl, item.jam);
-            return tglObj && tglObj >= awalMinggu && tglObj <= akhirMinggu;
-        });
-
-        if (agendaMingguIni.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='4' style='padding:15px; font-weight:bold;'>Tidak Ada Agenda Minggu Ini</td></tr>";
-            return;
+            // Tambahkan kelas active ke box sholat yang mendekati
+            document.getElementById(activeId).classList.add('active');
         }
 
-        // Mencari agenda terdekat dari detik ini untuk di-highlight
-        let idxHighlight = -1;
-        for (let i = 0; i < agendaMingguIni.length; i++) {
-            const tglObj = parseKeDate(agendaMingguIni[i].tgl, agendaMingguIni[i].jam);
-            if (tglObj && tglObj >= sekarang) {
-                idxHighlight = i;
-                break;
-            }
+        function parseTimeToMinutes(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
         }
 
-        agendaMingguIni.forEach((item, index) => {
-            const tr = document.createElement('tr');
-            if (index === idxHighlight) {
-                tr.className = 'agenda-active';
-            }
-
-            const pTgl = item.tgl.split('/');
-            const tglTampil = pTgl.length >= 2 ? `${pTgl[0]}/${pTgl[1]}` : item.tgl;
-            const jamTampil = item.jam.replace(/\./g, ':').substring(0, 5);
-
-            tr.innerHTML = `
-                <td>${tglTampil}</td>
-                <td>${jamTampil}</td>
-                <td style="text-align:left; font-weight:700;">${item.kegiatan}</td>
-                <td>${item.pengisi}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function sistemWaktu() {
-        const now = new Date();
-        const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-        document.getElementById('jam-digital').innerText = now.getHours().toString().padStart(2,'0') + "." + now.getMinutes().toString().padStart(2,'0') + "." + now.getSeconds().toString().padStart(2,'0');
-        
-        const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
-
-        const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
-        let mendatang = "";
-
-        for (let i = 0; i < urutan.length; i++) {
-            if (jamMenit < jadwal[urutan[i]]) {
-                mendatang = urutan[i];
-                break; 
-            }
-        }
-        
-        if (!mendatang) mendatang = "SUBUH";
-
-        urutan.forEach(s => { 
-            const box = document.getElementById('box-' + s);
-            if (s === mendatang) {
-                box.classList.add('sholat-mendatang');
-            } else {
-                box.classList.remove('sholat-mendatang');
-            }
-        });
-
-        if (now.getSeconds() === 0) {
-            perbaruiTabelAgenda();
-        }
-
-        for (let s in jadwal) {
-            if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif && now.getSeconds() < 2) {
-                mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
-            }
-        }
-    }
-
-    function mulaiModeSholat(tipe, nama, detikSisa) {
-        modeAktif = true;
-        const modal = document.getElementById('mode-sholat');
-        const mAtas = document.getElementById('msg-atas');
-        const mUtama = document.getElementById('msg-utama');
-        const mBawah = document.getElementById('msg-bawah');
-        modal.style.display = 'flex';
-        let sisa = detikSisa;
-        clearInterval(timerSholat);
-        timerSholat = setInterval(() => {
-            if (tipe === "ADZAN") {
-                mAtas.innerText = "SAAT ADZAN"; mAtas.className = "txt-sedang";
-                mUtama.innerText = nama; mUtama.className = "txt-besar blink-custom";
-                mBawah.innerText = "TENANG DAN MENDENGARKAN"; mBawah.className = "txt-sedang";
-            } else if (tipe === "IQOMAH") {
-                mAtas.innerText = "SAAT IQOMAH"; mAtas.className = "txt-sedang blink-custom";
-                let m = Math.floor(sisa/60), s = sisa%60;
-                mUtama.innerText = m + ":" + (s < 10 ? '0' + s : s); mUtama.className = "txt-besar";
-                mBawah.innerText = "DIRIKAN SHOLAT SUNAH"; mBawah.className = "txt-sedang blink-custom";
-            } else if (tipe === "SHOLAT") {
-                mAtas.innerText = "DIRIKAN"; mAtas.className = "txt-sedang";
-                mUtama.innerText = "SHOLAT"; mUtama.className = "txt-besar";
-                mBawah.innerText = "NIAT & SHOLAT DENGAN KHUSYU"; mBawah.className = "txt-sedang";
-            }
-            sisa--;
-            if (sisa < 0) {
-                if (tipe === "ADZAN") mulaiModeSholat("IQOMAH", nama, DURASI_IQOMAH);
-                else if (tipe === "IQOMAH") mulaiModeSholat("SHOLAT", nama, DURASI_SHOLAT);
-                else { modal.style.display = 'none'; modeAktif = false; clearInterval(timerSholat); }
-            }
-        }, 1000);
-    }
-
-    setInterval(sistemWaktu, 1000);
-    muatData(); setInterval(muatData, 600000);
-</script>
+        // Jalankan fungsi jam setiap detik
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
