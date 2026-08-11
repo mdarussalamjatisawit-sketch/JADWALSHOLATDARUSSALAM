@@ -441,21 +441,22 @@
             if (rows.length >= 2) {
                 const b2 = rows[1]; 
                 
-                // 1. TANGGAL HIJRIAH (Kolom B + C)
+                // 1. TANGGAL HIJRIAH (Kolom B [index 1] + Kolom C [index 2])
                 const tglHijriahStr = ((b2[1] || '') + " " + (b2[2] || '')).trim();
                 if(tglHijriahStr) {
                     document.getElementById('tgl-hijriah').innerText = tglHijriahStr;
                 }
                 
-                // 2. PARSING JADWAL SHOLAT PER KOLOM
-                let subuh = b2[3] || "04:39";   // Kolom D
-                let syuruq = b2[4] || "05:45";  // Kolom E
-                let zuhur = b2[5] || "11:45";   // Kolom F
-                let ashar = b2[6] || "15:07";   // Kolom G
+                // 2. PARSING JADWAL SHOLAT PRESI
+                // b2[3]=Subuh, b2[4]=Terbit, b2[5]=Zuhur, b2[6]=Ashar
+                let subuh = b2[3] || "04:39";   
+                let syuruq = b2[4] || "05:45";  
+                let zuhur = b2[5] || "11:45";   
+                let ashar = b2[6] || "15:07";   
                 let maghrib = "17:41";
                 let isya = "18:52";
 
-                // Memisahkan Maghrib & Isya yang tergabung di Kolom H (b2[7])
+                // Memisah Kolom H (b2[7]) jika Maghrib dan Isya tergabung dalam 1 string
                 if (b2[7]) {
                     let parts = b2[7].trim().split(/\s+/);
                     if (parts.length >= 2) {
@@ -485,8 +486,8 @@
                 document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
                 document.getElementById('sh-isya').innerText = jadwal.ISYA;
                 
-                // 3. KEUANGAN (Membaca Tepat Kolom I, J, K, L dari Spreadsheet)
-                if (b2[8]) document.getElementById('kas-tgl').innerText = b2[8];  // Kolom I: TANGGAL (11/08/2026)
+                // 3. KEUANGAN (Membaca Kolom I, J, K, L)
+                if (b2[8] && b2[8].includes('/')) document.getElementById('kas-tgl').innerText = b2[8];  // Kolom I: TANGGAL
                 if (b2[9]) document.getElementById('kas-in').innerText = b2[9].startsWith('Rp') ? b2[9] : 'Rp' + b2[9]; // Kolom J: PEMASUKAN
                 if (b2[10]) document.getElementById('kas-out').innerText = b2[10].startsWith('Rp') ? b2[10] : 'Rp' + b2[10]; // Kolom K: PENGELUARAN
                 if (b2[11]) document.getElementById('kas-saldo').innerText = b2[11].startsWith('Rp') ? b2[11] : 'Rp' + b2[11]; // Kolom L: SALDO AKHIR
