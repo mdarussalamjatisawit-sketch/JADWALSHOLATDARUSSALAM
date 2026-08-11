@@ -94,7 +94,7 @@
         .middle-top-container {
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Mepet kiri & kanan sejajar Subuh & Isya */
+            justify-content: space-between;
             width: 100%;
             margin-top: 5px;
         }
@@ -109,12 +109,11 @@
             color: #ffffff;
             white-space: nowrap;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            width: 28%; /* Menyesuaikan agar sejajar dengan box keuangan / subuh */
+            width: 28%;
             text-align: center;
         }
         #tgl-hijriah { color: #CCFF00; }
 
-        /* JAM DIGITAL DIPERBESAR */
         .clock-display {
             font-family: 'Arial Black', sans-serif;
             font-size: clamp(4rem, 13vw, 8rem); 
@@ -128,11 +127,11 @@
         }
 
         /* ----------------------------------
-           INFORMASI KEUANGAN & AGENDA (SEJAJAR SUBUH & ISYA)
+           INFORMASI KEUANGAN & AGENDA
         ---------------------------------- */
         .info-container { 
             display: flex; 
-            justify-content: space-between; /* Memisahkan box mepet kiri dan kanan */
+            justify-content: space-between; 
             width: 100%; 
             margin: 10px 0;
             align-items: stretch;
@@ -160,7 +159,6 @@
             letter-spacing: 1px;
         }
 
-        /* BOX KEUANGAN MEPET KIRI & AGENDA MEPET KANAN */
         .card-keuangan { width: 38%; }
         .card-agenda { width: 58%; }
 
@@ -174,7 +172,6 @@
             justify-content: center;
         }
 
-        /* TABEL KEUANGAN */
         .tbl-keuangan {
             width: 100%;
             border-collapse: collapse;
@@ -193,7 +190,6 @@
             padding-top: 12px;
         }
 
-        /* TABEL AGENDA KEGIATAN */
         .tbl-agenda { 
             width: 100%; 
             border-collapse: collapse; 
@@ -259,7 +255,6 @@
             color: #fff;
         }
         
-        /* HIGHLIGHT SHOLAT MENDEKATI WAKTU */
         .sholat-mendatang { 
             background: #ffd700 !important; 
             box-shadow: 0 0 15px #ffd700; 
@@ -269,7 +264,6 @@
             color: #000 !important; 
         }
 
-        /* MODE SCREEN SHOLAT / ADZAN */
         #mode-sholat { 
             display: none; 
             position: fixed; 
@@ -303,14 +297,14 @@
         </div>
     </div>
 
-    <!-- MASEHI (KIRI MEPET SUBUH) | JAM BESAR (TENGAH) | HIJRIAH (KANAN MEPET ISYA) -->
+    <!-- MASEHI | JAM BESAR | HIJRIAH -->
     <div class="middle-top-container">
         <div class="date-box" id="tgl-masehi">--</div>
         <div class="clock-display" id="jam-digital">00.00.00</div>
         <div class="date-box" id="tgl-hijriah">--</div>
     </div>
 
-    <!-- KEUANGAN (MEPET KIRI) & AGENDA (MEPET KANAN) -->
+    <!-- KEUANGAN & AGENDA -->
     <div class="info-container">
         <!-- CARD KEUANGAN -->
         <div class="card card-keuangan">
@@ -377,10 +371,10 @@
     const DURASI_IQOMAH = 720; 
     const DURASI_SHOLAT = 30;
     
-    const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
-    const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
+    // URL SPREADSHEET SESUAI GAMBAR (GID 224039655 UNTUK TAB JAM SHOLAT KHGT)
+    const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS1_--b0f0Cn49yX65dbRw7FT5zwFl_YllCyBLMZzspsSk/pub?gid=224039655&single=true&output=csv';
+    const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS1_--b0f0Cn49yX65dbRw7FT5zwFl_YllCyBLMZzspsSk/pub?gid=355922745&single=true&output=csv';
 
-    // Standby Default Jika Internet Lambat
     let jadwal = { "SUBUH": "04:39", "SYURUQ": "05:45", "ZUHUR": "11:45", "ASHAR": "15:07", "MAGHRIB": "17:41", "ISYA": "18:52" }; 
     let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
@@ -408,7 +402,7 @@
         return r;
     }
 
-    // ANIMASI HEADER MASJID DARUSSALAM
+    // ANIMASI HEADER
     function jalankanAnimasiHeader() {
         const wadah = document.getElementById('header-animasi');
         const kata = "MASJID DARUSSALAM"; wadah.innerHTML = "";   
@@ -434,32 +428,44 @@
         setTimeout(() => { document.getElementById('run-' + teksIdx).classList.add('show-msg'); }, 1000);
     }, 4000);
 
-    // MENGAMBIL DATA DARI GOOGLE SHEETS
+    // MENGAMBIL DATA DARI SHEET (DISESUAIKAN DENGAN STRUKTUR KOLOM DARI GAMBAR)
     async function muatData() {
         try {
             const res = await fetch(urlCSV + '&t=' + Date.now());
             const text = await res.text();
             const rows = parseCSV(text);
-            if (rows.length >= 3) {
-                const b2 = rows[2];
-                // Update Tanggal Hijriah
-                if(rows[1] && rows[1][2] && b2[0]) {
-                    document.getElementById('tgl-hijriah').innerText = rows[1][2] + " " + b2[0];
+            
+            // Mengambil data dari Baris 2 (index 1 pada JS)
+            if (rows.length >= 2) {
+                const b2 = rows[1]; 
+                
+                // 1. TANGGAL HIJRIAH (Kolom B: 28 Safar, Kolom C: 1448)
+                const tglHijriahStr = ((b2[1] || '') + " " + (b2[2] || '')).trim();
+                if(tglHijriahStr) {
+                    document.getElementById('tgl-hijriah').innerText = tglHijriahStr;
                 }
                 
-                // Update Jam Sholat
-                jadwal = { "SUBUH": b2[1], "SYURUQ": b2[2], "ZUHUR": b2[3], "ASHAR": b2[4], "MAGHRIB": b2[5], "ISYA": b2[6] };
-                document.getElementById('sh-subuh').innerText = jadwal.SUBUH || "04:39"; 
-                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ || "05:45";
-                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR || "11:45"; 
-                document.getElementById('sh-ashar').innerText = jadwal.ASHAR || "15:07";
-                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB || "17:41"; 
-                document.getElementById('sh-isya').innerText = jadwal.ISYA || "18:52";
+                // 2. JADWAL SHOLAT (Kolom D s/d I)
+                jadwal = { 
+                    "SUBUH": b2[3] || "04:39", 
+                    "SYURUQ": b2[4] || "05:45", 
+                    "ZUHUR": b2[5] || "11:45", 
+                    "ASHAR": b2[6] || "15:07", 
+                    "MAGHRIB": b2[7] || "17:41", 
+                    "ISYA": b2[8] || "18:52" 
+                };
                 
-                // Format Tampilan Keuangan
-                if(b2[8]) document.getElementById('kas-in').innerText = b2[8].includes('Rp') ? b2[8] : 'Rp ' + b2[8];
-                if(b2[9]) document.getElementById('kas-out').innerText = b2[9].includes('Rp') ? b2[9] : 'Rp ' + b2[9];
-                if(b2[10]) document.getElementById('kas-saldo').innerText = b2[10].includes('Rp') ? b2[10] : 'Rp ' + b2[10];
+                document.getElementById('sh-subuh').innerText = jadwal.SUBUH; 
+                document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
+                document.getElementById('sh-zuhur').innerText = jadwal.ZUHUR; 
+                document.getElementById('sh-ashar').innerText = jadwal.ASHAR;
+                document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
+                document.getElementById('sh-isya').innerText = jadwal.ISYA;
+                
+                // 3. KEUANGAN (Kolom K: Pemasukan, Kolom L: Pengeluaran, Kolom M: Saldo Akhir)
+                if(b2[10]) document.getElementById('kas-in').innerText = b2[10].startsWith('Rp') ? b2[10] : 'Rp' + b2[10];
+                if(b2[11]) document.getElementById('kas-out').innerText = b2[11].startsWith('Rp') ? b2[11] : 'Rp' + b2[11];
+                if(b2[12]) document.getElementById('kas-saldo').innerText = b2[12].startsWith('Rp') ? b2[12] : 'Rp' + b2[12];
             }
         } catch (e) { console.log("CSV Utama Error", e); }
 
@@ -539,7 +545,6 @@
         });
     }
 
-    // UPDATE LOGIKA WAKTU DAN HIGHLIGHT WAKTU SHOLAT
     function sistemWaktu() {
         const now = new Date();
         const jamMenit = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
@@ -552,7 +557,6 @@
         const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
 
-        // Pasang Jam Sholat Default saat awal buka sebelum fetch selesai
         if(document.getElementById('sh-subuh').innerText === "--:--") {
             document.getElementById('sh-subuh').innerText = jadwal.SUBUH;
             document.getElementById('sh-terbit').innerText = jadwal.SYURUQ;
@@ -562,7 +566,6 @@
             document.getElementById('sh-isya').innerText = jadwal.ISYA;
         }
 
-        // LOGIKA HIGHLIGHT SHOLAT MENDEKATI WAKTU
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
