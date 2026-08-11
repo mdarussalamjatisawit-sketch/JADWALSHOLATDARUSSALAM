@@ -89,7 +89,7 @@
         }
 
         /* ----------------------------------
-           JAM DIGITAL & TANGGAL (MEPET KIRI / KANAN)
+           JAM DIGITAL & TANGGAL
         ---------------------------------- */
         .middle-top-container {
             display: flex;
@@ -166,7 +166,7 @@
             background: rgba(255, 255, 255, 0.88);
             color: #000;
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -175,19 +175,19 @@
         .tbl-keuangan {
             width: 100%;
             border-collapse: collapse;
-            font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+            font-size: clamp(0.85rem, 1.9vw, 1.15rem);
             font-weight: 800;
         }
         .tbl-keuangan td {
-            padding: 10px 5px;
+            padding: 6px 5px;
             border-bottom: 1px solid rgba(0,0,0,0.15);
         }
         .tbl-keuangan tr.total-row td {
-            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            font-size: clamp(0.95rem, 2.1vw, 1.25rem);
             color: #b8860b;
             border-top: 2px solid #000;
             border-bottom: none;
-            padding-top: 12px;
+            padding-top: 8px;
         }
 
         .tbl-agenda { 
@@ -312,6 +312,10 @@
             <div class="card-b-custom">
                 <table class="tbl-keuangan">
                     <tr>
+                        <td style="text-align: left;">PER TANGGAL</td>
+                        <td style="text-align: right;" id="kas-tgl">-</td>
+                    </tr>
+                    <tr>
                         <td style="text-align: left;">PEMASUKAN</td>
                         <td style="text-align: right;" id="kas-in">Rp0</td>
                     </tr>
@@ -371,7 +375,6 @@
     const DURASI_IQOMAH = 720; 
     const DURASI_SHOLAT = 30;
     
-    // LINK SESUAI REQUEST USER
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
 
@@ -435,17 +438,16 @@
             const text = await res.text();
             const rows = parseCSV(text);
             
-            // Baris 2 mengandung data utama
             if (rows.length >= 2) {
                 const b2 = rows[1]; 
                 
-                // 1. TANGGAL HIJRIAH (Baris 2 Kolom B + C)
+                // 1. TANGGAL HIJRIAH (Kolom B + C)
                 const tglHijriahStr = ((b2[1] || '') + " " + (b2[2] || '')).trim();
                 if(tglHijriahStr) {
                     document.getElementById('tgl-hijriah').innerText = tglHijriahStr;
                 }
                 
-                // 2. JADWAL SHOLAT KHGT (Baris 2 Kolom D - I)
+                // 2. JADWAL SHOLAT (Kolom D s/d H)
                 jadwal = { 
                     "SUBUH": b2[3] || "04:39", 
                     "SYURUQ": b2[4] || "05:45", 
@@ -462,10 +464,11 @@
                 document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
                 document.getElementById('sh-isya').innerText = jadwal.ISYA;
                 
-                // 3. KEUANGAN (Baris 2 Kolom K, L, M)
-                if(b2[10]) document.getElementById('kas-in').innerText = b2[10].startsWith('Rp') ? b2[10] : 'Rp' + b2[10];
-                if(b2[11]) document.getElementById('kas-out').innerText = b2[11].startsWith('Rp') ? b2[11] : 'Rp' + b2[11];
-                if(b2[12]) document.getElementById('kas-saldo').innerText = b2[12].startsWith('Rp') ? b2[12] : 'Rp' + b2[12];
+                // 3. KEUANGAN (Ditentukan Tepat Sesuai Posisi Kolom Spreadsheet: I, J, K, L)
+                if(b2[8]) document.getElementById('kas-tgl').innerText = b2[8]; // Kolom I: TANGGAL
+                if(b2[9]) document.getElementById('kas-in').innerText = b2[9].startsWith('Rp') ? b2[9] : 'Rp' + b2[9]; // Kolom J: PEMASUKAN
+                if(b2[10]) document.getElementById('kas-out').innerText = b2[10].startsWith('Rp') ? b2[10] : 'Rp' + b2[10]; // Kolom K: PENGELUARAN
+                if(b2[11]) document.getElementById('kas-saldo').innerText = b2[11].startsWith('Rp') ? b2[11] : 'Rp' + b2[11]; // Kolom L: SALDO AKHIR
             }
         } catch (e) { console.log("CSV Utama Error", e); }
 
@@ -569,7 +572,6 @@
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
-        // MENCARI SHOLAT TERDEKAT BERDASARKAN MENIT KE-00 HARI INI
         const detikSekarang = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
         let selisihTerkecil = Infinity;
 
@@ -579,7 +581,6 @@
                 const detikJadwal = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60;
                 let selisih = detikJadwal - detikSekarang;
 
-                // Jika jam sholat sudah lewat hari ini, hitung selisih menuju sholat besok
                 if (selisih <= 0) {
                     selisih += 86400; 
                 }
