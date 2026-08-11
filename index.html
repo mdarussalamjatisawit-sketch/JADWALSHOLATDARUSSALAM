@@ -179,15 +179,20 @@
             font-weight: 800;
         }
         .tbl-keuangan td {
-            padding: 6px 5px;
+            padding: 6px 8px;
             border-bottom: 1px solid rgba(0,0,0,0.15);
         }
+        
+        /* Highlight Saldo Akhir Kuning Keemasan + Font Hitam */
         .tbl-keuangan tr.total-row td {
             font-size: clamp(0.95rem, 2.1vw, 1.25rem);
-            color: #b8860b;
+            color: #000000 !important;
+            font-weight: 900;
+            background-color: #ffd700 !important;
             border-top: 2px solid #000;
             border-bottom: none;
             padding-top: 8px;
+            padding-bottom: 8px;
         }
 
         .tbl-agenda { 
@@ -382,7 +387,7 @@
     let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
 
-    // PARSER CSV DENGAN METODE TANDAKUTIP DAN KOMA
+    // PARSER CSV
     function parseCSV(text) {
         let p = '', c = '', r = [];
         let q = false;
@@ -431,7 +436,7 @@
         setTimeout(() => { document.getElementById('run-' + teksIdx).classList.add('show-msg'); }, 1000);
     }, 4000);
 
-    // MENGAMBIL DATA DARI CSV SPREADSHEET (DENGAN DETEKSI OTOMATIS PATTERN JAM)
+    // MENGAMBIL DATA DARI CSV SPREADSHEET
     async function muatData() {
         try {
             const res = await fetch(urlCSV + '&t=' + Date.now());
@@ -441,14 +446,12 @@
             if (rows.length >= 2) {
                 const b2 = rows[1]; 
                 
-                // 1. AMBIL SEMUA ELEMENT YANG SAMA DENGAN FORMAT JAM (HH:MM atau H:MM)
+                // 1. AMBIL SEMUA ELEMENT FORMAT JAM (JADWAL SHOLAT)
                 const jamDitemukan = [];
                 const regexJam = /^\d{1,2}[:.]\d{2}$/;
 
-                // Cari string jam di baris 2
                 b2.forEach(cell => {
                     let strVal = (cell || "").trim();
-                    // Jika berisi 2 jam dipisah spasi (misal Maghrib & Isya dalam 1 sel)
                     let subParts = strVal.split(/\s+/);
                     subParts.forEach(sp => {
                         if (regexJam.test(sp)) {
@@ -457,7 +460,6 @@
                     });
                 });
 
-                // Jika ditemukan minimal 6 jam sholat presisi (Subuh, Syuruq, Zuhur, Ashar, Maghrib, Isya)
                 if (jamDitemukan.length >= 6) {
                     jadwal.SUBUH   = jamDitemukan[0];
                     jadwal.SYURUQ  = jamDitemukan[1];
@@ -474,7 +476,7 @@
                 document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB; 
                 document.getElementById('sh-isya').innerText    = jadwal.ISYA;
 
-                // 2. PARSING TANGGAL HIJRIAH (Mencari teks berakhiran 'H' atau memuat nama bulan Hijriah)
+                // 2. PARSING TANGGAL HIJRIAH
                 let teksHijriah = "";
                 b2.forEach(cell => {
                     let cVal = (cell || "").trim();
@@ -486,23 +488,18 @@
                     document.getElementById('tgl-hijriah').innerText = teksHijriah.trim();
                 }
 
-                // 3. KEUANGAN (Pencarian otomatis Tanggal 'DD/MM/YYYY' dan Nominal 'Rp')
-                let nominalDitemukan = [];
-                b2.forEach(cell => {
-                    let val = (cell || "").trim();
-                    if (val.includes('/') && val.length <= 10) {
-                        document.getElementById('kas-tgl').innerText = val;
-                    }
-                    if (val.toLowerCase().includes('rp') || (val.length >= 4 && !isNaN(val.replace(/[^0-9]/g, '')))) {
-                        let cleanNum = val.startsWith('Rp') ? val : 'Rp' + val;
-                        if(cleanNum.length > 3) nominalDitemukan.push(cleanNum);
-                    }
-                });
+                // 3. KEUANGAN (Membaca Kolom I, J, K, L dari CSV secara eksplisit)
+                // b2[8]: TANGGAL, b2[9]: PEMASUKAN, b2[10]: PENGELUARAN, b2[11]: SALDO AKHIR
+                if (b2.length >= 12) {
+                    let tglKas = (b2[8] || "-").trim();
+                    let inKas  = (b2[9] || "0").trim();
+                    let outKas = (b2[10] || "0").trim();
+                    let salKas = (b2[11] || "0").trim();
 
-                if (nominalDitemukan.length >= 3) {
-                    document.getElementById('kas-in').innerText    = nominalDitemukan[0];
-                    document.getElementById('kas-out').innerText   = nominalDitemukan[1];
-                    document.getElementById('kas-saldo').innerText = nominalDitemukan[2];
+                    document.getElementById('kas-tgl').innerText   = tglKas;
+                    document.getElementById('kas-in').innerText    = inKas.toLowerCase().startsWith('rp') ? inKas : 'Rp' + inKas;
+                    document.getElementById('kas-out').innerText   = outKas.toLowerCase().startsWith('rp') ? outKas : 'Rp' + outKas;
+                    document.getElementById('kas-saldo').innerText = salKas.toLowerCase().startsWith('rp') ? salKas : 'Rp' + salKas;
                 }
             }
         } catch (e) { console.log("CSV Utama Error", e); }
