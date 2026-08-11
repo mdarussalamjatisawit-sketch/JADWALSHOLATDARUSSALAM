@@ -569,13 +569,27 @@
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
 
-        for (let i = 0; i < urutan.length; i++) {
-            if (jadwal[urutan[i]] && jamMenit < jadwal[urutan[i]]) {
-                mendatang = urutan[i];
-                break; 
+        // MENCARI SHOLAT TERDEKAT BERDASARKAN MENIT KE-00 HARI INI
+        const detikSekarang = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        let selisihTerkecil = Infinity;
+
+        urutan.forEach(s => {
+            if (jadwal[s] && jadwal[s] !== "--:--") {
+                const parts = jadwal[s].split(':');
+                const detikJadwal = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60;
+                let selisih = detikJadwal - detikSekarang;
+
+                // Jika jam sholat sudah lewat hari ini, hitung selisih menuju sholat besok
+                if (selisih <= 0) {
+                    selisih += 86400; 
+                }
+
+                if (selisih < selisihTerkecil) {
+                    selisihTerkecil = selisih;
+                    mendatang = s;
+                }
             }
-        }
-        if (!mendatang) mendatang = "SUBUH";
+        });
 
         urutan.forEach(s => { 
             const box = document.getElementById('box-' + s);
