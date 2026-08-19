@@ -275,59 +275,63 @@
         @keyframes blink-anim { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
 
         /* =========================================================
-           KHUSUS RESPONSIF KHUSUS TAMPILAN ANDROID / MOBILE
-           (TIDAK MENGANGGU & TIDAK MERUBAH TAMPILAN PADA TV)
+           RESPONSIF UNTUK HP ANDROID (PORTRAIT / TAMPILAN TEGAK)
+           TIDAK MENGANGGU TAMPILAN TV (LANDSCAPE / LAYAR LEBAR)
         ========================================================= */
-        @media (max-width: 768px) {
-            body {
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-                padding: 10px;
-                gap: 15px;
+        @media screen and (max-width: 768px), screen and (orientation: portrait) {
+            html, body {
+                height: auto !important;
+                min-height: 100vh !important;
+                overflow-y: auto !important;
+                padding: 10px !important;
             }
             #ui-normal {
                 height: auto !important;
-                gap: 15px;
+                justify-content: flex-start !important;
+                gap: 15px !important;
             }
             .middle-top-container {
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: column !important;
+                gap: 8px !important;
             }
             .date-box {
-                width: 100%;
-                font-size: 0.95rem;
-                padding: 6px 12px;
+                width: 100% !important;
+                font-size: 0.9rem !important;
+                padding: 6px 12px !important;
             }
             .clock-display {
-                font-size: 3.5rem;
-                margin: 5px 0;
+                font-size: 3.5rem !important;
+                margin: 5px 0 !important;
             }
             .info-container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: column !important;
+                gap: 15px !important;
+                flex: none !important;
             }
             .card-keuangan, .card-agenda {
-                width: 100%;
+                width: 100% !important;
+            }
+            .card-b-custom {
+                justify-content: flex-start !important;
             }
             .tbl-keuangan {
-                font-size: 0.9rem;
+                font-size: 0.9rem !important;
             }
             .tbl-agenda {
-                font-size: 0.8rem;
+                font-size: 0.8rem !important;
             }
             .bottom-prayer {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px !important;
             }
             .p-box {
-                padding: 8px 0;
+                padding: 8px 0 !important;
             }
             .p-box div {
-                font-size: 0.85rem;
+                font-size: 0.8rem !important;
             }
             .p-box b {
-                font-size: 1.2rem;
+                font-size: 1.2rem !important;
             }
         }
     </style>
