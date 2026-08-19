@@ -11,7 +11,6 @@
             box-sizing: border-box; 
             font-family: 'Segoe UI', Arial, sans-serif; 
         }
-
         body { 
             background: #000 url('Foto masjid darussalam.png') no-repeat center center fixed; 
             background-size: cover; 
@@ -34,7 +33,6 @@
             padding-top: 2px; 
             flex-shrink: 0; 
         }
-
         .header-wrapper { 
             display: inline-block; 
             background: rgba(0,0,0,0.9); 
@@ -98,7 +96,6 @@
             width: 100%;
             margin-top: 5px;
         }
-
         .date-box {
             background: rgba(0, 0, 0, 0.85);
             border: 1.5px solid #D4AF37;
@@ -113,7 +110,6 @@
             text-align: center;
         }
         #tgl-hijriah { color: #CCFF00; }
-
         .clock-display {
             font-family: 'Arial Black', sans-serif;
             font-size: clamp(4rem, 13vw, 8rem); 
@@ -137,7 +133,6 @@
             align-items: stretch;
             flex: 1;
         }
-
         .card { 
             border-radius: 10px; 
             overflow: hidden; 
@@ -146,7 +141,6 @@
             border: 2px solid #D4AF37;
             box-shadow: 0 6px 15px rgba(0,0,0,0.6);
         }
-
         .card-h { 
             background: #111; 
             color: #ffd700; 
@@ -158,10 +152,8 @@
             text-transform: uppercase; 
             letter-spacing: 1px;
         }
-
         .card-keuangan { width: 38%; }
         .card-agenda { width: 58%; }
-
         .card-b-custom {
             background: rgba(255, 255, 255, 0.88);
             color: #000;
@@ -171,7 +163,6 @@
             flex-direction: column;
             justify-content: center;
         }
-
         .tbl-keuangan {
             width: 100%;
             border-collapse: collapse;
@@ -183,7 +174,6 @@
             border-bottom: 1px solid rgba(0,0,0,0.15);
         }
         
-        /* Highlight Saldo Akhir Kuning Keemasan + Font Hitam */
         .tbl-keuangan tr.total-row td {
             font-size: clamp(0.95rem, 2.1vw, 1.25rem);
             color: #000000 !important;
@@ -194,7 +184,6 @@
             padding-top: 8px;
             padding-bottom: 8px;
         }
-
         .tbl-agenda { 
             width: 100%; 
             border-collapse: collapse; 
@@ -268,7 +257,6 @@
         .sholat-mendatang div, .sholat-mendatang b { 
             color: #000 !important; 
         }
-
         #mode-sholat { 
             display: none; 
             position: fixed; 
@@ -285,10 +273,66 @@
         .txt-besar { font-size: clamp(4rem, 20vw, 12rem); font-weight: 900; line-height: 0.9; width: 95%; color: #ffd700; text-transform: uppercase; }
         .blink-custom { animation: blink-anim 3s infinite; }
         @keyframes blink-anim { 0%, 66% { opacity: 1; } 67%, 100% { opacity: 0; } }
+
+        /* =========================================================
+           KHUSUS RESPONSIF KHUSUS TAMPILAN ANDROID / MOBILE
+           (TIDAK MENGANGGU & TIDAK MERUBAH TAMPILAN PADA TV)
+        ========================================================= */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                padding: 10px;
+                gap: 15px;
+            }
+            #ui-normal {
+                height: auto !important;
+                gap: 15px;
+            }
+            .middle-top-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .date-box {
+                width: 100%;
+                font-size: 0.95rem;
+                padding: 6px 12px;
+            }
+            .clock-display {
+                font-size: 3.5rem;
+                margin: 5px 0;
+            }
+            .info-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .card-keuangan, .card-agenda {
+                width: 100%;
+            }
+            .tbl-keuangan {
+                font-size: 0.9rem;
+            }
+            .tbl-agenda {
+                font-size: 0.8rem;
+            }
+            .bottom-prayer {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .p-box {
+                padding: 8px 0;
+            }
+            .p-box div {
+                font-size: 0.85rem;
+            }
+            .p-box b {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
-
 <div id="ui-normal" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
     
     <!-- HEADER UTAMA & RUNNING TEXT -->
@@ -301,14 +345,12 @@
             <div id="run-2" class="marquee-content">Jadwal Sholat Mengacu KHGT</div>
         </div>
     </div>
-
     <!-- MASEHI | JAM BESAR | HIJRIAH -->
     <div class="middle-top-container">
         <div class="date-box" id="tgl-masehi">--</div>
         <div class="clock-display" id="jam-digital">00.00.00</div>
         <div class="date-box" id="tgl-hijriah">--</div>
     </div>
-
     <!-- KEUANGAN & AGENDA -->
     <div class="info-container">
         <!-- CARD KEUANGAN -->
@@ -335,7 +377,6 @@
                 </table>
             </div>
         </div>
-
         <!-- CARD AGENDA KEGIATAN -->
         <div class="card card-agenda">
             <div class="card-h">AGENDA KEGIATAN MINGGU INI</div>
@@ -356,7 +397,6 @@
             </div>
         </div>
     </div>
-
     <!-- BOX JADWAL SHOLAT -->
     <div class="bottom-prayer">
         <div class="p-box" id="box-SUBUH"><div>SUBUH</div><b id="sh-subuh">--:--</b></div>
@@ -367,7 +407,6 @@
         <div class="p-box" id="box-ISYA"><div>ISYA</div><b id="sh-isya">--:--</b></div>
     </div>
 </div>
-
 <!-- MODE SCREEN SHOLAT / ADZAN -->
 <div id="mode-sholat">
     <div id="msg-atas" class="txt-sedang"></div>
@@ -382,7 +421,6 @@
     
     const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=224039655&single=true&output=csv';
     const urlAgendaCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2pXtcn5uyLwqeOsurcrr7F5HyQWD0sRpeX2kkOPwLbfcKhzj2C74XGeIzEFz8fyTRAl03nq-QY3ip/pub?gid=355922745&single=true&output=csv';
-
     let jadwal = { "SUBUH": "04:39", "SYURUQ": "05:45", "ZUHUR": "11:45", "ASHAR": "15:07", "MAGHRIB": "17:41", "ISYA": "18:52" }; 
     let timerSholat; let modeAktif = false;
     let daftarAgenda = [];
@@ -449,7 +487,6 @@
                 // 1. AMBIL SEMUA ELEMENT FORMAT JAM (JADWAL SHOLAT)
                 const jamDitemukan = [];
                 const regexJam = /^\d{1,2}[:.]\d{2}$/;
-
                 b2.forEach(cell => {
                     let strVal = (cell || "").trim();
                     let subParts = strVal.split(/\s+/);
@@ -459,7 +496,6 @@
                         }
                     });
                 });
-
                 if (jamDitemukan.length >= 6) {
                     jadwal.SUBUH   = jamDitemukan[0];
                     jadwal.SYURUQ  = jamDitemukan[1];
@@ -468,7 +504,6 @@
                     jadwal.MAGHRIB = jamDitemukan[4];
                     jadwal.ISYA    = jamDitemukan[5];
                 }
-
                 document.getElementById('sh-subuh').innerText   = jadwal.SUBUH; 
                 document.getElementById('sh-terbit').innerText  = jadwal.SYURUQ;
                 document.getElementById('sh-zuhur').innerText   = jadwal.ZUHUR; 
@@ -489,13 +524,11 @@
                 }
 
                 // 3. KEUANGAN (Membaca Kolom I, J, K, L dari CSV secara eksplisit)
-                // b2[8]: TANGGAL, b2[9]: PEMASUKAN, b2[10]: PENGELUARAN, b2[11]: SALDO AKHIR
                 if (b2.length >= 12) {
                     let tglKas = (b2[8] || "-").trim();
                     let inKas  = (b2[9] || "0").trim();
                     let outKas = (b2[10] || "0").trim();
                     let salKas = (b2[11] || "0").trim();
-
                     document.getElementById('kas-tgl').innerText   = tglKas;
                     document.getElementById('kas-in').innerText    = inKas.toLowerCase().startsWith('rp') ? inKas : 'Rp' + inKas;
                     document.getElementById('kas-out').innerText   = outKas.toLowerCase().startsWith('rp') ? outKas : 'Rp' + outKas;
@@ -508,10 +541,8 @@
             const resAgenda = await fetch(urlAgendaCSV + '&t=' + Date.now());
             const textAgenda = await resAgenda.text();
             if (textAgenda.includes("<html")) return;
-
             const rowsAgenda = parseCSV(textAgenda);
             daftarAgenda = [];
-
             for (let i = 1; i < rowsAgenda.length; i++) {
                 const r = rowsAgenda[i];
                 if (r && r.length >= 4) {
@@ -519,7 +550,6 @@
                     const jamVal = (r[2] || "").trim();
                     const kgtVal = (r[3] || "").trim();
                     const pgsVal = (r[4] || "-").trim();
-
                     if (tglVal && kgtVal && !tglVal.toLowerCase().includes("tanggal")) {
                         daftarAgenda.push({ tgl: tglVal, jam: jamVal || "00.00.00", kegiatan: kgtVal, pengisi: pgsVal });
                     }
@@ -551,10 +581,8 @@
             tbody.innerHTML = "<tr><td colspan='4'>Memuat / Belum Ada Agenda</td></tr>";
             return;
         }
-
         const sekarang = new Date();
         let idxHighlight = -1;
-
         for (let i = 0; i < daftarAgenda.length; i++) {
             const tglObj = parseKeDate(daftarAgenda[i].tgl, daftarAgenda[i].jam);
             if (tglObj && tglObj >= sekarang) {
@@ -562,14 +590,12 @@
                 break;
             }
         }
-
         daftarAgenda.forEach((item, index) => {
             const tr = document.createElement('tr');
             if (index === idxHighlight) tr.className = 'agenda-active';
             const pTgl = item.tgl.split('/');
             const tglTampil = pTgl.length >= 2 ? `${pTgl[0]}/${pTgl[1]}` : item.tgl;
             const jamTampil = item.jam.replace(/\./g, ':').substring(0, 5);
-
             tr.innerHTML = `
                 <td>${tglTampil}</td>
                 <td>${jamTampil}</td>
@@ -591,7 +617,6 @@
         
         const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         document.getElementById('tgl-masehi').innerText = now.toLocaleDateString('id-ID', opsi);
-
         if(document.getElementById('sh-subuh').innerText === "--:--") {
             document.getElementById('sh-subuh').innerText   = jadwal.SUBUH;
             document.getElementById('sh-terbit').innerText  = jadwal.SYURUQ;
@@ -600,30 +625,24 @@
             document.getElementById('sh-maghrib').innerText = jadwal.MAGHRIB;
             document.getElementById('sh-isya').innerText    = jadwal.ISYA;
         }
-
         const urutan = ["SUBUH", "SYURUQ", "ZUHUR", "ASHAR", "MAGHRIB", "ISYA"];
         let mendatang = "";
-
         const detikSekarang = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
         let selisihTerkecil = Infinity;
-
         urutan.forEach(s => {
             if (jadwal[s] && jadwal[s] !== "--:--") {
                 const parts = jadwal[s].split(':');
                 const detikJadwal = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60;
                 let selisih = detikJadwal - detikSekarang;
-
                 if (selisih <= 0) {
                     selisih += 86400; 
                 }
-
                 if (selisih < selisihTerkecil) {
                     selisihTerkecil = selisih;
                     mendatang = s;
                 }
             }
         });
-
         urutan.forEach(s => { 
             const box = document.getElementById('box-' + s);
             if (s === mendatang) {
@@ -632,9 +651,7 @@
                 box.classList.remove('sholat-mendatang');
             }
         });
-
         if (now.getSeconds() === 0) perbaruiTabelAgenda();
-
         for (let s in jadwal) {
             if (s !== "SYURUQ" && jamMenit === jadwal[s] && !modeAktif && now.getSeconds() < 2) {
                 mulaiModeSholat("ADZAN", s, DURASI_ADZAN);
